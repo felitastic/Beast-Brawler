@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     public float maxHitpoints1;
     public float maxHitpoints2;
 
-    //Awake is always called before any Start functions
+
     void Awake()
     {
         if (instance == null)
@@ -47,12 +47,11 @@ public class GameManager : MonoBehaviour
         }
         else if (instance != this)
         {
-            //Destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager
+            //Destroy this - singleton pattern, there can only ever be one instance of GameManager
             Destroy(gameObject);
         }
     }
-
-    // Use this for initialization
+    
     void Start()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -71,8 +70,7 @@ public class GameManager : MonoBehaviour
         maxHitpoints1 = Player1.GetComponent<Player>().maxHitPoints;
         maxHitpoints2 = Player2.GetComponent<Player>().maxHitPoints;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         UpdateHP();

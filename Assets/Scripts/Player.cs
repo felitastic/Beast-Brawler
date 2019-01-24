@@ -8,13 +8,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Tooltip("Get Components")]
-    public SpriteRenderer sprite;
-    public Animator anim;
-
     [Header("Atomic Parameters")]
     public float maxHitPoints;
     public float MoveSpeed;
+    public float JumpForce;         
+    public float extraGravity;      //for better fall feeling
+    public float attack1Dmg = 1f;   //dmg attack1 does
+    public float attack2Dmg = 2f;   //dmg attack2 does
+
+    [Tooltip("Components")]
+    public SpriteRenderer sprite;
+    public Animator anim;
+    public Rigidbody2D rigid;
 
     [Header("Do not touch!")]
     public int PlayerIndex;
@@ -25,10 +30,9 @@ public class Player : MonoBehaviour
     public float move = 0f;
     public float attack1Hit = 0.2f; //when does Hit1 deal damage    
     public float attack2Hit = 0.2f; //when does Hit2 deal damage
-    public float attack1Dmg = 1f;   //dmg attack1 does
-    public float attack2Dmg = 1f;   //dmg attack2 does
     public float hitrange1 = 2f;    //hitrange of attack1
     public float hitrange2 = 2f;    //hitrange of attack2
+    public bool grounded;
 
     public GameObject opponent;
 
@@ -53,70 +57,111 @@ public class Player : MonoBehaviour
         FindOpponent();
         state = ePlayerState.Ready;
     }
-
-    public void Update()
+    public void FixedUpdate()
     {
-        //Game is running
-        if (GameManager.instance.GameMode == eGameMode.Running)
+        //if (GameManager.instance.GameMode == eGameMode.Running)
+        //{
+        //    if (state == ePlayerState.Ready)
+        //    {
+        //        if (vertical == -1f)
+        //        {
+        //            print("jump");
+        //            state = ePlayerState.InAir;
+        //            //StartCoroutine(Jump());
+        //            Jump();
+        //        }
+        //    }
+
+        //    rigid.AddForce(new Vector3(0f, extraGravity, 0f));
+        //}
+    }   
+
+                       
+
+public void Update()
+    {
+        switch (GameManager.instance.GameMode)
         {
-            //Player is ready
-            if (state == ePlayerState.Ready)
-            {
+            case eGameMode.Running:
+
                 horizontal = Input.GetAxis("Horizontal_" + PlayerIndex);
                 vertical = Input.GetAxis("Vertical_" + PlayerIndex);
-                Move();
+                
+                if (transform.position.x < opponent.transform.position.x)
+                    facingRight = true;
+                else if (transform.position.x > opponent.transform.position.x)
+                    facingRight = false;
 
                 if (hitPoints <= 0)
                 {
                     state = ePlayerState.Dead;
                 }
 
-                if (transform.position.x < opponent.transform.position.x)
-                    facingRight = true;
-                else if (transform.position.x > opponent.transform.position.x)
-                    facingRight = false;
-
-                Flip();
-
-                if (Input.GetButtonDown("Attack1_" + PlayerIndex))
+                switch (state)
                 {
-                    print("Attack1");
-                    StartCoroutine(Attack1());
-                }
+                    case ePlayerState.Ready:
 
-                if (Input.GetButtonDown("Attack2_" + PlayerIndex))
-                {
-                    print("Attack2");
-                    StartCoroutine(Attack2());
-                }
+                        Move();
 
-                if (vertical < -0.9f)
-                {
-                    print("jump");
-                    //Jump if up
-                    //Check if jumping, check if landed
-                    //ground check via touching of the floor collider
-                    //Block if down
-                }
-                else if (vertical > 0.9f)
-                {
-                    print("block");
-                    //Jump if up
-                    //Check if jumping, check if landed
-                    //ground check via touching of the floor collider
-                    //Block if down
-                }
+                        Flip();
 
-                if (Input.GetButtonDown("Breaker_" + PlayerIndex))
-                {
-                    print("Blockbreaker");
-                    //Blockbreaking Move
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex))
+                        {
+                            print("Attack1");
+                            StartCoroutine(Attack1());
+                        }
+
+                        if (Input.GetButtonDown("Attack2_" + PlayerIndex))
+                        {
+                            print("Attack2");
+                            StartCoroutine(Attack2());
+                        }
+
+                        else if (vertical == 1f)
+                        {
+                            print("block");
+                            //Jump if up
+                            //Check if jumping, check if landed
+                            //ground check via touching of the floor collider
+                            //Block if down
+                        }
+
+                        if (vertical == -1f) //TODO physics in fixedupdate
+                        {
+                            print("jump");
+                            state = ePlayerState.InAir;
+                            Jump();
+                            //StartCoroutine(Jump());
+                        }
+
+                        if (Input.GetButtonDown("Breaker_" + PlayerIndex))
+                        {
+                            print("Blockbreaker");
+                            //Blockbreaking Move
+                        }
+
+                        break;
+                    case ePlayerState.Attacking:
+                        break;
+                    case ePlayerState.InAir:
+                        Move();
+
+                        if (grounded)
+                            state = ePlayerState.Ready;
+
+                        break;
+                    case ePlayerState.Stunned:
+                        break;
+                    case ePlayerState.Dead:
+                        //call KO
+                        //win counter
+                        //next match or result
+                        break;
+
+                    default:
+                        break;
                 }
-            }
-            else if (state == ePlayerState.Dead)
-            {
-                //call gameover in manager and give details who lost
-            }
+                break;
         }
     }
 
@@ -125,6 +170,7 @@ public class Player : MonoBehaviour
     {
         sprite = this.GetComponentInChildren<SpriteRenderer>();
         anim = this.GetComponentInChildren<Animator>();
+        rigid = this.GetComponent<Rigidbody2D>();
     }
 
     //Find other player
@@ -136,6 +182,16 @@ public class Player : MonoBehaviour
             int Index = player.GetComponentInChildren<Player>().PlayerIndex;
             if (Index != this.PlayerIndex)
                 opponent = player;
+        }
+    }
+
+    //Check if the player is touching the ground
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        print("checking for ground");
+        if (col.gameObject.tag == "Ground")
+        {
+            grounded = true;
         }
     }
 
@@ -207,9 +263,38 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
     }
 
-    public void OnTriggerEnter(Collider other)
+    //public IEnumerator Jump()
+    //{
+    //  Vector2 jumpVector = ???
+    //  float jumpTime = 2f;
+    //    rigid.velocity = Vector2.zero;
+    //    float timer = 0f;
+
+    //    while (timer < jumpTime)
+    //    {
+    //        float completed = timer / jumpTime;
+    //        Vector2 frameJumpV = Vector2.Lerp(jumpVector, Vector2.zero, completed);
+    //        rigid.AddForce(frameJumpV);
+    //        timer += Time.deltaTime;
+    //        yield return null;
+    //    }
+    //    state = ePlayerState.Ready;
+    //}
+
+    public void Jump()
     {
-        opponent = other.gameObject;
+        grounded = false;
+        //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
+
+        //Vector3 power = rigid.velocity;
+        //power.y = JumpForce;
+        //rigid.velocity = power;
+
+        rigid.AddForce(new Vector2(0f, JumpForce / 10));
+        //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
+        //rigid.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+        //rigid.AddForce(Vector2.up * JumpForce, ForceMode2D.Force);
+        //anim.SetTrigger("Jump");
     }
 
     IEnumerator Attack1()

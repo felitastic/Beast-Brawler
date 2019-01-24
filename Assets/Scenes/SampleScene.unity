@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 62186275}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -785,22 +785,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1970d2078bdc534996121df84cd1b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHitPoints: 10
+  MoveSpeed: 15
+  JumpForce: 3
+  extraGravity: 1
+  attack1Dmg: 1
+  attack2Dmg: 1
   sprite: {fileID: 0}
   anim: {fileID: 0}
-  maxHitPoints: 10
-  MoveSpeed: 5
+  rigid: {fileID: 0}
   PlayerIndex: 0
-  hitPoints: 0
+  hitPoints: 10
   horizontal: 0
   vertical: 0
   facingRight: 0
   move: 0
   attack1Hit: 0.2
   attack2Hit: 0.2
-  attack1Dmg: 1
-  attack2Dmg: 1
   hitrange1: 5
   hitrange2: 5
+  grounded: 1
   opponent: {fileID: 0}
   state: 0
 --- !u!4 &644147797
@@ -831,11 +835,11 @@ Rigidbody2D:
   m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 11
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &660944101
 GameObject:
@@ -1090,6 +1094,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1077833500}
   - component: {fileID: 1077833499}
+  - component: {fileID: 1077833501}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1114,7 +1119,9 @@ MonoBehaviour:
   hpBarGreen2: {fileID: 91829910}
   hpBarRed2: {fileID: 264878173}
   hpTime: 1
+  hpDelay: 0.3
   delay: 2
+  lerpUI: 0
   Player1: {fileID: 0}
   Player2: {fileID: 0}
   Hitpoints1: 0
@@ -1134,6 +1141,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1077833501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1077833498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4493ff7258ec36343b24fc27b42e41e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  c1Hitsound: {fileID: 0}
+  c1PainSound: {fileID: 0}
+  c1DieSound: {fileID: 0}
+  c1CurseSound: {fileID: 0}
+  b1Hitsound: {fileID: 0}
+  b1PainSound: {fileID: 0}
+  b1DieSound: {fileID: 0}
+  b1CurseSound: {fileID: 0}
+  stageClearSound: {fileID: 0}
+  wipeOutSound: {fileID: 0}
+  sireneSound: {fileID: 0}
+  buttonTouchSound: {fileID: 0}
+  buttonClickSound: {fileID: 0}
+  sliderMoveSound: {fileID: 0}
 --- !u!1 &1082406139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,22 +1428,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1970d2078bdc534996121df84cd1b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHitPoints: 10
+  MoveSpeed: 15
+  JumpForce: 3
+  extraGravity: 1
+  attack1Dmg: 1
+  attack2Dmg: 1
   sprite: {fileID: 0}
   anim: {fileID: 0}
-  maxHitPoints: 10
-  MoveSpeed: 5
+  rigid: {fileID: 0}
   PlayerIndex: 1
-  hitPoints: 0
+  hitPoints: 10
   horizontal: 0
   vertical: 0
   facingRight: 0
   move: 0
   attack1Hit: 0.2
   attack2Hit: 0.2
-  attack1Dmg: 1
-  attack2Dmg: 1
   hitrange1: 5
   hitrange2: 5
+  grounded: 1
   opponent: {fileID: 0}
   state: 0
 --- !u!4 &1460263623
@@ -1457,7 +1493,7 @@ Rigidbody2D:
   m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 11
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
