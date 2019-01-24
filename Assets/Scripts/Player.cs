@@ -8,32 +8,39 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Atomic Parameters")]
+    [Header("Atomic Parameters for the GD to meddle with")]
+    [Tooltip("Max HP this character starts with")]
     public float maxHitPoints;
     public float MoveSpeed;
-    public float JumpForce;         
-    public float extraGravity;      //for better fall feeling
+    [Tooltip("Damage Attack1 deals unblocked")]
     public float attack1Dmg = 1f;   //dmg attack1 does
+    [Tooltip("Damage Attack2 deals unblocked")]
     public float attack2Dmg = 2f;   //dmg attack2 does
-
-    [Tooltip("Components")]
-    public SpriteRenderer sprite;
-    public Animator anim;
-    public Rigidbody2D rigid;
-
-    [Header("Do not touch!")]
+    
+    [Header("NOT FOR GDs! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
+    public float JumpForce;
+    [Tooltip("Current hitpoints")]
     public float hitPoints;
     public float horizontal;
     public float vertical;
     public bool facingRight;
     public float move = 0f;
-    public float attack1Hit = 0.2f; //when does Hit1 deal damage    
-    public float attack2Hit = 0.2f; //when does Hit2 deal damage
+    [Tooltip("When Attack1 deals damage")]
+    public float attack1Hit = 0.2f; 
+    [Tooltip("When Attack2 deals damage")]
+    public float attack2Hit = 0.2f;
     public float hitrange1 = 2f;    //hitrange of attack1
     public float hitrange2 = 2f;    //hitrange of attack2
+    public float hitrangeBB = 2f;   //hitrange of the blockbreaker
+    public float jumpHurt = 2.5f;
     public bool grounded;
-
+    
+    [Header("Components the script grabs itself")]
+    public SpriteRenderer sprite;
+    public Animator anim;
+    public Rigidbody2D rigid;
+    public CamShake camShake;
     public GameObject opponent;
 
     public ePlayerState state;
@@ -126,12 +133,12 @@ public void Update()
                             //Block if down
                         }
 
-                        if (vertical == -1f) //TODO physics in fixedupdate
+                        if (vertical == -1f) //TODO physics in fixedupdate?
                         {
                             print("jump");
                             state = ePlayerState.InAir;
                             Jump();
-                            //StartCoroutine(Jump());
+                            //TODO trigger jump and fall animation
                         }
 
                         if (Input.GetButtonDown("Breaker_" + PlayerIndex))
@@ -171,6 +178,7 @@ public void Update()
         sprite = this.GetComponentInChildren<SpriteRenderer>();
         anim = this.GetComponentInChildren<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
+        camShake = FindObjectOfType<CamShake>();
     }
 
     //Find other player
@@ -216,6 +224,7 @@ public void Update()
     public void ApplyDamage(float dmgreceived)
     {
         //TODO Animator
+        StartCoroutine(camShake.Shake(0.15f, 0.4f));
         anim.Play("hurt");
         Debug.Log(gameObject.name + " got hit.");
         hitPoints -= dmgreceived;
@@ -227,9 +236,9 @@ public void Update()
     public void Move()
     {
         //work around cause all joysticks are broken af
-        if (Input.GetAxis("Horizontal_" + PlayerIndex) > 0.2f)
+        if (horizontal > 0.2f)
             move = 1f;
-        else if (Input.GetAxis("Horizontal_" + PlayerIndex) < -0.2f)
+        else if (horizontal < -0.2f)
             move = -1f;
         else
             move = 0f;
@@ -237,27 +246,34 @@ public void Update()
         //TODO Animator Laufrichtung
         if (facingRight)
         {
-            if (move < 0f)
+            if (horizontal < -0.2f)
             {
                 print(gameObject.name + " läuft rückwärts");
                 //rückwärts
             }
-            else if(move > 0f)
+            else if(horizontal > 0.2f)
             {
+                //anim.SetBool("walk", true);
                 print(gameObject.name + " läuft vorwärts");
                 //vorwärts
             }
         }
         else if (!facingRight)
-            if (move < 0f)
+            if (horizontal < -0.2f)
             {
+                //anim.SetBool("walk", true);
                 print(gameObject.name + " läuft vorwärts");
                 //vorwärts
             }
-            else if (move > 0f)
+            else if (horizontal > 0.2f)
             {
                 print(gameObject.name + " läuft rückwärts");
                 //rückwärts
+            }
+        else if (move == 0)
+            {
+                //anim.SetBool("walk", false);
+                print(gameObject.name + " steht");
             }
 
         transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
@@ -284,17 +300,13 @@ public void Update()
     public void Jump()
     {
         grounded = false;
-        //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
-
-        //Vector3 power = rigid.velocity;
-        //power.y = JumpForce;
-        //rigid.velocity = power;
-
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
+
+        //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
         //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
         //rigid.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
         //rigid.AddForce(Vector2.up * JumpForce, ForceMode2D.Force);
-        //anim.SetTrigger("Jump");
+
     }
 
     IEnumerator Attack1()
@@ -303,7 +315,7 @@ public void Update()
             yield break;
 
         state = ePlayerState.Attacking;
-        //play Attack1 anim
+        anim.SetTrigger("attack1");
         yield return new WaitForSeconds(attack1Hit);
         CheckForHit(attack1Dmg, hitrange1);
         state = ePlayerState.Ready;
@@ -315,7 +327,7 @@ public void Update()
             yield break;
 
         state = ePlayerState.Attacking;
-        //play Attack2 anim
+        anim.SetTrigger("attack2");
         yield return new WaitForSeconds(attack2Hit);
         CheckForHit(attack2Dmg, hitrange2);
         state = ePlayerState.Ready;
@@ -327,12 +339,12 @@ public void Update()
         float opponentY = opponent.transform.position.y;
         Vector3 player = transform.position;
 
-        //Check if opponent is on the same y (grounded or jumping)
-        if (opponentY == player.y)
+        //Check if opponent is grounded)
+        if (opponent.GetComponent<Player>().grounded == true)
         {
             if (facingRight)
             {
-                if ((player.x + hitrange) >= (opponentX)) //&& opponent not blocking
+                if (player.x >= opponentX - hitrange && player.x <= opponentX) //&& opponent not blocking
                 {
                     print(gameObject.name + " hits " + opponent.name);
                     opponent.GetComponent<Player>().ApplyDamage(dmg);
@@ -340,13 +352,37 @@ public void Update()
             }
             else if (!facingRight)
             {
-                if (player.x >= (opponentX - hitrange)) //&& opponent not blocking
+                if (player.x <= opponentX + hitrange && player.x >= opponentX) //&& opponent not blocking
                 {
                     print(gameObject.name + " hits " + opponent.name);
                     opponent.GetComponent<Player>().ApplyDamage(dmg);
                 }
             }
         }
+        else if (opponent.GetComponent<Player>().grounded == false)
+        {   //check if jumping player is in range
+            if (opponentY == jumpHurt)
+            {
+                if (facingRight)
+                {
+                    if (player.x >= opponentX - hitrange && player.x <= opponentX) //&& opponent not blocking
+                    {
+                        print(gameObject.name + " hits " + opponent.name);
+                        opponent.GetComponent<Player>().ApplyDamage(dmg);
+                    }
+                }
+                else if (!facingRight)
+                {
+                    if (player.x <= opponentX + hitrange && player.x >= opponentX) //&& opponent not blocking
+                    {
+                        print(gameObject.name + " hits " + opponent.name);
+                        opponent.GetComponent<Player>().ApplyDamage(dmg);
+                    }
+                }
+            }
+        }
+
+
         else
             return;
 
