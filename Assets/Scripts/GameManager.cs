@@ -14,10 +14,9 @@ public class GameManager : MonoBehaviour
     public eGameMode GameMode = eGameMode.Running;
 
     [Header("Menu Drag n Drop")]
-    //public GameObject GameOverScreen;
-    //public GameObject RestartButton;
-    //public GameObject PauseScreen;
-    //public Camera Cam;
+    public GameObject GameOverScreen;
+    public GameObject RestartButton;
+    public GameObject PauseScreen;
 
     public Image hpBarGreen1;
     public Image hpBarRed1;
@@ -25,10 +24,10 @@ public class GameManager : MonoBehaviour
     public Image hpBarRed2;
 
     [Header("Other values")]
-    public float hpTime = 0f;
-    public float hpDelay = 0.3f;
-    public float delay = 2f;
+    public float lerpTimer;
+    public float lerpCooldown = 1f;  
     public bool lerpUI = false;
+    public float delay = 2f;    //for old menu stuff
 
     [Header("Do not touch")]
     public GameObject Player1 = null;
@@ -51,7 +50,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     void Start()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -69,20 +68,18 @@ public class GameManager : MonoBehaviour
 
         maxHitpoints1 = Player1.GetComponent<Player>().maxHitPoints;
         maxHitpoints2 = Player2.GetComponent<Player>().maxHitPoints;
+
+        hpBarRed1.fillAmount = maxHitpoints1;
+        hpBarRed2.fillAmount = maxHitpoints2;
     }
-    
+
     void Update()
     {
-        UpdateHP();
-        LerpUI();
+        UpdateHits();
 
-        if (Time.deltaTime == hpTime)
-        {
-            lerpUI = true;
-            hpTime = 0f;
-        }
+        LerpTiming();
 
-        TestInput(); //HACK: Für Testzwecke    
+        TestInput();
 
         switch (GameMode)
         {
@@ -95,14 +92,37 @@ public class GameManager : MonoBehaviour
             case eGameMode.StageClear:
                 break;
             case eGameMode.GameOver:
+                //Pause();
                 //UpdateUI();
                 break;
             default:
                 break;
         }
+
+        if (Player1.GetComponent<Player>().state == ePlayerState.Dead)
+            GameMode = eGameMode.GameOver;
+        if (Player2.GetComponent<Player>().state == ePlayerState.Dead)
+            GameMode = eGameMode.GameOver;
+
     }
 
-    void TestInput()
+    void LerpTiming()
+    {
+        if (lerpTimer > 0)
+        {
+            lerpTimer -= Time.deltaTime;
+        }
+        if (lerpTimer == 0)
+        {
+            LerpUI();
+        }
+        if (lerpTimer < 0)
+        {
+            lerpTimer = 0f;
+        }
+    }
+
+    void TestInput() //HACK testshit
     {
         if (Input.GetKeyDown("space"))
             print("gimme space");
@@ -121,42 +141,40 @@ public class GameManager : MonoBehaviour
     //called by player on hit
     public void UpdateHits()
     {
-        lerpUI = false;
         hpBarGreen1.fillAmount = Hitpoints1 / maxHitpoints1;
         hpBarGreen2.fillAmount = Hitpoints2 / maxHitpoints2;
-        hpTime = Time.deltaTime + hpDelay;
-    }    
+        //print("Red1: " + hpBarRed1.fillAmount+ " Green1: " + hpBarGreen1.fillAmount);
+        //print("Red1: " + hpBarRed1.fillAmount + " Green2: " + hpBarGreen2.fillAmount);
+    }
 
     void LerpUI()   //TODO lerpt schaden von roter bar runter
     {
-        if (lerpUI)
-        {
-            print("Lerp HP Red");
-            hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 3);
-            hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 3);
-        }
+        //print("Red1 new: "+hpBarRed1.fillAmount);
+        //print("Red2 new: " + hpBarRed2.fillAmount);
+        hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 3);
+        hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 3);
     }
 
 
     public void Pause()
     {
-        //PauseScreen.gameObject.SetActive(true);
-        //Time.timeScale = 0;
+        PauseScreen.gameObject.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void Unpause()
     {
-        //PauseScreen.gameObject.SetActive(false);
-        //Time.timeScale = 1;
+        PauseScreen.gameObject.SetActive(false);
+        Time.timeScale = 1;
     }
 
     private IEnumerator GameOver()
     {
         yield return new WaitForSeconds(delay);
-        //GameOverScreen.gameObject.SetActive(true);
-        //Pause();
-        //yield return new WaitForSeconds(delay);
-        //RestartButton.gameObject.SetActive(true);
+        GameOverScreen.gameObject.SetActive(true);
+        Pause();
+        yield return new WaitForSeconds(delay);
+        RestartButton.gameObject.SetActive(true);
     }
 
     public void Continue()

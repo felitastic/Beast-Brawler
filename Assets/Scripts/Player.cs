@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public float attack1Dmg = 1f;   //dmg attack1 does
     [Tooltip("Damage Attack2 deals unblocked")]
     public float attack2Dmg = 2f;   //dmg attack2 does
-    
+
     [Header("NOT FOR GDs! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
     public float JumpForce;
@@ -26,22 +26,32 @@ public class Player : MonoBehaviour
     public float vertical;
     public bool facingRight;
     public float move = 0f;
-    [Tooltip("When Attack1 deals damage")]
-    public float attack1Hit = 0.2f; 
-    [Tooltip("When Attack2 deals damage")]
-    public float attack2Hit = 0.2f;
+    //[Tooltip("When Attack1 deals damage")]
+    //public float attack1Hit = 0.2f; 
+    //[Tooltip("When Attack2 deals damage")]
+    //public float attack2Hit = 0.2f;
+    [Tooltip("Cooldown Time for attack/s")]
+    public float attackDelay;
     public float hitrange1 = 2f;    //hitrange of attack1
     public float hitrange2 = 2f;    //hitrange of attack2
     public float hitrangeBB = 2f;   //hitrange of the blockbreaker
     public float jumpHurt = 2.5f;
     public bool grounded;
-    
+    public bool hitCheck = false;
+
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
     public Animator anim;
     public Rigidbody2D rigid;
     public CamShake camShake;
     public GameObject opponent;
+
+    [Header("Animation times")]
+    //public float clipAttack1;
+    //public float clipAttack2;
+    //public float clipHurt;
+
+
 
     public ePlayerState state;
     //public eCharacter character;
@@ -62,30 +72,18 @@ public class Player : MonoBehaviour
         GetComponents();
         Flip();
         FindOpponent();
+        GameManager.instance.UpdateHP();
         state = ePlayerState.Ready;
+        //GetAnimClipTimes();
     }
+
     public void FixedUpdate()
     {
-        //if (GameManager.instance.GameMode == eGameMode.Running)
-        //{
-        //    if (state == ePlayerState.Ready)
-        //    {
-        //        if (vertical == -1f)
-        //        {
-        //            print("jump");
-        //            state = ePlayerState.InAir;
-        //            //StartCoroutine(Jump());
-        //            Jump();
-        //        }
-        //    }
+        //TODO put all physics in fixedupdate?
+    }
 
-        //    rigid.AddForce(new Vector3(0f, extraGravity, 0f));
-        //}
-    }   
 
-                       
-
-public void Update()
+    public void Update()
     {
         switch (GameManager.instance.GameMode)
         {
@@ -93,7 +91,7 @@ public void Update()
 
                 horizontal = Input.GetAxis("Horizontal_" + PlayerIndex);
                 vertical = Input.GetAxis("Vertical_" + PlayerIndex);
-                
+
                 if (transform.position.x < opponent.transform.position.x)
                     facingRight = true;
                 else if (transform.position.x > opponent.transform.position.x)
@@ -109,19 +107,24 @@ public void Update()
                     case ePlayerState.Ready:
 
                         Move();
-
                         Flip();
 
                         if (Input.GetButtonDown("Attack1_" + PlayerIndex))
                         {
                             print("Attack1");
-                            StartCoroutine(Attack1());
+                            anim.SetTrigger("attack1");
+                            hitCheck = true;
+                            state = ePlayerState.Attacking;
+                            //StartCoroutine(Attack1());
                         }
 
                         if (Input.GetButtonDown("Attack2_" + PlayerIndex))
                         {
                             print("Attack2");
-                            StartCoroutine(Attack2());
+                            anim.SetTrigger("attack2");
+                            hitCheck = true;
+                            state = ePlayerState.Attacking;
+                            //StartCoroutine(Attack2());
                         }
 
                         else if (vertical == 1f)
@@ -149,6 +152,7 @@ public void Update()
 
                         break;
                     case ePlayerState.Attacking:
+
                         break;
                     case ePlayerState.InAir:
                         Move();
@@ -180,6 +184,26 @@ public void Update()
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
     }
+
+    //public void GetAnimClipTimes()
+    //{
+    //    AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+    //    foreach (AnimationClip clip in clips)
+    //    {
+    //        switch (clip.name)
+    //        {
+    //            case "attack1":
+    //                clipAttack1 = clip.length;
+    //                break;
+    //            case "attack2":
+    //                clipAttack2 = clip.length;
+    //                break;
+    //            case "hurt":
+    //                clipHurt = clip.length;
+    //                break;
+    //        }
+    //    }
+    //}
 
     //Find other player
     void FindOpponent()
@@ -224,12 +248,13 @@ public void Update()
     public void ApplyDamage(float dmgreceived)
     {
         //TODO Animator
+        hitPoints -= dmgreceived;
         StartCoroutine(camShake.Shake(0.15f, 0.4f));
         anim.Play("hurt");
+        GameManager.instance.UpdateHP();
         Debug.Log(gameObject.name + " got hit.");
-        hitPoints -= dmgreceived;
         print(gameObject.name + "s HP: " + hitPoints);
-        GameManager.instance.UpdateHits();
+        GameManager.instance.lerpTimer = GameManager.instance.lerpCooldown;
     }
 
     //Moves the character via axis input
@@ -251,7 +276,7 @@ public void Update()
                 print(gameObject.name + " läuft rückwärts");
                 //rückwärts
             }
-            else if(horizontal > 0.2f)
+            else if (horizontal > 0.2f)
             {
                 //anim.SetBool("walk", true);
                 print(gameObject.name + " läuft vorwärts");
@@ -270,7 +295,7 @@ public void Update()
                 print(gameObject.name + " läuft rückwärts");
                 //rückwärts
             }
-        else if (move == 0)
+            else if (move == 0)
             {
                 //anim.SetBool("walk", false);
                 print(gameObject.name + " steht");
@@ -316,8 +341,10 @@ public void Update()
 
         state = ePlayerState.Attacking;
         anim.SetTrigger("attack1");
-        yield return new WaitForSeconds(attack1Hit);
-        CheckForHit(attack1Dmg, hitrange1);
+        //yield return new WaitForSeconds(attack1Hit);
+        //CheckForHit(attack1Dmg, hitrange1);
+        //wait for animation to finish
+        //yield return new WaitForSeconds(clipAttack1 - attack1Hit);
         state = ePlayerState.Ready;
     }
 
@@ -326,42 +353,24 @@ public void Update()
         if (state != ePlayerState.Ready)
             yield break;
 
-        state = ePlayerState.Attacking;
-        anim.SetTrigger("attack2");
-        yield return new WaitForSeconds(attack2Hit);
-        CheckForHit(attack2Dmg, hitrange2);
-        state = ePlayerState.Ready;
+        //state = ePlayerState.Attacking;
+        //anim.SetTrigger("attack2");
+        //yield return new WaitForSeconds(attack2Hit);
+        //CheckForHit(attack2Dmg, hitrange2);
+        //state = ePlayerState.Ready;
     }
 
     public void CheckForHit(float dmg, float hitrange)
     {
-        float opponentX = opponent.transform.position.x;
-        float opponentY = opponent.transform.position.y;
-        Vector3 player = transform.position;
-
-        //Check if opponent is grounded)
-        if (opponent.GetComponent<Player>().grounded == true)
+        if (hitCheck)
         {
-            if (facingRight)
-            {
-                if (player.x >= opponentX - hitrange && player.x <= opponentX) //&& opponent not blocking
-                {
-                    print(gameObject.name + " hits " + opponent.name);
-                    opponent.GetComponent<Player>().ApplyDamage(dmg);
-                }
-            }
-            else if (!facingRight)
-            {
-                if (player.x <= opponentX + hitrange && player.x >= opponentX) //&& opponent not blocking
-                {
-                    print(gameObject.name + " hits " + opponent.name);
-                    opponent.GetComponent<Player>().ApplyDamage(dmg);
-                }
-            }
-        }
-        else if (opponent.GetComponent<Player>().grounded == false)
-        {   //check if jumping player is in range
-            if (opponentY == jumpHurt)
+            hitCheck = false;
+            float opponentX = opponent.transform.position.x;
+            float opponentY = opponent.transform.position.y;
+            Vector3 player = transform.position;
+
+            //Check if opponent is grounded)
+            if (opponent.GetComponent<Player>().grounded == true)
             {
                 if (facingRight)
                 {
@@ -380,11 +389,32 @@ public void Update()
                     }
                 }
             }
-        }
+            else if (opponent.GetComponent<Player>().grounded == false)
+            {   //check if jumping player is in range
+                if (opponentY == jumpHurt)
+                {
+                    if (facingRight)
+                    {
+                        if (player.x >= opponentX - hitrange && player.x <= opponentX) //&& opponent not blocking
+                        {
+                            print(gameObject.name + " hits " + opponent.name);
+                            opponent.GetComponent<Player>().ApplyDamage(dmg);
+                        }
+                    }
+                    else if (!facingRight)
+                    {
+                        if (player.x <= opponentX + hitrange && player.x >= opponentX) //&& opponent not blocking
+                        {
+                            print(gameObject.name + " hits " + opponent.name);
+                            opponent.GetComponent<Player>().ApplyDamage(dmg);
+                        }
+                    }
+                }
+            }
+            else
+                return;
 
-
-        else
-            return;
+        }        
 
     }
 }
