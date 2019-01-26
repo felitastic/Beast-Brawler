@@ -84,14 +84,22 @@ public class GameManager : MonoBehaviour
         switch (GameMode)
         {
             case eGameMode.Running:
-                //Unpause();
+                Unpause();
+
+                if (Input.GetButtonDown("Start"))
+                {
+                    GameMode = eGameMode.Pause;
+                    Pause();
+                }
                 break;
             case eGameMode.Pause:
-                //Pause();
+                if (Input.GetButtonDown("Start"))
+                    GameMode = eGameMode.Running;
                 break;
             case eGameMode.StageClear:
                 break;
             case eGameMode.GameOver:
+                GameOver();
                 //Pause();
                 //UpdateUI();
                 break;
@@ -99,9 +107,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (Player1.GetComponent<Player>().state == ePlayerState.Dead)
+        if (Player1.GetComponent<Player>().state == ePlayerState.Dead && hpBarRed1.fillAmount == 0)
             GameMode = eGameMode.GameOver;
-        if (Player2.GetComponent<Player>().state == ePlayerState.Dead)
+        if (Player2.GetComponent<Player>().state == ePlayerState.Dead && hpBarRed2.fillAmount == 0)
             GameMode = eGameMode.GameOver;
 
     }
@@ -136,6 +144,10 @@ public class GameManager : MonoBehaviour
             Hitpoints1 = maxHitpoints1;
         if (Hitpoints2 > maxHitpoints2)
             Hitpoints2 = maxHitpoints2;
+
+        //reset lerptimer if damage is taken
+        if (lerpTimer <= 0)
+            lerpTimer = lerpCooldown;
     }
 
     //called by player on hit
@@ -177,15 +189,10 @@ public class GameManager : MonoBehaviour
         RestartButton.gameObject.SetActive(true);
     }
 
-    public void Continue()
-    {
-        //GameMode = eGameMode.Running;
-    }
-
     public void Restart()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //GameMode = eGameMode.Running;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameMode = eGameMode.Running;
     }
 
     public void ToTitle()

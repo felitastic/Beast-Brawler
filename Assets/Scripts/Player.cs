@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
 
                         if (Input.GetButtonDown("Attack1_" + PlayerIndex))
                         {
-                            print("Attack1");
+                            //print("Attack1");
                             anim.SetTrigger("attack1");
                             hitCheck = true;
                             state = ePlayerState.Attacking;
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
 
                         if (Input.GetButtonDown("Attack2_" + PlayerIndex))
                         {
-                            print("Attack2");
+                            //print("Attack2");
                             anim.SetTrigger("attack2");
                             hitCheck = true;
                             state = ePlayerState.Attacking;
@@ -185,26 +185,6 @@ public class Player : MonoBehaviour
         camShake = FindObjectOfType<CamShake>();
     }
 
-    //public void GetAnimClipTimes()
-    //{
-    //    AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
-    //    foreach (AnimationClip clip in clips)
-    //    {
-    //        switch (clip.name)
-    //        {
-    //            case "attack1":
-    //                clipAttack1 = clip.length;
-    //                break;
-    //            case "attack2":
-    //                clipAttack2 = clip.length;
-    //                break;
-    //            case "hurt":
-    //                clipHurt = clip.length;
-    //                break;
-    //        }
-    //    }
-    //}
-
     //Find other player
     void FindOpponent()
     {
@@ -220,7 +200,7 @@ public class Player : MonoBehaviour
     //Check if the player is touching the ground
     private void OnCollisionEnter2D(Collision2D col)
     {
-        print("checking for ground");
+        //print("checking for ground");
         if (col.gameObject.tag == "Ground")
         {
             grounded = true;
@@ -248,13 +228,15 @@ public class Player : MonoBehaviour
     public void ApplyDamage(float dmgreceived)
     {
         //TODO Animator
+        state = ePlayerState.Stunned;
         hitPoints -= dmgreceived;
         StartCoroutine(camShake.Shake(0.15f, 0.4f));
-        anim.Play("hurt");
+        anim.SetTrigger("hurt");
         GameManager.instance.UpdateHP();
         Debug.Log(gameObject.name + " got hit.");
         print(gameObject.name + "s HP: " + hitPoints);
-        GameManager.instance.lerpTimer = GameManager.instance.lerpCooldown;
+        //GameManager.instance.lerpTimer = GameManager.instance.lerpCooldown;
+        state = ePlayerState.Ready;
     }
 
     //Moves the character via axis input
@@ -287,18 +269,18 @@ public class Player : MonoBehaviour
             if (horizontal < -0.2f)
             {
                 //anim.SetBool("walk", true);
-                print(gameObject.name + " läuft vorwärts");
+                //print(gameObject.name + " läuft vorwärts");
                 //vorwärts
             }
             else if (horizontal > 0.2f)
             {
-                print(gameObject.name + " läuft rückwärts");
+                //print(gameObject.name + " läuft rückwärts");
                 //rückwärts
             }
             else if (move == 0)
             {
                 //anim.SetBool("walk", false);
-                print(gameObject.name + " steht");
+                //print(gameObject.name + " steht");
             }
 
         transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
@@ -341,11 +323,46 @@ public class Player : MonoBehaviour
 
         state = ePlayerState.Attacking;
         anim.SetTrigger("attack1");
+        PlayAttackSound();
         //yield return new WaitForSeconds(attack1Hit);
         //CheckForHit(attack1Dmg, hitrange1);
         //wait for animation to finish
         //yield return new WaitForSeconds(clipAttack1 - attack1Hit);
         state = ePlayerState.Ready;
+    }
+
+    void PlayAttackSound()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 8);
+        print("ran = " + ran);
+        
+        switch (ran)
+        {
+            case 1:
+                SoundManager.instance.PlayHit1(transform.position);
+                break;
+            case 2:
+                SoundManager.instance.PlayHit2(transform.position);
+                break;
+            case 3:
+                SoundManager.instance.PlayHit3(transform.position);
+                break;
+            case 4:
+                SoundManager.instance.PlayHit4(transform.position);
+                break;
+            case 5:
+                SoundManager.instance.PlayHit5(transform.position);
+                break;
+            case 6:
+                SoundManager.instance.PlayHit6(transform.position);
+                break;
+            case 7:
+                SoundManager.instance.PlayHit7(transform.position);
+                break;
+            default:
+                break;
+        }        
     }
 
     IEnumerator Attack2()

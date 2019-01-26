@@ -6,29 +6,35 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
 
-    //Claudia
-    public GameObject c1Hitsound;
-    public GameObject c1PainSound;
-    public GameObject c1DieSound;
-    public GameObject c1CurseSound;
+    [Header("Meelee Attack WHOOSH")]
+    public GameObject Hit1;
+    public GameObject Hit2;
+    public GameObject Hit3;
+    public GameObject Hit4;
+    public GameObject Hit5;
+    public GameObject Hit6;
+    public GameObject Hit7;
 
-    //Bruno
-    public GameObject b1Hitsound;
-    public GameObject b1PainSound;
-    public GameObject b1DieSound;
-    public GameObject b1CurseSound;
+    [Header("Hitting something")]
+    public GameObject Bang1;
+    public GameObject Bang2;
+    public GameObject Bang3;
+    public GameObject Bang4;
 
-    //Ingame SFX
-    public GameObject stageClearSound;
-    public GameObject wipeOutSound;
-    public GameObject sireneSound;
+    [Header("Jump landing")]
+    public GameObject Land1;
+    public GameObject Land2;
+    public GameObject Land3;
 
-    //Menu SFX
-    public GameObject buttonTouchSound;
-    public GameObject buttonClickSound;
-    public GameObject sliderMoveSound;
+    [Header("Hurt")]
+    public GameObject Ouch1;
+    public GameObject Ouch2;
+    public GameObject Ouch3;
 
-   
+    [Header("Menus and Buttons")]
+    public GameObject Button1;
+    public GameObject Button2;
+
 
     void Awake()
     {
@@ -42,10 +48,34 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    //public void B1Hitsound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(b1Hitsound, position, new Quaternion());
-    //}
+    public void PlayHit1(Vector3 position)
+    {
+        GameObject.Instantiate(Hit1, position, new Quaternion());
+    }
+    public void PlayHit2(Vector3 position)
+    {
+        GameObject.Instantiate(Hit2, position, new Quaternion());
+    }
+    public void PlayHit3(Vector3 position)
+    {
+        GameObject.Instantiate(Hit3, position, new Quaternion());
+    }
+    public void PlayHit4(Vector3 position)
+    {
+        GameObject.Instantiate(Hit4, position, new Quaternion());
+    }
+    public void PlayHit5(Vector3 position)
+    {
+        GameObject.Instantiate(Hit5, position, new Quaternion());
+    }
+    public void PlayHit6(Vector3 position)
+    {
+        GameObject.Instantiate(Hit6, position, new Quaternion());
+    }
+    public void PlayHit7(Vector3 position)
+    {
+        GameObject.Instantiate(Hit7, position, new Quaternion());
+    }
 
     //public void B1PainSound(Vector3 position)
     //{
