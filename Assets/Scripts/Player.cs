@@ -16,8 +16,10 @@ public class Player : MonoBehaviour
     public float attack1Dmg = 1f;   //dmg attack1 does
     [Tooltip("Damage Attack2 deals unblocked")]
     public float attack2Dmg = 2f;   //dmg attack2 does
+    [Tooltip("How much damage ")]
+    public float blockPct = 50;
 
-    [Header("NOT FOR GDs! DO NOT TOUCH OR OUCH! ----------------------")]
+    [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
     public float JumpForce;
     [Tooltip("Current hitpoints")]
@@ -30,7 +32,7 @@ public class Player : MonoBehaviour
     //public float attack1Hit = 0.2f; 
     //[Tooltip("When Attack2 deals damage")]
     //public float attack2Hit = 0.2f;
-    [Tooltip("Cooldown Time for attack/s")]
+    [Tooltip("Everything about the attacks")]
     public float attackDelay;
     public float hitrange1 = 2f;    //hitrange of attack1
     public float hitrange2 = 2f;    //hitrange of attack2
@@ -38,6 +40,14 @@ public class Player : MonoBehaviour
     public float jumpHurt = 2.5f;
     public bool grounded;
     public bool hitCheck = false;
+    public bool blockbreak = false;
+    [Tooltip("Offset for the Hit VXF for Claudia")]
+    public float HitOffsetC = 4.5f;
+    [Tooltip("Offset for the Hit VXF for Bruno")]
+    public float HitOffsetB = 4.5f;
+
+    [Header("Placeholder Shit to delete")]
+    public GameObject shield;
 
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
@@ -45,8 +55,10 @@ public class Player : MonoBehaviour
     public Rigidbody2D rigid;
     public CamShake camShake;
     public GameObject opponent;
+    [Tooltip("Reference to script with Claudias specials")]
+    public Claudia claudia;
 
-    [Header("Animation times")]
+    [Header("Possibly now useless Animation times")]
     //public float clipAttack1;
     //public float clipAttack2;
     //public float clipHurt;
@@ -105,38 +117,50 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
-
+                        
+                        shield.gameObject.SetActive(false);
                         Move();
                         Flip();
 
                         if (Input.GetButtonDown("Attack1_" + PlayerIndex))
                         {
                             //print("Attack1");
+                            state = ePlayerState.Attacking;
                             anim.SetTrigger("attack1");
                             hitCheck = true;
-                            state = ePlayerState.Attacking;
+                            claudia.PlayAttackSound();
                             //StartCoroutine(Attack1());
                         }
 
                         if (Input.GetButtonDown("Attack2_" + PlayerIndex))
                         {
                             //print("Attack2");
+                            state = ePlayerState.Attacking;
                             anim.SetTrigger("attack2");
                             hitCheck = true;
-                            state = ePlayerState.Attacking;
+                            claudia.PlayAttackSound();
                             //StartCoroutine(Attack2());
                         }
 
-                        else if (vertical == 1f)
+                        while (vertical == 1f)
                         {
-                            print("block");
-                            //Jump if up
-                            //Check if jumping, check if landed
-                            //ground check via touching of the floor collider
-                            //Block if down
+                            shield.gameObject.SetActive(true);
+                            state = ePlayerState.Blocking;
+                            break;
                         }
 
-                        if (vertical == -1f) //TODO physics in fixedupdate?
+                        if (vertical < 0.95f && vertical >= 0f)
+                        {
+                            state = ePlayerState.Ready;
+                            shield.gameObject.SetActive(false);
+                            //while (vertical == 1f)
+                            //{
+                            //    print("block");
+                            //    state = ePlayerState.Blocking;
+                            //    break;
+                            //}
+                        }
+                        else if (vertical == -1f) //TODO physics in fixedupdate?
                         {
                             print("jump");
                             state = ePlayerState.InAir;
@@ -147,21 +171,33 @@ public class Player : MonoBehaviour
                         if (Input.GetButtonDown("Breaker_" + PlayerIndex))
                         {
                             print("Blockbreaker");
+                            state = ePlayerState.Attacking;
+                            anim.SetTrigger("attack2");
+                            blockbreak = true;
+                            hitCheck = true;
+                            claudia.PlayAttackSound();
                             //Blockbreaking Move
-                        }
+                        }                        
 
                         break;
                     case ePlayerState.Attacking:
-
                         break;
                     case ePlayerState.InAir:
                         Move();
-
                         if (grounded)
                             state = ePlayerState.Ready;
-
                         break;
-                    case ePlayerState.Stunned:
+
+                    case ePlayerState.Blocking:
+                        Move();
+                        if (vertical < 0.95f && vertical >= 0f)
+                        {
+                            print("not blocking");
+                            state = ePlayerState.Ready;
+                            shield.gameObject.SetActive(false);
+                        }
+                        break;
+                    case ePlayerState.Knockdown:
                         break;
                     case ePlayerState.Dead:
                         //call KO
@@ -183,6 +219,7 @@ public class Player : MonoBehaviour
         anim = this.GetComponentInChildren<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
+        claudia = FindObjectOfType<Claudia>();
     }
 
     //Find other player
@@ -228,10 +265,12 @@ public class Player : MonoBehaviour
     public void ApplyDamage(float dmgreceived)
     {
         //TODO Animator
-        state = ePlayerState.Stunned;
+        print(gameObject.name + " got hurt");
+        state = ePlayerState.Knockdown;
         hitPoints -= dmgreceived;
-        StartCoroutine(camShake.Shake(0.15f, 0.4f));
         anim.SetTrigger("hurt");
+        claudia.PlayVoiceSound();
+        StartCoroutine(camShake.Shake(0.15f, 0.4f));
         GameManager.instance.UpdateHP();
         Debug.Log(gameObject.name + " got hit.");
         print(gameObject.name + "s HP: " + hitPoints);
@@ -255,14 +294,12 @@ public class Player : MonoBehaviour
         {
             if (horizontal < -0.2f)
             {
-                print(gameObject.name + " läuft rückwärts");
-                //rückwärts
+                //print(gameObject.name + " läuft rückwärts");
             }
             else if (horizontal > 0.2f)
             {
                 //anim.SetBool("walk", true);
-                print(gameObject.name + " läuft vorwärts");
-                //vorwärts
+                //print(gameObject.name + " läuft vorwärts");
             }
         }
         else if (!facingRight)
@@ -270,12 +307,10 @@ public class Player : MonoBehaviour
             {
                 //anim.SetBool("walk", true);
                 //print(gameObject.name + " läuft vorwärts");
-                //vorwärts
             }
             else if (horizontal > 0.2f)
             {
                 //print(gameObject.name + " läuft rückwärts");
-                //rückwärts
             }
             else if (move == 0)
             {
@@ -323,46 +358,11 @@ public class Player : MonoBehaviour
 
         state = ePlayerState.Attacking;
         anim.SetTrigger("attack1");
-        PlayAttackSound();
         //yield return new WaitForSeconds(attack1Hit);
         //CheckForHit(attack1Dmg, hitrange1);
         //wait for animation to finish
         //yield return new WaitForSeconds(clipAttack1 - attack1Hit);
         state = ePlayerState.Ready;
-    }
-
-    void PlayAttackSound()
-    {
-        //Getting a value to choose a sound from (last is excluded)
-        int ran = Random.Range(1, 8);
-        print("ran = " + ran);
-        
-        switch (ran)
-        {
-            case 1:
-                SoundManager.instance.PlayHit1(transform.position);
-                break;
-            case 2:
-                SoundManager.instance.PlayHit2(transform.position);
-                break;
-            case 3:
-                SoundManager.instance.PlayHit3(transform.position);
-                break;
-            case 4:
-                SoundManager.instance.PlayHit4(transform.position);
-                break;
-            case 5:
-                SoundManager.instance.PlayHit5(transform.position);
-                break;
-            case 6:
-                SoundManager.instance.PlayHit6(transform.position);
-                break;
-            case 7:
-                SoundManager.instance.PlayHit7(transform.position);
-                break;
-            default:
-                break;
-        }        
     }
 
     IEnumerator Attack2()
@@ -377,7 +377,7 @@ public class Player : MonoBehaviour
         //state = ePlayerState.Ready;
     }
 
-    public void CheckForHit(float dmg, float hitrange)
+    public void CheckForHit(float dmg, float hitrange, float hitoffset)
     {
         if (hitCheck)
         {
@@ -391,18 +391,16 @@ public class Player : MonoBehaviour
             {
                 if (facingRight)
                 {
-                    if (player.x >= opponentX - hitrange && player.x <= opponentX) //&& opponent not blocking
+                    if (player.x >= opponentX - hitrange && player.x <= opponentX)
                     {
-                        print(gameObject.name + " hits " + opponent.name);
-                        opponent.GetComponent<Player>().ApplyDamage(dmg);
+                        Hit(dmg, hitoffset);
                     }
                 }
                 else if (!facingRight)
                 {
-                    if (player.x <= opponentX + hitrange && player.x >= opponentX) //&& opponent not blocking
+                    if (player.x <= opponentX + hitrange && player.x >= opponentX)
                     {
-                        print(gameObject.name + " hits " + opponent.name);
-                        opponent.GetComponent<Player>().ApplyDamage(dmg);
+                        Hit(dmg, hitoffset);
                     }
                 }
             }
@@ -412,26 +410,56 @@ public class Player : MonoBehaviour
                 {
                     if (facingRight)
                     {
-                        if (player.x >= opponentX - hitrange && player.x <= opponentX) //&& opponent not blocking
+                        if (player.x >= opponentX - hitrange && player.x <= opponentX)
                         {
-                            print(gameObject.name + " hits " + opponent.name);
-                            opponent.GetComponent<Player>().ApplyDamage(dmg);
+                            Hit(dmg, hitoffset);
                         }
                     }
                     else if (!facingRight)
                     {
                         if (player.x <= opponentX + hitrange && player.x >= opponentX) //&& opponent not blocking
                         {
-                            print(gameObject.name + " hits " + opponent.name);
-                            opponent.GetComponent<Player>().ApplyDamage(dmg);
+                            Hit(dmg, hitoffset);
                         }
                     }
                 }
             }
             else
+                blockbreak = false;
                 return;
+        }
+    }
 
-        }        
+    //Deal damage after successful hit
+    public void Hit(float dmg, float offsetY)
+    {
+        if (opponent.GetComponent<Player>().state != ePlayerState.Blocking)
+        {
+            print(gameObject.name + " hits " + opponent.name);
+            //claudia.PlayImpactSound();
+            SVFXManager.instance.PlayVFX_HitWhite(offsetY, opponent.gameObject);
+            opponent.GetComponent<Player>().ApplyDamage(dmg);
+        }
+        else if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
+        {
+            if (blockbreak)
+            {
+                //knockdown
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                //claudia.PlayImpactSound();
+                SVFXManager.instance.PlayVFX_HitWhite(offsetY, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+            }
+            else
+            {
+                float realdmg = dmg - (dmg * (blockPct / 100));
+                print(gameObject.name + " deals " + realdmg+ " to " + opponent.name);
+                //claudia.PlayImpactSound();
+                SVFXManager.instance.PlayVFX_HitWhite(offsetY, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(realdmg);
+            }
 
+        }
+        blockbreak = false;
     }
 }

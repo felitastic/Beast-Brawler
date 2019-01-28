@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
+  - Ground
+  - Character
+  - UI
   - 
   - 
   - 
@@ -51,6 +52,12 @@ TagManager:
   - name: Player
     uniqueID: 64789029
     locked: 0
-  - name: UI
+  - name: Effekt
+    uniqueID: 3831222095
+    locked: 0
+  - name: PlayerFront
+    uniqueID: 379651015
+    locked: 0
+  - name: IngameUI
     uniqueID: 2627454929
     locked: 0

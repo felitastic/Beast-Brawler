@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Shakes the camera, because that's very cool
+/// </summary>
+
 public class CamShake : MonoBehaviour
 {
     public IEnumerator Shake(float duration, float magnitude)

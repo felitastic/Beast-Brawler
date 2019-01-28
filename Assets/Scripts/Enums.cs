@@ -12,7 +12,8 @@ public enum ePlayerState
     Ready,
     Attacking,
     InAir,
-    Stunned,
+    Blocking,
+    Knockdown,
     Dead
 };
 

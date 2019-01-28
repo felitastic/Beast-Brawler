@@ -4,8 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-
-
+/// <summary>
+/// It's the game manager. Duh.
+/// </summary>
 
 public class GameManager : MonoBehaviour
 {
@@ -107,9 +108,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (Player1.GetComponent<Player>().state == ePlayerState.Dead && hpBarRed1.fillAmount == 0)
+        if (Player1.GetComponent<Player>().state == ePlayerState.Dead)
             GameMode = eGameMode.GameOver;
-        if (Player2.GetComponent<Player>().state == ePlayerState.Dead && hpBarRed2.fillAmount == 0)
+        else if (Player2.GetComponent<Player>().state == ePlayerState.Dead)
             GameMode = eGameMode.GameOver;
 
     }

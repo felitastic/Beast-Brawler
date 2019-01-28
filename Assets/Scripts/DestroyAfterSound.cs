@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Attached to SFX, destroys the gameobject after playing
+/// </summary>
+
 public class DestroyAfterSound : MonoBehaviour
 {
     private AudioSource audioSource;
