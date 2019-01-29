@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public float vertical;
     public bool facingRight;
     public float move = 0f;
+    public int wins;
     //[Tooltip("When Attack1 deals damage")]
     //public float attack1Hit = 0.2f; 
     //[Tooltip("When Attack2 deals damage")]
@@ -200,9 +201,8 @@ public class Player : MonoBehaviour
                     case ePlayerState.Knockdown:
                         break;
                     case ePlayerState.Dead:
-                        //call KO
-                        //win counter
-                        //next match or result
+                        //play dying animation
+                        //when finished, set bool for gamemanager matchover
                         break;
 
                     default:
@@ -287,7 +287,7 @@ public class Player : MonoBehaviour
         else if (horizontal < -0.2f)
             move = -1f;
         else
-            move = 0f;
+            move = 0f;        
 
         //TODO Animator Laufrichtung
         if (facingRight)
@@ -303,6 +303,7 @@ public class Player : MonoBehaviour
             }
         }
         else if (!facingRight)
+        {
             if (horizontal < -0.2f)
             {
                 //anim.SetBool("walk", true);
@@ -312,6 +313,7 @@ public class Player : MonoBehaviour
             {
                 //print(gameObject.name + " läuft rückwärts");
             }
+        }
             else if (move == 0)
             {
                 //anim.SetBool("walk", false);
@@ -319,6 +321,11 @@ public class Player : MonoBehaviour
             }
 
         transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+
+        //Vector2 velocity = new Vector2(move, transform.position.y);
+        //rigid.MovePosition(rigid.position + velocity * MoveSpeed * Time.fixedDeltaTime);
+        //rigid.MovePosition(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+        //rigid.MovePosition(new Vector2((transform.position.x + move * MoveSpeed * Time.deltaTime),transform.position.y));
     }
 
     //public IEnumerator Jump()

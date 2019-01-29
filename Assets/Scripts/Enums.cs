@@ -1,7 +1,7 @@
 ﻿public enum eGameMode
 {
     Running,
-    StageClear,
+    MatchOver,
     Cutscene,
     Pause,
     GameOver
@@ -34,9 +34,6 @@ public enum eAttacks
 
 public enum eStage
 {
-    Stage1_1,
-    Stage1_2,
-    Stage1_3,
-    Stage1_4,
-    DemoEnd,
+    Stage1,
+    Stage2,    
 }
