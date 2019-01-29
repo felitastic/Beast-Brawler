@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public eGameMode GameMode = eGameMode.Running;
     public eStage Stage;
 
+
     [Header("Menu Drag n Drop")]
     public GameObject GameOverScreen;
     public GameObject MatchOverScreen;
@@ -34,6 +35,10 @@ public class GameManager : MonoBehaviour
     public Text timerText;
     public Text MatchWinText;
     public Text StageWinText;
+
+    public Transform Stage1UpLeft;
+    public Transform Stage1DownRight;
+    public LayerMask Ground;
 
     [Header("Other values")]
     public float lerpTimer;
@@ -98,7 +103,7 @@ public class GameManager : MonoBehaviour
             {
                 Player2 = player;
             }
-        }
+        }        
 
         maxHitpoints1 = Player1.GetComponent<Player>().maxHitPoints;
         maxHitpoints2 = Player2.GetComponent<Player>().maxHitPoints;
@@ -129,11 +134,6 @@ public class GameManager : MonoBehaviour
                     GameMode = eGameMode.Pause;
                     Pause();
                 }
-
-                if (Player1.GetComponent<Player>().state == ePlayerState.Dead)
-                    GameMode = eGameMode.MatchOver;
-                else if (Player2.GetComponent<Player>().state == ePlayerState.Dead)
-                    GameMode = eGameMode.MatchOver;
 
                 break;
             case eGameMode.Pause:
@@ -166,19 +166,7 @@ public class GameManager : MonoBehaviour
     //Countdown of the stages
     void StageCountdown()
     {
-        int curtime = Mathf.RoundToInt(countdown);
-
-        //For the timer image and text countdown
-        if (curtime >= 0)
-        {
-            clock.fillAmount = Mathf.Lerp(clock.fillAmount, curtime / maxTime, Time.deltaTime * 3);
-            timerText.text = (countdown).ToString("0");
-        }
-        else if (curtime <= 0)
-        {
-            clock.fillAmount = 0;
-            timerText.text = ("0");
-        }        
+        int curtime = Mathf.RoundToInt(countdown);   
 
         //For when time has run out
         if (countdown <= 0)
@@ -205,11 +193,42 @@ public class GameManager : MonoBehaviour
                 print("Draw, Hot Potato!");
             }
         }
+        else if (Player1.GetComponent<Player>().state == ePlayerState.Dead || Player2.GetComponent<Player>().state == ePlayerState.Dead)
+        {
+            //TODO counter for how many matches have been played
+            if (Hitpoints1 < Hitpoints2)
+            {
+                print("p2 wins");
+                winner = Player2;
+                loser = Player1;
+                GameMode = eGameMode.MatchOver;
+                //StartCoroutine(MatchOver(winner, loser));
+            }
+            else if (Hitpoints2 < Hitpoints1)
+            {
+                print("p1 wins");
+                winner = Player1;
+                loser = Player2;
+                GameMode = eGameMode.MatchOver;
+                //StartCoroutine(MatchOver(winner, loser));
+            }
+        }
         else
         {
             countdown -= Time.deltaTime;
+
+            //For the timer image and text countdown
+            if (curtime >= 0)
+            {
+                clock.fillAmount = Mathf.Lerp(clock.fillAmount, curtime / maxTime, Time.deltaTime * 3);
+                timerText.text = (countdown).ToString("0");
+            }
+            else if (curtime <= 0)
+            {
+                clock.fillAmount = 0;
+                timerText.text = ("0");
+            }
         }
-    
     }
 
     //Runs after a match has finished

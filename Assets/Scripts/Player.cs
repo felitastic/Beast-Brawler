@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
     public Rigidbody2D rigid;
     public CamShake camShake;
     public GameObject opponent;
+
     [Tooltip("Reference to script with Claudias specials")]
     public Claudia claudia;
 
@@ -73,10 +74,12 @@ public class Player : MonoBehaviour
     {
         if (PlayerIndex == 0)
         {
+            gameObject.name = "Player 1";
             facingRight = true;
         }
         else if (PlayerIndex == 1)
         {
+            gameObject.name = "Player 2";
             facingRight = false;
         }
 
@@ -220,8 +223,8 @@ public class Player : MonoBehaviour
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
         claudia = FindObjectOfType<Claudia>();
-    }
-
+    }    
+    
     //Find other player
     void FindOpponent()
     {
@@ -444,7 +447,7 @@ public class Player : MonoBehaviour
         {
             print(gameObject.name + " hits " + opponent.name);
             //claudia.PlayImpactSound();
-            SVFXManager.instance.PlayVFX_HitWhite(offsetY, opponent.gameObject);
+            SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
             opponent.GetComponent<Player>().ApplyDamage(dmg);
         }
         else if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
@@ -454,7 +457,7 @@ public class Player : MonoBehaviour
                 //knockdown
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
                 //claudia.PlayImpactSound();
-                SVFXManager.instance.PlayVFX_HitWhite(offsetY, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
             }
             else
@@ -462,7 +465,7 @@ public class Player : MonoBehaviour
                 float realdmg = dmg - (dmg * (blockPct / 100));
                 print(gameObject.name + " deals " + realdmg+ " to " + opponent.name);
                 //claudia.PlayImpactSound();
-                SVFXManager.instance.PlayVFX_HitWhite(offsetY, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(realdmg);
             }
 

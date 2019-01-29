@@ -50,6 +50,7 @@ public class SVFXManager : MonoBehaviour
 
     [Header("VISUAL EFFECTS")]
     public GameObject HitWhite;
+    public GameObject ComicPow;
 
     void Awake()
     {
@@ -145,7 +146,13 @@ public class SVFXManager : MonoBehaviour
         GameObject hitWhite = Instantiate(HitWhite, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
         hitWhite.transform.parent = player.transform;
     }
-    
+
+    public void PlayVFX_ComicPow(float offsetY, GameObject player)
+    {
+        GameObject comicPow = Instantiate(ComicPow, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+        comicPow.transform.parent = player.transform;
+    }
+
 
 
     //public void B1PainSound(Vector3 position)

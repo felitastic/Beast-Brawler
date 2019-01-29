@@ -1,11 +1,17 @@
 fileFormatVersion: 2
-guid: 3d0127d6b20b59146afe70bbccc78290
+guid: ed7df96d23159a14382aad34011b236d
 TextureImporter:
   fileIDToRecycleName:
-    21300000: doctor_spritesheet_0
-    21300002: doctor_spritesheet_1
-    21300004: doctor_spritesheet_2
-    21300006: doctor_spritesheet_3
+    21300000: ClaudiaAttack1_Spritesheet_0
+    21300002: ClaudiaAttack1_Spritesheet_1
+    21300004: ClaudiaAttack1_Spritesheet_2
+    21300006: ClaudiaAttack1_Spritesheet_3
+    21300008: ClaudiaAttack1_Spritesheet_4
+    21300010: ClaudiaAttack1_Spritesheet_5
+    21300012: ClaudiaAttack1_Spritesheet_6
+    21300014: ClaudiaAttack1_Spritesheet_7
+    21300016: ClaudiaAttack1_Spritesheet_8
+    21300018: ClaudiaHurt_Keyframe_Spritesheet_0
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -88,72 +94,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: doctor_spritesheet_0
+      name: ClaudiaHurt_Keyframe_Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 3072
-        width: 2048
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 92321bb29e37aae428b832b389a21c83
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: doctor_spritesheet_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 2048
-        width: 2048
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 25d08f6b818e05c4d850fd354e5476a2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: doctor_spritesheet_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 1024
-        width: 2048
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 449b108bf8205d342ab4ac854c02e7f5
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: doctor_spritesheet_3
-      rect:
-        serializedVersion: 2
-        x: 0
+        x: 674
         y: 0
-        width: 2048
+        width: 674.6667
         height: 1024
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -162,7 +108,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a31ec4163a60db9479d02567704916dd
+      spriteID: 0fbe4981767cd9b4286ad59d667fb0d2
       vertices: []
       indices: 
       edges: []
@@ -170,7 +116,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5fb20dccb2d573c428e78b9bea8c4897
+    spriteID: eebaef64576db6946adf1b86cdf6cdb4
     vertices: []
     indices: 
     edges: []
