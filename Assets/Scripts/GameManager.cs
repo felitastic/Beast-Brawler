@@ -16,10 +16,10 @@ public class GameManager : MonoBehaviour
     public float TimerStage1 = 30f;
     public float TimerStage2 = 30f;
 
+    [Header("Enums")]
     public eGameMode GameMode = eGameMode.Running;
     public eStage Stage;
-
-
+    
     [Header("Menu Drag n Drop")]
     public GameObject GameOverScreen;
     public GameObject MatchOverScreen;
@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public Image hpBarRed1;
     public Image hpBarGreen2;
     public Image hpBarRed2;
+    public Slider potatoSlider;
 
     public Image clock;
     public Text timerText;
@@ -39,16 +40,21 @@ public class GameManager : MonoBehaviour
     public Text IntroCDText;
 
     [Header("Other values")]
-    public float potatoTimer;
     public float lerpTimer;
     public float lerpCooldown = 1f;  
     public bool lerpUI = false;
     public float delay = 2f;    //temporary delay for timers
-    public int matchCounter = 1;
 
-    [Header("For the Countdown")]
+    [Header("Potato values")]
+    public float potatoTime = 6f;   //how many seconds without hit before getting potato dmg
+    public float potatoTimer;
+    public float PotatoDmg = 1f;
+    public GameObject Potato;
+
+    [Header("For the match countdown")]
     public float countdown;
     public float maxTime;   //Stage maxTime for Lerp
+    public int matchCounter = 1;
 
     [Header("Do not touch")]
     public GameObject Player1 = null;
@@ -103,7 +109,10 @@ public class GameManager : MonoBehaviour
             {
                 Player2 = player;
             }
-        }        
+        }
+
+        potatoTimer = potatoTime;
+        Potato = Player1;
 
         maxHitpoints1 = Player1.GetComponent<Player>().maxHitPoints;
         maxHitpoints2 = Player2.GetComponent<Player>().maxHitPoints;
@@ -130,7 +139,7 @@ public class GameManager : MonoBehaviour
             case eGameMode.Running:
                 Unpause();                
                 LerpTiming();
-                PotatoTiming();
+                //PotatoTiming();
                 StageCountdown();
 
                 if (Input.GetButtonDown("Start"))
@@ -210,7 +219,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    //Countdown for time til match ends
+    //Countdown for time til match ends and also match win
     void StageCountdown()
     {
         int curtime = Mathf.RoundToInt(countdown);   
@@ -237,6 +246,7 @@ public class GameManager : MonoBehaviour
             }
             else if (Hitpoints1 == Hitpoints2)
             {
+                //TODO Hot Potato bestimmt wer beim Draw verliert
                 print("Draw, Hot Potato!");
             }
         }
@@ -304,28 +314,44 @@ public class GameManager : MonoBehaviour
         Pause();
     }
 
-    //Player last hit or having lost last match gets a dot which deals dmg if nobody is hit within x seconds
-    public void HotPotato()
-    {
+    //Give potato to the player who has been hit or lost the last match
+    //public void HotPotato(GameObject screwedPlayer)
+    //{
+        //Potato = screwedPlayer;
+        //TODO lerp potato dot to other player
+        //if (screwedPlayer.GetComponent<Player>().PlayerIndex == 0)
+        //{
+        //    potatoSlider.value = 0;
+        //}
+        //else if (screwedPlayer.GetComponent<Player>().PlayerIndex == 1)
+        //{
+        //    potatoSlider.value = 1;
+        //}
+    //}
 
-    }
+    //Called to deal dmg to the potato holder
+    //public void HotPotatoDmg()
+    //{
+        //potatoTimer = potatoTime;
+        //Potato.GetComponent<Player>().ApplyDamage(PotatoDmg);
+    //}
 
     //Timer for the Hot Potato mechanic
-    void PotatoTiming()
-    {
-        if (potatoTimer > 0)
-        {
-            potatoTimer -= Time.deltaTime;
-        }
-        if (potatoTimer == 0)
-        {
-            //Deal dmg to player with dot
-        }
-        if (potatoTimer < 0)
-        {
-            potatoTimer = 0f;
-        }
-    }
+    //void PotatoTiming()
+    //{        
+    //    if (potatoTimer > 0.0f)
+    //    {
+    //        potatoTimer -= Time.deltaTime;
+    //    }
+    //    if (potatoTimer == 0.0f)
+    //    {
+    //        HotPotatoDmg();
+    //    }
+    //    if (potatoTimer < 0.0f)
+    //    {
+    //        potatoTimer = 0.0f;
+    //    }
+    //}
 
     //Sets HP and the timer for the red HP bar
     public void UpdateHP()

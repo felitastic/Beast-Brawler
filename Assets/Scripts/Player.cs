@@ -161,7 +161,7 @@ public class Player : MonoBehaviour
                             //    break;
                             //}
                         }
-                        else if (vertical == -1f) //TODO physics in fixedupdate?
+                        else if (vertical == -1f)
                         {
                             print("jump");
                             state = ePlayerState.InAir;
@@ -190,7 +190,7 @@ public class Player : MonoBehaviour
                         break;
 
                     case ePlayerState.Blocking:
-                        Move();
+                        //Move();
                         if (vertical < 0.95f && vertical >= 0f)
                         {
                             print("not blocking");
@@ -434,6 +434,10 @@ public class Player : MonoBehaviour
     //Deal damage after successful hit
     public void Hit(float dmg, float offsetY)
     {
+        //HACK Hot Potato leftovers
+        //GameManager.instance.potatoTimer = GameManager.instance.potatoTime;
+        //GameManager.instance.HotPotato(opponent);           //gives dot to the opponet that has been hit
+
         //is blocking
         if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
         {
