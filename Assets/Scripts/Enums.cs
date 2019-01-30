@@ -1,4 +1,7 @@
-﻿public enum eGameMode
+﻿/// <summary>
+/// Mode the game is currently in
+/// </summary>
+public enum eGameMode
 {
     Running,
     MatchOver,
@@ -7,6 +10,9 @@
     GameOver
 };
 
+/// <summary>
+/// State the player is currently in
+/// </summary>
 public enum ePlayerState
 {
     Ready,
@@ -17,9 +23,19 @@ public enum ePlayerState
     Dead
 };
 
+/// <summary>
+/// Current stage
+/// </summary>
+public enum eStage
+{
+    None,
+    Stage1,
+    Stage2,
+}
+
 public enum eCharacter
 {
-    Claudia,
+    CVoice,
     Bruno,
 };
 
@@ -32,8 +48,4 @@ public enum eAttacks
     BCoop
 }
 
-public enum eStage
-{
-    Stage1,
-    Stage2,    
-}
+

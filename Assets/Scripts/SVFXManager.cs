@@ -11,14 +11,14 @@ public class SVFXManager : MonoBehaviour
     public static SVFXManager instance = null;
 
     [Header ("SOUND EFFECTS")]
-    [Header("Claudia Meelee Attack WHOOSH")]
+    [Header("CVoice Meelee Attack WHOOSH")]
     public GameObject Hit1;
     public GameObject Hit3;
     public GameObject Hit4;
     public GameObject Hit6;
     public GameObject Hit7;
 
-    [Header("Claudia Voice")]
+    [Header("CVoice Voice")]
     public GameObject CVoice2;
     public GameObject CVoice3;
     public GameObject CVoice6;

@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1847815343269226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.12, y: -3.7600002, z: 0}
+  m_LocalPosition: {x: -7.99, y: -3.7600002, z: 0}
   m_LocalScale: {x: 0.85, y: 0.85, z: 1}
   m_Children:
   - {fileID: 4359269093325402}
@@ -230,29 +230,32 @@ MonoBehaviour:
   blockPct: 50
   PlayerIndex: 0
   JumpForce: 2.25
+  KBstrength: 5
   hitPoints: 10
   horizontal: 0
   vertical: 0
-  facingRight: 0
+  facingRight: 1
   move: 0
+  border: 17
+  grounded: 1
+  origScale: 0.85
   wins: 0
   attackDelay: 0
   hitrange1: 9
   hitrange2: 9
   hitrangeBB: 2
   jumpHurt: 2.5
-  grounded: 1
   hitCheck: 0
   blockbreak: 0
   HitOffsetC: 4.5
   HitOffsetB: 4.5
   shield: {fileID: 1030533357863348}
-  sprite: {fileID: 0}
-  anim: {fileID: 0}
-  rigid: {fileID: 0}
+  sprite: {fileID: 212526093235914190}
+  anim: {fileID: 95431303042468918}
+  rigid: {fileID: 50344508258839570}
   camShake: {fileID: 0}
   opponent: {fileID: 0}
-  claudia: {fileID: 0}
+  CVoice: {fileID: 0}
   state: 0
 --- !u!212 &212073375971737270
 SpriteRenderer:

@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     public LayerMask Ground;
 
     [Header("Other values")]
+    public float potatoTimer;
     public float lerpTimer;
     public float lerpCooldown = 1f;  
     public bool lerpUI = false;
@@ -87,7 +88,6 @@ public class GameManager : MonoBehaviour
             maxTime = TimerStage1;
             countdown = TimerStage2;
         }
-
     }
 
     void Start()
@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviour
                 Unpause();
                 
                 LerpTiming();
+                PotatoTiming();
                 StageCountdown();
 
                 if (Input.GetButtonDown("Start"))
@@ -253,6 +254,29 @@ public class GameManager : MonoBehaviour
         //TODO set if cond for final match
         MatchOverScreen.gameObject.SetActive(true);
         Pause();
+    }
+
+    //Player last hit or having lost last match gets a dot which deals dmg if nobody is hit within x seconds
+    public void HotPotato()
+    {
+
+    }
+
+    //Timer for the Hot Potato mechanic
+    void PotatoTiming()
+    {
+        if (potatoTimer > 0)
+        {
+            potatoTimer -= Time.deltaTime;
+        }
+        if (potatoTimer == 0)
+        {
+            //Deal dmg to player with dot
+        }
+        if (potatoTimer < 0)
+        {
+            potatoTimer = 0f;
+        }
     }
 
     //Sets HP and the timer for the red HP bar

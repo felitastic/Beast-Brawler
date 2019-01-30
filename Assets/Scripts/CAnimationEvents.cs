@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Animation events to check for damage and finished animations
+/// CVoices Animation events to check for damage and finished animations
 /// </summary>
 
-public class AnimationEvents : MonoBehaviour
+public class CAnimationEvents : MonoBehaviour
 {
     private Player player;
     private float dmg1;

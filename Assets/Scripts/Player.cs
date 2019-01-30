@@ -16,18 +16,22 @@ public class Player : MonoBehaviour
     public float attack1Dmg = 1f;   //dmg attack1 does
     [Tooltip("Damage Attack2 deals unblocked")]
     public float attack2Dmg = 2f;   //dmg attack2 does
-    [Tooltip("How much damage ")]
+    [Tooltip("% damage avoided by blocking")]
     public float blockPct = 50;
 
     [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
     public float JumpForce;
+    public float KBstrength = 7f;       //How much enemy is knocked back
     [Tooltip("Current hitpoints")]
     public float hitPoints;
     public float horizontal;
     public float vertical;
     public bool facingRight;
     public float move = 0f;
+    public float border = 17f;      //stage borders, center is 0
+    public bool grounded;
+    public float origScale; //for flipping, get how big the char is scaled
     public int wins;
     //[Tooltip("When Attack1 deals damage")]
     //public float attack1Hit = 0.2f; 
@@ -38,11 +42,10 @@ public class Player : MonoBehaviour
     public float hitrange1 = 2f;    //hitrange of attack1
     public float hitrange2 = 2f;    //hitrange of attack2
     public float hitrangeBB = 2f;   //hitrange of the blockbreaker
-    public float jumpHurt = 2.5f;
-    public bool grounded;
+    public float jumpHurt = 2.5f;   //TODO change when jump attack comes
     public bool hitCheck = false;
     public bool blockbreak = false;
-    [Tooltip("Offset for the Hit VXF for Claudia")]
+    [Tooltip("Offset for the Hit VXF for CVoice")]
     public float HitOffsetC = 4.5f;
     [Tooltip("Offset for the Hit VXF for Bruno")]
     public float HitOffsetB = 4.5f;
@@ -57,15 +60,13 @@ public class Player : MonoBehaviour
     public CamShake camShake;
     public GameObject opponent;
 
-    [Tooltip("Reference to script with Claudias specials")]
-    public Claudia claudia;
+    [Tooltip("Reference to script with CVoices specials")]
+    public CSounds CVoice;
 
     [Header("Possibly now useless Animation times")]
     //public float clipAttack1;
     //public float clipAttack2;
     //public float clipHurt;
-
-
 
     public ePlayerState state;
     //public eCharacter character;
@@ -82,23 +83,19 @@ public class Player : MonoBehaviour
             gameObject.name = "Player 2";
             facingRight = false;
         }
+        
+        origScale = transform.localScale.x;
 
         hitPoints = maxHitPoints;
 
         GetComponents();
-        Flip();
         FindOpponent();
+        Flip();
         GameManager.instance.UpdateHP();
         state = ePlayerState.Ready;
         //GetAnimClipTimes();
-    }
-
-    public void FixedUpdate()
-    {
-        //TODO put all physics in fixedupdate?
-    }
-
-
+    }   
+    
     public void Update()
     {
         switch (GameManager.instance.GameMode)
@@ -132,7 +129,7 @@ public class Player : MonoBehaviour
                             state = ePlayerState.Attacking;
                             anim.SetTrigger("attack1");
                             hitCheck = true;
-                            claudia.PlayAttackSound();
+                            CVoice.PlayAttackSound();
                             //StartCoroutine(Attack1());
                         }
 
@@ -142,7 +139,7 @@ public class Player : MonoBehaviour
                             state = ePlayerState.Attacking;
                             anim.SetTrigger("attack2");
                             hitCheck = true;
-                            claudia.PlayAttackSound();
+                            CVoice.PlayAttackSound();
                             //StartCoroutine(Attack2());
                         }
 
@@ -179,7 +176,7 @@ public class Player : MonoBehaviour
                             anim.SetTrigger("attack2");
                             blockbreak = true;
                             hitCheck = true;
-                            claudia.PlayAttackSound();
+                            CVoice.PlayAttackSound();
                             //Blockbreaking Move
                         }                        
 
@@ -222,7 +219,7 @@ public class Player : MonoBehaviour
         anim = this.GetComponentInChildren<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
-        claudia = FindObjectOfType<Claudia>();
+        CVoice = FindObjectOfType<CSounds>();
     }    
     
     //Find other player
@@ -236,30 +233,21 @@ public class Player : MonoBehaviour
                 opponent = player;
         }
     }
-
-    //Check if the player is touching the ground
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        //print("checking for ground");
-        if (col.gameObject.tag == "Ground")
-        {
-            grounded = true;
-        }
-    }
-
+       
     //Turn character around
     public void Flip()
-    { //TODO Coroutine for delay before turning around
+    {   //TODO Coroutine for delay before turning around?
+
+        Vector3 scale = transform.localScale;
+
         if (facingRight)
         {
-            Vector3 scale = transform.localScale;
-            scale.x = +1f;
+            scale.x = origScale;
             transform.localScale = scale;
         }
         else if (!facingRight)
         {
-            Vector3 scale = transform.localScale;
-            scale.x = -1f;
+            scale.x = -origScale;
             transform.localScale = scale;
         }
     }
@@ -272,13 +260,33 @@ public class Player : MonoBehaviour
         state = ePlayerState.Knockdown;
         hitPoints -= dmgreceived;
         anim.SetTrigger("hurt");
-        claudia.PlayVoiceSound();
+        CVoice.PlayVoiceSound();
         StartCoroutine(camShake.Shake(0.15f, 0.4f));
         GameManager.instance.UpdateHP();
         Debug.Log(gameObject.name + " got hit.");
         print(gameObject.name + "s HP: " + hitPoints);
         //GameManager.instance.lerpTimer = GameManager.instance.lerpCooldown;
         state = ePlayerState.Ready;
+    }
+
+    //Knocks the player backwards
+    public void Knockback(float strength)
+    {
+        print(gameObject.name + " is knocked back by " + strength);
+
+        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
+            rigid.AddForce(new Vector2(-0.1f / 10, 0f));
+        else
+        {
+            if (facingRight)
+            {
+                rigid.AddForce(new Vector2(-strength / 10, 0f));
+            }
+            else if (!facingRight)
+            {
+                rigid.AddForce(new Vector2(+strength / 10, 0f));
+            }
+        }         
     }
 
     //Moves the character via axis input
@@ -323,42 +331,25 @@ public class Player : MonoBehaviour
                 //print(gameObject.name + " steht");
             }
 
-        transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
-
-        //Vector2 velocity = new Vector2(move, transform.position.y);
-        //rigid.MovePosition(rigid.position + velocity * MoveSpeed * Time.fixedDeltaTime);
-        //rigid.MovePosition(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
-        //rigid.MovePosition(new Vector2((transform.position.x + move * MoveSpeed * Time.deltaTime),transform.position.y));
+        //do move if
+        if (transform.position.x <= border && transform.position.x >= -border)
+            transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+        else if (transform.position.x >= border && move < 0)
+            transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+        else if (transform.position.x <= -border && move > 0)
+            transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+        //do not move if
+        else if (transform.position.x >= border && move > 0)
+            horizontal = 0;
+        else if (transform.position.x <= -border && move < 0)
+            horizontal = 0;
     }
-
-    //public IEnumerator Jump()
-    //{
-    //  Vector2 jumpVector = ???
-    //  float jumpTime = 2f;
-    //    rigid.velocity = Vector2.zero;
-    //    float timer = 0f;
-
-    //    while (timer < jumpTime)
-    //    {
-    //        float completed = timer / jumpTime;
-    //        Vector2 frameJumpV = Vector2.Lerp(jumpVector, Vector2.zero, completed);
-    //        rigid.AddForce(frameJumpV);
-    //        timer += Time.deltaTime;
-    //        yield return null;
-    //    }
-    //    state = ePlayerState.Ready;
-    //}
 
     public void Jump()
     {
         grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
-
-        //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
-        //rigid.AddForce(Vector2.up * JumpForce * Time.deltaTime);
-        //rigid.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-        //rigid.AddForce(Vector2.up * JumpForce, ForceMode2D.Force);
-
+        
     }
 
     IEnumerator Attack1()
@@ -443,33 +434,45 @@ public class Player : MonoBehaviour
     //Deal damage after successful hit
     public void Hit(float dmg, float offsetY)
     {
-        if (opponent.GetComponent<Player>().state != ePlayerState.Blocking)
+        //is blocking
+        if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
         {
-            print(gameObject.name + " hits " + opponent.name);
-            //claudia.PlayImpactSound();
-            SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
-            opponent.GetComponent<Player>().ApplyDamage(dmg);
-        }
-        else if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
-        {
+            //hit by blockbreak
             if (blockbreak)
             {
-                //knockdown
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
-                //claudia.PlayImpactSound();
+                //CVoice.PlayImpactSound();
                 SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
+                opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else
             {
                 float realdmg = dmg - (dmg * (blockPct / 100));
-                print(gameObject.name + " deals " + realdmg+ " to " + opponent.name);
-                //claudia.PlayImpactSound();
+                print(gameObject.name + " deals " + realdmg + " to " + opponent.name);
+                //CVoice.PlayImpactSound();
                 SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(realdmg);
             }
-
         }
+        //is jumping
+        else if (opponent.GetComponent<Player>().state != ePlayerState.InAir)
+        {
+            print(gameObject.name + " hits " + opponent.name);
+            //CVoice.PlayImpactSound();
+            SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
+            opponent.GetComponent<Player>().ApplyDamage(dmg);
+            opponent.GetComponent<Player>().Knockback(KBstrength);
+        }
+        //is neither jumping nor blocking
+        else
+        {
+            print(gameObject.name + " hits " + opponent.name);
+            //CVoice.PlayImpactSound();
+            SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
+            opponent.GetComponent<Player>().ApplyDamage(dmg);
+            opponent.GetComponent<Player>().Knockback(KBstrength);
+        }        
         blockbreak = false;
     }
 }

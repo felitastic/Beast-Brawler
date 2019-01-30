@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Everything special for Claudia
-/// SFX, Special Attacks
+/// CVoices Sounds
 /// </summary>
 
-public class Claudia : MonoBehaviour
+public class CSounds : MonoBehaviour
 {
 
 
