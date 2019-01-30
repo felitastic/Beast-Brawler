@@ -1,11 +1,8 @@
 fileFormatVersion: 2
-guid: 8087b4dfb46a6464eaa0635c637e0ffd
+guid: 78d9f48e1f5e8a84b8c3df1e40ab827a
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ClaudiaAttack_Light_Keyframes_Spritesheet_0
-    21300002: ClaudiaAttack_Light_Keyframes_Spritesheet_1
-    21300004: ClaudiaAttack_Light_Keyframes_Spritesheet_2
-    21300006: ClaudiaAttack_Light_Keyframes_Spritesheet_3
+    21300000: ClaudiaHurt_Keyframe_Color_Spritesheet_0
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -88,12 +85,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ClaudiaAttack_Light_Keyframes_Spritesheet_0
+      name: ClaudiaHurt_Keyframe_Color_Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 674
         y: 0
-        width: 2024
+        width: 674.6667
         height: 1024
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -102,67 +99,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf715bf1177f0c046beab3e804ae8337
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ClaudiaAttack_Light_Keyframes_Spritesheet_1
-      rect:
-        serializedVersion: 2
-        x: 2024
-        y: 0
-        width: 2024
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: db93c082462f8de429cced166d645a54
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ClaudiaAttack_Light_Keyframes_Spritesheet_2
-      rect:
-        serializedVersion: 2
-        x: 4048
-        y: 0
-        width: 2024
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 38f6997594101274ba1327963f77574b
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ClaudiaAttack_Light_Keyframes_Spritesheet_3
-      rect:
-        serializedVersion: 2
-        x: 6072
-        y: 0
-        width: 2024
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 04f45fab779d9ec45b3dbbb31c0aaee0
+      spriteID: b6647f1d21291a04a99462caa5c2f0b6
       vertices: []
       indices: 
       edges: []
@@ -170,7 +107,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9aa8d3b344ff7884d888eece3a0f9d51
+    spriteID: 7e4b32446524ead46a66f0f18182d1fa
     vertices: []
     indices: 
     edges: []

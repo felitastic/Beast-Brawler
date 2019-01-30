@@ -33,12 +33,10 @@ public class GameManager : MonoBehaviour
 
     public Image clock;
     public Text timerText;
+    public Text timerTextShade;
     public Text MatchWinText;
     public Text StageWinText;
-
-    public Transform Stage1UpLeft;
-    public Transform Stage1DownRight;
-    public LayerMask Ground;
+    public Text IntroCDText;
 
     [Header("Other values")]
     public float potatoTimer;
@@ -46,6 +44,7 @@ public class GameManager : MonoBehaviour
     public float lerpCooldown = 1f;  
     public bool lerpUI = false;
     public float delay = 2f;    //temporary delay for timers
+    public int matchCounter = 1;
 
     [Header("For the Countdown")]
     public float countdown;
@@ -76,6 +75,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        GameMode = eGameMode.MatchStart;
         Stage = eStage.Stage1;
         if (Stage == eStage.Stage1)
         {
@@ -123,9 +123,12 @@ public class GameManager : MonoBehaviour
 
         switch (GameMode)
         {
+            case eGameMode.MatchStart:
+                StartCoroutine(MatchStartText());                
+                break;
+
             case eGameMode.Running:
-                Unpause();
-                
+                Unpause();                
                 LerpTiming();
                 PotatoTiming();
                 StageCountdown();
@@ -135,18 +138,20 @@ public class GameManager : MonoBehaviour
                     GameMode = eGameMode.Pause;
                     Pause();
                 }
-
                 break;
+
             case eGameMode.Pause:
                 PauseScreen.gameObject.SetActive(true);
                 if (Input.GetButtonDown("Start"))
                     GameMode = eGameMode.Running;
                 break;
+
             case eGameMode.MatchOver:
                 StartCoroutine(MatchOver(winner, loser));
                 StageCountdown();
                 LerpUI();
                 break;
+
             case eGameMode.GameOver:
                 GameOver();
                 StartCoroutine(MatchOver(winner, loser));
@@ -164,7 +169,48 @@ public class GameManager : MonoBehaviour
             print("gimme space");
     }
 
-    //Countdown of the stages
+    //Match intro text
+    IEnumerator MatchStartText()
+    {
+        IntroCDText.gameObject.SetActive(true);
+        print("ein");
+        StartCoroutine(FadeTextIn(0.5f, IntroCDText, ("Match " + matchCounter.ToString(""))));
+        yield return new WaitForSeconds(0.5f);
+        print("wait");
+        yield return new WaitForSeconds(2f);
+        print("aus");
+        StartCoroutine(FadeTextOut(0.5f, IntroCDText, ("Match " + matchCounter.ToString(""))));
+        yield return new WaitForSeconds(0.5f);
+        print("fertig");
+        IntroCDText.gameObject.SetActive(false);
+        GameMode = eGameMode.Running;
+    }
+
+    IEnumerator FadeTextIn(float t, Text textfield, string textline)
+    {
+        textfield.text = (textline);
+
+        textfield.color = new Color(textfield.color.r, textfield.color.g, textfield.color.b, 0);
+        while (textfield.color.a < 1.0f)
+        {
+            textfield.color = new Color(textfield.color.r, textfield.color.g, textfield.color.b, textfield.color.a + (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeTextOut(float t, Text textfield, string textline)
+    {
+        textfield.text = (textline);
+
+        textfield.color = new Color(textfield.color.r, textfield.color.g, textfield.color.b, 1);
+        while (textfield.color.a > 0.0f)
+        {
+            textfield.color = new Color(textfield.color.r, textfield.color.g, textfield.color.b, textfield.color.a - (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+    
+    //Countdown for time til match ends
     void StageCountdown()
     {
         int curtime = Mathf.RoundToInt(countdown);   
@@ -223,11 +269,13 @@ public class GameManager : MonoBehaviour
             {
                 clock.fillAmount = Mathf.Lerp(clock.fillAmount, curtime / maxTime, Time.deltaTime * 3);
                 timerText.text = (countdown).ToString("0");
+                timerTextShade.text = (countdown).ToString("0");
             }
             else if (curtime <= 0)
             {
                 clock.fillAmount = 0;
                 timerText.text = ("0");
+                timerTextShade.text = ("0");
             }
         }
     }

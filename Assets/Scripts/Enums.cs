@@ -3,9 +3,9 @@
 /// </summary>
 public enum eGameMode
 {
+    MatchStart,
     Running,
     MatchOver,
-    Cutscene,
     Pause,
     GameOver
 };
@@ -47,5 +47,6 @@ public enum eAttacks
     CCoop,
     BCoop
 }
+
 
 

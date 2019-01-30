@@ -1,7 +1,11 @@
 fileFormatVersion: 2
-guid: 6fb1ff35fe8c5df43bce03f9cc0d6911
+guid: fa21e3d62fa9ceb4e8138ccd723892f2
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: UI Bars_0
+    21300002: UI Bars_1
+    21300004: UI Bars_2
+    21300006: UI Bars_3
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +44,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -82,11 +86,71 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI Bars_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 373.3333
+        width: 1024
+        height: 186.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9c831a51cf37e24d93fd8e2753b13d5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI Bars_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 187.33333
+        width: 1024
+        height: 186.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af9ddb990ef3cad469198b3784b9c473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI Bars_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1.3333282
+        width: 1024
+        height: 186.66667
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bb3480ddd181b4418fb682c6788de5d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4b83c7a123e93d84a9f9023ecf346c74
     vertices: []
     indices: 
     edges: []

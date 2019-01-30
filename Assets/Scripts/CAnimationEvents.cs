@@ -14,7 +14,6 @@ public class CAnimationEvents : MonoBehaviour
     private float hr1;
     private float hr2;
     private float offsetC;
-    private float offsetB;
 
     void Start ()
     {
@@ -24,9 +23,6 @@ public class CAnimationEvents : MonoBehaviour
         hr1 = player.hitrange1;
         hr2 = player.hitrange2;
         offsetC = player.HitOffsetC;
-        offsetB = player.HitOffsetB;
-
-
     }
 	
     public void HitCheck1()

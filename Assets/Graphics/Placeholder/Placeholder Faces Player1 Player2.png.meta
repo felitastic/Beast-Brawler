@@ -1,7 +1,9 @@
 fileFormatVersion: 2
-guid: fabf4131b553dae4ca00515cd065abc9
+guid: 54f16cfefa2b86a458bf1e6de9d88f9f
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Placeholder Faces Player1 Player2_0
+    21300002: Placeholder Faces Player1 Player2_1
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -82,11 +84,51 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Placeholder Faces Player1 Player2_0
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 619
+        width: 237
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cde240915c8029e41b662394c678327b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Placeholder Faces Player1 Player2_1
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 619
+        width: 233
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365c1c0ea3ea009469d16fb44dd2e0c2
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c4090706bcaca6945b118ac49a45cd97
     vertices: []
     indices: 
     edges: []
