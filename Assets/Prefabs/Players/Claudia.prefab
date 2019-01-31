@@ -224,7 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHitPoints: 10
-  MoveSpeed: 15
+  MoveSpeedF: 10
+  MoveSpeedB: 7
+  MoveSpeedJ: 5
   attack1Dmg: 1
   attack2Dmg: 2
   blockPct: 50
@@ -245,9 +247,12 @@ MonoBehaviour:
   hitrange2: 9
   hitrangeBB: 2
   jumpHurt: 2.5
-  extraGravity: 1
+  extraGravity: 3
+  airAttackGravity: 6
+  jumpAttack: 1.5
   hitCheck: 0
   blockbreak: 0
+  curMoveSpeed: 0
   HitOffsetC: 4.5
   HitOffsetB: 4.5
   shield: {fileID: 1030533357863348}

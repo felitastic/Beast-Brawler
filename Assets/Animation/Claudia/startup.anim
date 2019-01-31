@@ -20,6 +20,8 @@ AnimationClip:
   - curve:
     - time: 0
       value: {fileID: 21300000, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
+    - time: 0.016666668
+      value: {fileID: 21300000, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
     - time: 0.25
       value: {fileID: 21300002, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
     - time: 0.33333334
@@ -43,6 +45,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: 21300000, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
     - {fileID: 21300000, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
     - {fileID: 21300002, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
     - {fileID: 21300002, guid: 4ad308c256466d443a39e15ee6c27dbf, type: 3}
@@ -72,6 +75,13 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
+  - time: 0.016666668
+    functionName: JumpStartupFinished
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.33333334
     functionName: JumpStartupFinished
     data: 

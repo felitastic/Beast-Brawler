@@ -55,6 +55,7 @@ public class CAnimationEvents : MonoBehaviour
 
     public void JumpStartupFinished()
     {
+        player.GetComponent<Player>().Jump();
         player.anim.SetBool("jumping", true);
     }
 

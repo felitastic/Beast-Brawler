@@ -11,7 +11,12 @@ public class Player : MonoBehaviour
     [Header("Atomic Parameters for the GD to meddle with")]
     [Tooltip("Max HP this character starts with")]
     public float maxHitPoints;
-    public float MoveSpeed;
+    [Tooltip("Speed forwards movement")]
+    public float MoveSpeedF;
+    [Tooltip("Speed backwards movement")]
+    public float MoveSpeedB;
+    [Tooltip("Speed movement when in Air")]
+    public float MoveSpeedJ;
     [Tooltip("Damage Attack1 deals unblocked")]
     public float attack1Dmg = 1f;   //dmg attack1 does
     [Tooltip("Damage Attack2 deals unblocked")]
@@ -46,8 +51,9 @@ public class Player : MonoBehaviour
     public float extraGravity = 3f; //for better falling
     public float airAttackGravity = 6f;
     public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
-    public bool hitCheck = false;
+    public bool hitCheck = false;   //to make sure it is only once checked for hit and not continuously
     public bool blockbreak = false;
+    public float curMoveSpeed;      //current Movement Speed
     [Tooltip("Offset for the Hit VXF for CVoice")]
     public float HitOffsetC = 4.5f;
     [Tooltip("Offset for the Hit VXF for Bruno")]
@@ -86,7 +92,7 @@ public class Player : MonoBehaviour
             gameObject.name = "Player 2";
             facingRight = false;
         }
-        
+
         origScale = transform.localScale.x;
 
         hitPoints = maxHitPoints;
@@ -97,15 +103,14 @@ public class Player : MonoBehaviour
         GameManager.instance.UpdateHP();
         state = ePlayerState.Ready;
         //GetAnimClipTimes();
-    }   
-    
+    }
+
     public void Update()
     {
         switch (GameManager.instance.GameMode)
         {
             case eGameMode.Running:
 
-                anim.SetBool("grounded", grounded); 
                 horizontal = Input.GetAxis("Horizontal_" + PlayerIndex);
                 vertical = Input.GetAxis("Vertical_" + PlayerIndex);
 
@@ -122,8 +127,9 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
-                        
-                        shield.gameObject.SetActive(false);
+
+                        shield.gameObject.SetActive(false);                        
+
                         Move();
                         Flip();
 
@@ -172,7 +178,6 @@ public class Player : MonoBehaviour
                             print("jump");
                             anim.SetTrigger("startup");
                             state = ePlayerState.InAir;
-                            Jump();
                             //TODO trigger jump and fall animation
                         }
 
@@ -185,7 +190,7 @@ public class Player : MonoBehaviour
                             hitCheck = true;
                             CVoice.PlayAttackSound();
                             //Blockbreaking Move
-                        }                        
+                        }
 
                         break;
                     case ePlayerState.Attacking:
@@ -279,8 +284,8 @@ public class Player : MonoBehaviour
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
         CVoice = FindObjectOfType<CSounds>();
-    }    
-    
+    }
+
     //Find other player
     void FindOpponent()
     {
@@ -292,7 +297,7 @@ public class Player : MonoBehaviour
                 opponent = player;
         }
     }
-       
+
     //Turn character around
     public void Flip()
     {   //TODO Coroutine for delay before turning around?
@@ -344,61 +349,21 @@ public class Player : MonoBehaviour
             {
                 rigid.AddForce(new Vector2(+strength / 10, 0f));
             }
-        }         
+        }
     }
 
     //Moves the character via axis input
     public void Move()
     {
-        //work around cause all joysticks are broken af
-        if (horizontal > 0.2f)
-            move = 1f;
-        else if (horizontal < -0.2f)
-            move = -1f;
-        else
-            move = 0f;        
-
-        //TODO Animator Laufrichtung
-        if (facingRight)
-        {
-            if (horizontal < -0.2f)
-            {
-                //anim.SetBool("walkbackwards", true);
-                //print(gameObject.name + " läuft rückwärts");
-            }
-            else if (horizontal > 0.2f)
-            {
-                //anim.SetBool("walkforwards", true);
-                //print(gameObject.name + " läuft vorwärts");
-            }
-        }
-        else if (!facingRight)
-        {
-            if (horizontal < -0.2f)
-            {
-                //anim.SetBool("walkforwards", true);
-                //print(gameObject.name + " läuft vorwärts");
-            }
-            else if (horizontal > 0.2f)
-            {
-                //anim.SetBool("walkbackwards", true);
-                //print(gameObject.name + " läuft rückwärts");
-            }
-        }
-            else if (move == 0)
-            {
-            //anim.SetBool("walkbackwards", false);
-            //anim.SetBool("walkforwards", false);
-            //print(gameObject.name + " steht");
-        }
+        WalkDirection();
 
         //do move if
         if (transform.position.x <= border && transform.position.x >= -border)
-            transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+            transform.Translate(new Vector2(move, 0) * curMoveSpeed * Time.deltaTime);
         else if (transform.position.x >= border && move < 0)
-            transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+            transform.Translate(new Vector2(move, 0) * curMoveSpeed * Time.deltaTime);
         else if (transform.position.x <= -border && move > 0)
-            transform.Translate(new Vector2(move, 0) * MoveSpeed * Time.deltaTime);
+            transform.Translate(new Vector2(move, 0) * curMoveSpeed * Time.deltaTime);
         //do not move if
         else if (transform.position.x >= border && move > 0)
             horizontal = 0;
@@ -406,10 +371,56 @@ public class Player : MonoBehaviour
             horizontal = 0;
     }
 
+    //Checks walk direction or if in air to adjust speed and animation
+    public void WalkDirection()
+    {
+        //work around cause all joysticks are broken af
+        if (horizontal > 0.2f)
+            move = 1f;
+        else if (horizontal < -0.2f)
+            move = -1f;
+        else
+            move = 0f;
+
+        //HACK Walk direction and speed
+        switch (state)
+        {
+            case ePlayerState.Ready:
+
+                if ((facingRight && horizontal < -0.2f) || (!facingRight && horizontal > 0.2f))
+                {
+                    curMoveSpeed = MoveSpeedB;
+                    anim.SetBool("walkbackwards", true);
+                    print(gameObject.name + " läuft rückwärts");
+                }
+                else if ((facingRight && horizontal > 0.2f) || (!facingRight && horizontal < -0.2f))
+                {
+                    curMoveSpeed = MoveSpeedF;
+                    anim.SetBool("walkforwards", true);
+                    print(gameObject.name + " läuft vorwärts");
+                }
+                else if (move == 0)
+                {
+                    curMoveSpeed = 0f;
+                    anim.SetBool("walkbackwards", false);
+                    anim.SetBool("walkforwards", false);
+                    print(gameObject.name + " steht");
+                }
+                break;
+
+            case ePlayerState.InAir:
+                curMoveSpeed = MoveSpeedJ;
+                break;
+
+            default:
+                break;
+        }
+    }
+
     public void Jump()
     {
         grounded = false;
-        rigid.AddForce(new Vector2(0f, JumpForce / 10));        
+        rigid.AddForce(new Vector2(0f, JumpForce / 10));
     }
 
     IEnumerator Attack1()
@@ -487,7 +498,7 @@ public class Player : MonoBehaviour
             }
             else
                 blockbreak = false;
-                return;
+            return;
         }
     }
 
@@ -536,7 +547,7 @@ public class Player : MonoBehaviour
             SVFXManager.instance.PlayVFX_ComicPow(offsetY, opponent.gameObject);
             opponent.GetComponent<Player>().ApplyDamage(dmg);
             opponent.GetComponent<Player>().Knockback(KBstrength);
-        }        
+        }
         blockbreak = false;
     }
 }
