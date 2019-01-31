@@ -220,11 +220,11 @@ public class Player : MonoBehaviour
                             anim.SetBool("falling", true);
                             rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
                         }
-                        else if (grounded)
+                        else if (grounded && anim.GetBool("falling"))
                         {
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
-                            anim.ResetTrigger("land");
+                            //anim.ResetTrigger("land");
                             state = ePlayerState.Ready;
                         }
 
