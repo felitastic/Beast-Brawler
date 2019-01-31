@@ -10,7 +10,7 @@ public class SVFXManager : MonoBehaviour
 {
     public static SVFXManager instance = null;
 
-    [Header ("SOUND EFFECTS")]
+    [Header("SOUND EFFECTS")]
     [Header("CVoice Meelee Attack WHOOSH")]
     public GameObject Hit1;
     public GameObject Hit3;
@@ -38,7 +38,7 @@ public class SVFXManager : MonoBehaviour
     public GameObject CVoice5;
     public GameObject CVoice8;
     public GameObject CVoice9;
-       
+
     [Header("Jump landing")]
     public GameObject Land1;
     public GameObject Land2;
@@ -59,7 +59,7 @@ public class SVFXManager : MonoBehaviour
             instance = this;
         }
         else if (instance != this)
-        {        
+        {
             Destroy(gameObject);
         }
     }

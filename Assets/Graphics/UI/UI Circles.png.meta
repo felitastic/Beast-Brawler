@@ -91,10 +91,10 @@ TextureImporter:
       name: UI Circles_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 558.75
-        width: 256
-        height: 186.25
+        x: 112
+        y: 640
+        width: 33
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -102,7 +102,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 235044945a1e1d34e92a09ed512b0f5b
+      spriteID: 359dd55ca6b3c034dbc5d1905a02976c
       vertices: []
       indices: 
       edges: []
@@ -111,10 +111,10 @@ TextureImporter:
       name: UI Circles_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 372.75
-        width: 256
-        height: 186.25
+        x: 99
+        y: 444
+        width: 60
+        height: 61
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -122,7 +122,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b33053d86377fe47982b0f1ca49dd12
+      spriteID: c480315900594584ba03b1cc4b7dc3fe
       vertices: []
       indices: 
       edges: []
@@ -131,10 +131,10 @@ TextureImporter:
       name: UI Circles_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 186.75
-        width: 256
-        height: 186.25
+        x: 33
+        y: 185
+        width: 189
+        height: 189
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,7 +142,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 42e62424e05985240ae26a3a6f902188
+      spriteID: e60d2835268042243af029396b75fbe0
       vertices: []
       indices: 
       edges: []
@@ -151,10 +151,10 @@ TextureImporter:
       name: UI Circles_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0.75
-        width: 256
-        height: 186.25
+        x: 44
+        y: 9
+        width: 169
+        height: 169
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,7 +162,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed73ace41feb15040b579d83e63cfcb6
+      spriteID: 526cee4280a1091439574611e5f5ec1f
       vertices: []
       indices: 
       edges: []

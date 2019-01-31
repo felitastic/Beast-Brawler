@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [Header("Enums")]
     public eGameMode GameMode = eGameMode.Running;
     public eStage Stage;
-    
+
     [Header("Menu Drag n Drop")]
     public GameObject GameOverScreen;
     public GameObject MatchOverScreen;
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Other values")]
     public float lerpTimer;
-    public float lerpCooldown = 1f;  
+    public float lerpCooldown = 1f;
     public bool lerpUI = false;
     public float delay = 2f;    //temporary delay for timers
 
@@ -133,11 +133,11 @@ public class GameManager : MonoBehaviour
         switch (GameMode)
         {
             case eGameMode.MatchStart:
-                StartCoroutine(MatchStartText());                
+                StartCoroutine(MatchStartText());
                 break;
 
             case eGameMode.Running:
-                Unpause();                
+                Unpause();
                 LerpTiming();
                 //PotatoTiming();
                 StageCountdown();
@@ -218,11 +218,11 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
-    
+
     //Countdown for time til match ends and also match win
     void StageCountdown()
     {
-        int curtime = Mathf.RoundToInt(countdown);   
+        int curtime = Mathf.RoundToInt(countdown);
 
         //For when time has run out
         if (countdown <= 0)
@@ -246,7 +246,6 @@ public class GameManager : MonoBehaviour
             }
             else if (Hitpoints1 == Hitpoints2)
             {
-                //TODO Hot Potato bestimmt wer beim Draw verliert
                 print("Draw, Hot Potato!");
             }
         }
@@ -298,7 +297,7 @@ public class GameManager : MonoBehaviour
         UpdateHP();
         winner.GetComponent<Player>().wins += 1;
         name = winner.name;
-        MatchWinText.text = ("Match Over \n" + name+" wins");
+        MatchWinText.text = ("Match Over \n" + name + " wins");
         if (winner == Player1)
         {
             hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 5);
@@ -307,18 +306,18 @@ public class GameManager : MonoBehaviour
         {
             hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 5);
         }
-        yield return new WaitForSeconds(delay);    
+        yield return new WaitForSeconds(delay);
 
         //TODO set if cond for final match
         MatchOverScreen.gameObject.SetActive(true);
         Pause();
     }
 
+    //HACK old unfinished hot potato code
     //Give potato to the player who has been hit or lost the last match
     //public void HotPotato(GameObject screwedPlayer)
     //{
     //Potato = screwedPlayer;
-    //TODO lerp potato dot to other player
     //if (screwedPlayer.GetComponent<Player>().PlayerIndex == 0)
     //{
     //    potatoSlider.value = 0;
@@ -392,7 +391,7 @@ public class GameManager : MonoBehaviour
             lerpTimer = 0f;
         }
     }
-    
+
     //For the slow decrease of the red health bar
     void LerpUI()
     {
@@ -412,7 +411,7 @@ public class GameManager : MonoBehaviour
         PauseScreen.gameObject.SetActive(false);
         Time.timeScale = 1;
     }
-    
+
     //Update to be run after the last match and show a result screen
     public void GameOver()
     {

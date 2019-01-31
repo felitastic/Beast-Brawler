@@ -42,11 +42,11 @@ public enum eCharacter
 
 public enum eAttacks
 {
-    Punch,
-    Bite,
-    Dash,
-    CCoop,
-    BCoop
+    None,
+    Light,
+    Heavy,
+    Blockbreak,
+    Jump
 }
 
 

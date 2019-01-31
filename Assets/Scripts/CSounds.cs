@@ -55,7 +55,7 @@ public class CSounds : MonoBehaviour
                 break;
             case 4:
                 SVFXManager.instance.PlayCVoice7(transform.position);
-                break;   
+                break;
             default:
                 break;
         }

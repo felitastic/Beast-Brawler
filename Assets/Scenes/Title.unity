@@ -295,11 +295,10 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a026e7c8234096d4fa46186cf1b700c7, type: 2}
   m_IsPrefabAsset: 0
---- !u!224 &296686853 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224871881580979564, guid: 5e5df5c7bbab6a4468852e8487e91f1b,
-    type: 2}
-  m_PrefabInternal: {fileID: 2104106941}
+--- !u!4 &249528692 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 249528691}
 --- !u!114 &296686854 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114220906033612640, guid: 5e5df5c7bbab6a4468852e8487e91f1b,
@@ -565,9 +564,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1008039804}
-  - {fileID: 296686853}
-  - {fileID: 1661588496}
+  - {fileID: 1958615691}
+  - {fileID: 2104106942}
+  - {fileID: 249528692}
   - {fileID: 1469339906}
   m_Father: {fileID: 906624267}
   m_RootOrder: 1
@@ -637,11 +636,6 @@ CanvasRenderer:
 --- !u!1 &1008039803 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1340631968432162, guid: aa58d6d6e8f89274d944650cbca28dec,
-    type: 2}
-  m_PrefabInternal: {fileID: 1958615690}
---- !u!224 &1008039804 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224058745890434038, guid: aa58d6d6e8f89274d944650cbca28dec,
     type: 2}
   m_PrefabInternal: {fileID: 1958615690}
 --- !u!1 &1341884571
@@ -782,11 +776,6 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 1008039803}
   m_sendNavigationEvents: 1
   m_DragThreshold: 3
---- !u!224 &1661588496 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 224626858998375100, guid: a026e7c8234096d4fa46186cf1b700c7,
-    type: 2}
-  m_PrefabInternal: {fileID: 249528691}
 --- !u!1 &1726919421
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,6 +922,10 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa58d6d6e8f89274d944650cbca28dec, type: 2}
   m_IsPrefabAsset: 0
+--- !u!4 &1958615691 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1958615690}
 --- !u!1 &2093628228
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,3 +1106,7 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e5df5c7bbab6a4468852e8487e91f1b, type: 2}
   m_IsPrefabAsset: 0
+--- !u!4 &2104106942 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 2104106941}
