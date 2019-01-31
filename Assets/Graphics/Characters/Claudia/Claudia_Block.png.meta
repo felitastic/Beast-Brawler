@@ -1,17 +1,7 @@
 fileFormatVersion: 2
-guid: ed7df96d23159a14382aad34011b236d
+guid: acb872bed8581b6469a3df159a426d95
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: ClaudiaAttack1_Spritesheet_0
-    21300002: ClaudiaAttack1_Spritesheet_1
-    21300004: ClaudiaAttack1_Spritesheet_2
-    21300006: ClaudiaAttack1_Spritesheet_3
-    21300008: ClaudiaAttack1_Spritesheet_4
-    21300010: ClaudiaAttack1_Spritesheet_5
-    21300012: ClaudiaAttack1_Spritesheet_6
-    21300014: ClaudiaAttack1_Spritesheet_7
-    21300016: ClaudiaAttack1_Spritesheet_8
-    21300018: ClaudiaHurt_Keyframe_Spritesheet_0
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -46,14 +36,14 @@ TextureImporter:
     mipBias: -100
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
+  alignment: 7
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -92,31 +82,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: ClaudiaHurt_Keyframe_Spritesheet_0
-      rect:
-        serializedVersion: 2
-        x: 674
-        y: 0
-        width: 674.6667
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0fbe4981767cd9b4286ad59d667fb0d2
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: eebaef64576db6946adf1b86cdf6cdb4
+    spriteID: 9c9c394be517b5d4d892180561dca963
     vertices: []
     indices: 
     edges: []

@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     public float move = 0f;
     public float border = 17f;      //stage borders, center is 0
     public bool grounded;
+    public bool landCheck;
     public float origScale; //for flipping, get how big the char is scaled
     public int wins;
     //[Tooltip("When Attack1 deals damage")]
@@ -215,12 +216,20 @@ public class Player : MonoBehaviour
                         //else 
                         if (rigid.velocity.y < 0f && !grounded)
                         {
-                            //for better falling
-                            anim.SetBool("jumping", false);
-                            anim.SetBool("falling", true);
-                            rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
+                            if (attack == eAttacks.Jump)
+                            {
+                                anim.SetTrigger("jumpattack");
+                                state = ePlayerState.InAirAttack;
+                            }
+                            else
+                            {
+                                anim.SetBool("jumping", false);
+                                anim.SetBool("falling", true);
+                                rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
+                            }
+
                         }
-                        else if (grounded && anim.GetBool("falling"))
+                        else if (landCheck && anim.GetBool("falling"))
                         {
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
@@ -228,38 +237,40 @@ public class Player : MonoBehaviour
                             state = ePlayerState.Ready;
                         }
 
-                        if (Input.GetButtonDown("Attack1_" + PlayerIndex))
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && !anim.GetBool("falling"))
                         {
-                            if (transform.position.y >= jumpAttack)
-                            {
-                                print("JumpAttack");
-                                state = ePlayerState.InAirAttack;
-                                attack = eAttacks.Jump;
-                                anim.SetBool("jumpattack", true);
-                                hitCheck = true;
-                                CVoice.PlayAttackSound();
-                            }
-                            else
-                            {
-                                print("not high enough for jumpattack");
-                            }
+                            attack = eAttacks.Jump;
+
+
+                            //if (transform.position.y >= jumpAttack)
+                            //{
+                            //    print("JumpAttack");
+                            //    state = ePlayerState.InAirAttack;
+                            //    anim.SetBool("jumpattack", true);
+                            //    attack = eAttacks.Jump;
+
+                            //    hitCheck = true;
+                            //    CVoice.PlayAttackSound();
+                            //}
+                            //else
+                            //{
+                            //    print("not high enough for jumpattack");
+                            //}
                         }
 
                         break;
 
                     case ePlayerState.InAirAttack:
 
+                        rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
 
-                        if (grounded)
+                        if (landCheck && anim.GetBool("jumpattack"))
                         {
-                            anim.SetBool("jumpattack", false);
                             anim.SetTrigger("land");
-                            state = ePlayerState.Ready;
                         }
-                        if (rigid.velocity.y < 0)
+                        else if (grounded)
                         {
-                            //for quicker falling
-                            rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
+                            state = ePlayerState.Ready;
                         }
 
                         break;
@@ -312,6 +323,7 @@ public class Player : MonoBehaviour
     //Turn character around
     public void Flip()
     {
+        //TODO Prio5: langsamer umdrehen wenn blockend
         Vector3 scale = transform.localScale;
 
         if (facingRight)

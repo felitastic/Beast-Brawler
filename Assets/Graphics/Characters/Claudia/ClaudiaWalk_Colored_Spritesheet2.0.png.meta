@@ -1,16 +1,18 @@
 fileFormatVersion: 2
-guid: a8469d4968091d2418e1c82b16857f66
+guid: a33d3f3f5425a5d44a365503906a0d47
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ClaudiaAttack1_Spritesheet_0
-    21300002: ClaudiaAttack1_Spritesheet_1
-    21300004: ClaudiaAttack1_Spritesheet_2
-    21300006: ClaudiaAttack1_Spritesheet_3
-    21300008: ClaudiaAttack1_Spritesheet_4
-    21300010: ClaudiaAttack1_Spritesheet_5
-    21300012: ClaudiaAttack1_Spritesheet_6
-    21300014: ClaudiaAttack1_Spritesheet_7
-    21300016: ClaudiaAttack1_Spritesheet_8
+    21300000: ClaudiaWalk_Colored_Spritesheet2.0_0
+    21300002: ClaudiaWalk_Colored_Spritesheet2.0_1
+    21300004: ClaudiaWalk_Colored_Spritesheet2.0_2
+    21300006: ClaudiaWalk_Colored_Spritesheet2.0_3
+    21300008: ClaudiaWalk_Colored_Spritesheet2.0_4
+    21300010: ClaudiaWalk_Colored_Spritesheet2.0_5
+    21300012: ClaudiaWalk_Colored_Spritesheet2.0_6
+    21300014: ClaudiaWalk_Colored_Spritesheet2.0_7
+    21300016: ClaudiaWalk_Colored_Spritesheet2.0_8
+    21300018: ClaudiaWalk_Colored_Spritesheet2.0_9
+    21300020: ClaudiaWalk_Colored_Spritesheet2.0_10
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -45,7 +47,7 @@ TextureImporter:
     mipBias: -100
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -93,7 +95,47 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_0
+      name: ClaudiaWalk_Colored_Spritesheet2.0_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10240
+        width: 2048
+        height: 1024
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8dbb36cddb320a499aa92e6606295b4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClaudiaWalk_Colored_Spritesheet2.0_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9216
+        width: 2048
+        height: 1024
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b5ab432a8ed95a4b86a9f71826cc7fd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ClaudiaWalk_Colored_Spritesheet2.0_2
       rect:
         serializedVersion: 2
         x: 0
@@ -107,13 +149,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b8a6fbfa7dce70468dbfb7759c0e0b7
+      spriteID: ae2631b455e3be14ca16943089880d8a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_1
+      name: ClaudiaWalk_Colored_Spritesheet2.0_3
       rect:
         serializedVersion: 2
         x: 0
@@ -127,13 +169,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b322ec09387f1ac4abf02ffe78a13d02
+      spriteID: 17d3301d4679e704cb619d28790ad685
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_2
+      name: ClaudiaWalk_Colored_Spritesheet2.0_4
       rect:
         serializedVersion: 2
         x: 0
@@ -147,13 +189,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7589da414f461c4b85050be9c6b8c75
+      spriteID: bee25644c7035f24d9c1c7616094bc2d
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_3
+      name: ClaudiaWalk_Colored_Spritesheet2.0_5
       rect:
         serializedVersion: 2
         x: 0
@@ -167,13 +209,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 978a69fa9b99c334bb12780c6b37d979
+      spriteID: 3857c0e0542f88f41ae2d2afdd87cee6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_4
+      name: ClaudiaWalk_Colored_Spritesheet2.0_6
       rect:
         serializedVersion: 2
         x: 0
@@ -187,13 +229,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb147e828e939364aa46f2c46724a9b5
+      spriteID: ac995a1eedf459a45be19e83321b0b28
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_5
+      name: ClaudiaWalk_Colored_Spritesheet2.0_7
       rect:
         serializedVersion: 2
         x: 0
@@ -207,13 +249,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4fd49052975c36a4499be1ab7df04d15
+      spriteID: 0e234e034ffe97e48a62577eb8bdc74a
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_6
+      name: ClaudiaWalk_Colored_Spritesheet2.0_8
       rect:
         serializedVersion: 2
         x: 0
@@ -227,13 +269,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8dc53988e87a11d41a5fa038b714dce2
+      spriteID: 9ba1c2eebe708674c80470739e7687dd
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_7
+      name: ClaudiaWalk_Colored_Spritesheet2.0_9
       rect:
         serializedVersion: 2
         x: 0
@@ -247,13 +289,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92777b1d9c5949649a06ef018de28db1
+      spriteID: 4d0d9891fc646974480bf396655d8211
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaAttack1_Spritesheet_8
+      name: ClaudiaWalk_Colored_Spritesheet2.0_10
       rect:
         serializedVersion: 2
         x: 0
@@ -267,7 +309,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70b23411047178d4da24146dcdec6467
+      spriteID: 82574019cd49daf458982b33bb9154ee
       vertices: []
       indices: 
       edges: []
@@ -275,7 +317,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: eebaef64576db6946adf1b86cdf6cdb4
+    spriteID: aff95cd74451f664081ba2346c6c9fad
     vertices: []
     indices: 
     edges: []
