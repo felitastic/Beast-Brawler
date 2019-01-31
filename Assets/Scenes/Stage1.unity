@@ -468,6 +468,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114714490734630618, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
+        type: 2}
+      propertyPath: extraGravity
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 839ed7a1b58b4eb41ab1e6144a37d626, type: 2}
   m_IsPrefabAsset: 0
@@ -579,20 +584,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 212526093235914190, guid: 2ee29a405435c624a892a4c9e53189ac,
+    - target: {fileID: 114430181957882752, guid: 2ee29a405435c624a892a4c9e53189ac,
         type: 2}
-      propertyPath: m_Color.r
-      value: 0.40899786
-      objectReference: {fileID: 0}
-    - target: {fileID: 212526093235914190, guid: 2ee29a405435c624a892a4c9e53189ac,
-        type: 2}
-      propertyPath: m_Color.g
-      value: 0.70674914
-      objectReference: {fileID: 0}
-    - target: {fileID: 212526093235914190, guid: 2ee29a405435c624a892a4c9e53189ac,
-        type: 2}
-      propertyPath: m_Color.b
-      value: 0.9528302
+      propertyPath: extraGravity
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
@@ -2214,8 +2209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc520f7314498849908fbc34ed71a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimerStage1: 90
-  TimerStage2: 30
+  TimerStage1: 90.5
+  TimerStage2: 30.5
   GameMode: 0
   Stage: 0
   GameOverScreen: {fileID: 1481446883}

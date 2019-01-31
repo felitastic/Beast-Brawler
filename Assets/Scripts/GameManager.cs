@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
 
-    [Tooltip("Countdown time for the first stage")]
+    [Tooltip("Countdown time for the first stage - for 30s put 30.5")]
     public float TimerStage1 = 30f;
     public float TimerStage2 = 30f;
 
@@ -317,23 +317,23 @@ public class GameManager : MonoBehaviour
     //Give potato to the player who has been hit or lost the last match
     //public void HotPotato(GameObject screwedPlayer)
     //{
-        //Potato = screwedPlayer;
-        //TODO lerp potato dot to other player
-        //if (screwedPlayer.GetComponent<Player>().PlayerIndex == 0)
-        //{
-        //    potatoSlider.value = 0;
-        //}
-        //else if (screwedPlayer.GetComponent<Player>().PlayerIndex == 1)
-        //{
-        //    potatoSlider.value = 1;
-        //}
+    //Potato = screwedPlayer;
+    //TODO lerp potato dot to other player
+    //if (screwedPlayer.GetComponent<Player>().PlayerIndex == 0)
+    //{
+    //    potatoSlider.value = 0;
+    //}
+    //else if (screwedPlayer.GetComponent<Player>().PlayerIndex == 1)
+    //{
+    //    potatoSlider.value = 1;
+    //}
     //}
 
     //Called to deal dmg to the potato holder
     //public void HotPotatoDmg()
     //{
-        //potatoTimer = potatoTime;
-        //Potato.GetComponent<Player>().ApplyDamage(PotatoDmg);
+    //potatoTimer = potatoTime;
+    //Potato.GetComponent<Player>().ApplyDamage(PotatoDmg);
     //}
 
     //Timer for the Hot Potato mechanic
@@ -354,6 +354,7 @@ public class GameManager : MonoBehaviour
     //}
 
     //Sets HP and the timer for the red HP bar
+
     public void UpdateHP()
     {
         Hitpoints1 = Player1.GetComponent<Player>().hitPoints;
@@ -395,8 +396,6 @@ public class GameManager : MonoBehaviour
     //For the slow decrease of the red health bar
     void LerpUI()
     {
-        //print("Red1 new: "+hpBarRed1.fillAmount);
-        //print("Red2 new: " + hpBarRed2.fillAmount);
         hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 3);
         hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 3);
     }

@@ -229,7 +229,7 @@ MonoBehaviour:
   attack2Dmg: 2
   blockPct: 50
   PlayerIndex: 0
-  JumpForce: 2.25
+  JumpForce: 2.3
   KBstrength: 5
   hitPoints: 10
   horizontal: 0
@@ -245,6 +245,7 @@ MonoBehaviour:
   hitrange2: 9
   hitrangeBB: 2
   jumpHurt: 2.5
+  extraGravity: 1
   hitCheck: 0
   blockbreak: 0
   HitOffsetC: 4.5
@@ -339,7 +340,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: eee5345a24a271e4b8be0bea43fa4c75, type: 3}
-  m_Color: {r: 0.6462264, g: 0.9734282, b: 1, a: 1}
+  m_Color: {r: 0.40899786, g: 0.70674914, b: 0.9528302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

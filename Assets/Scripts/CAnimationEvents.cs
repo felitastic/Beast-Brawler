@@ -48,4 +48,19 @@ public class CAnimationEvents : MonoBehaviour
         player.state = ePlayerState.Ready;
     }
 
+    public void BlockbreakerFinished()
+    {
+        player.state = ePlayerState.Ready;
+    }
+
+    public void JumpStartupFinished()
+    {
+        player.anim.SetBool("jumping", true);
+    }
+
+    public void LandingFinished()
+    {
+        player.anim.SetTrigger("landed");
+    }
+
 }

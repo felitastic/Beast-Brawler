@@ -229,7 +229,7 @@ MonoBehaviour:
   attack2Dmg: 2
   blockPct: 50
   PlayerIndex: 1
-  JumpForce: 2.25
+  JumpForce: 2.3
   KBstrength: 5
   hitPoints: 10
   horizontal: 0
@@ -245,6 +245,7 @@ MonoBehaviour:
   hitrange2: 9
   hitrangeBB: 2
   jumpHurt: 2.5
+  extraGravity: 1
   hitCheck: 0
   blockbreak: 0
   HitOffsetC: 4.5

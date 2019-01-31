@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
     public float hitrange2 = 2f;    //hitrange of attack2
     public float hitrangeBB = 2f;   //hitrange of the blockbreaker
     public float jumpHurt = 2.5f;   //TODO change when jump attack comes
+    public float extraGravity = 3f; //for better falling
+    public float airAttackGravity = 6f;
+    public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
     public bool hitCheck = false;
     public bool blockbreak = false;
     [Tooltip("Offset for the Hit VXF for CVoice")]
@@ -102,6 +105,7 @@ public class Player : MonoBehaviour
         {
             case eGameMode.Running:
 
+                anim.SetBool("grounded", grounded); 
                 horizontal = Input.GetAxis("Horizontal_" + PlayerIndex);
                 vertical = Input.GetAxis("Vertical_" + PlayerIndex);
 
@@ -145,15 +149,17 @@ public class Player : MonoBehaviour
 
                         while (vertical == 1f)
                         {
-                            shield.gameObject.SetActive(true);
                             state = ePlayerState.Blocking;
+                            anim.SetBool("blocking", true);
+                            shield.gameObject.SetActive(true);
                             break;
                         }
 
                         if (vertical < 0.95f && vertical >= 0f)
                         {
-                            state = ePlayerState.Ready;
+                            anim.SetBool("blocking", false);
                             shield.gameObject.SetActive(false);
+                            state = ePlayerState.Ready;
                             //while (vertical == 1f)
                             //{
                             //    print("block");
@@ -164,6 +170,7 @@ public class Player : MonoBehaviour
                         else if (vertical == -1f)
                         {
                             print("jump");
+                            anim.SetTrigger("startup");
                             state = ePlayerState.InAir;
                             Jump();
                             //TODO trigger jump and fall animation
@@ -173,7 +180,7 @@ public class Player : MonoBehaviour
                         {
                             print("Blockbreaker");
                             state = ePlayerState.Attacking;
-                            anim.SetTrigger("attack2");
+                            anim.SetTrigger("blockbreak");
                             blockbreak = true;
                             hitCheck = true;
                             CVoice.PlayAttackSound();
@@ -185,20 +192,72 @@ public class Player : MonoBehaviour
                         break;
                     case ePlayerState.InAir:
                         Move();
-                        if (grounded)
+
+                        //if (rigid.velocity.y > 0 && !grounded)
+                        //{
+                        //    anim.SetBool("jumping", true);
+                        //}
+                        //else 
+                        if (rigid.velocity.y < 0 && !grounded)
+                        {
+                            //for better falling
+                            anim.SetBool("jumping", false);
+                            anim.SetBool("falling", true);
+                            rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
+                        }
+                        else if (grounded)
+                        {
+                            anim.SetBool("falling", false);
+                            anim.SetTrigger("land");
+                            anim.ResetTrigger("land");
                             state = ePlayerState.Ready;
+                        }
+
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex))
+                        {
+                            if (transform.position.y >= jumpAttack)
+                            {
+                                print("JumpAttack");
+                                state = ePlayerState.InAirAttack;
+                                anim.SetBool("jumpattack", true);
+                                hitCheck = true;
+                                CVoice.PlayAttackSound();
+                            }
+                            else
+                            {
+                                print("not high enough for jumpattack");
+                            }
+                        }
+
                         break;
 
+                    case ePlayerState.InAirAttack:
+
+
+                        if (grounded)
+                        {
+                            anim.SetBool("jumpattack", false);
+                            anim.SetTrigger("land");
+                            state = ePlayerState.Ready;
+                        }
+                        if (rigid.velocity.y < 0)
+                        {
+                            //for quicker falling
+                            rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
+                        }
+
+                        break;
                     case ePlayerState.Blocking:
                         //Move();
                         if (vertical < 0.95f && vertical >= 0f)
                         {
                             print("not blocking");
-                            state = ePlayerState.Ready;
+                            anim.SetBool("blocking", false);
                             shield.gameObject.SetActive(false);
+                            state = ePlayerState.Ready;
                         }
                         break;
-                    case ePlayerState.Knockdown:
+                    case ePlayerState.Hurt:
                         break;
                     case ePlayerState.Dead:
                         //play dying animation
@@ -255,11 +314,10 @@ public class Player : MonoBehaviour
     //Called by opponent on hit
     public void ApplyDamage(float dmgreceived)
     {
-        //TODO Animator
-        print(gameObject.name + " got hurt");
-        state = ePlayerState.Knockdown;
-        hitPoints -= dmgreceived;
+        state = ePlayerState.Hurt;
         anim.SetTrigger("hurt");
+        hitPoints -= dmgreceived;
+        print(gameObject.name + " got hurt");
         CVoice.PlayVoiceSound();
         StartCoroutine(camShake.Shake(0.15f, 0.4f));
         GameManager.instance.UpdateHP();
@@ -305,11 +363,12 @@ public class Player : MonoBehaviour
         {
             if (horizontal < -0.2f)
             {
+                //anim.SetBool("walkbackwards", true);
                 //print(gameObject.name + " läuft rückwärts");
             }
             else if (horizontal > 0.2f)
             {
-                //anim.SetBool("walk", true);
+                //anim.SetBool("walkforwards", true);
                 //print(gameObject.name + " läuft vorwärts");
             }
         }
@@ -317,19 +376,21 @@ public class Player : MonoBehaviour
         {
             if (horizontal < -0.2f)
             {
-                //anim.SetBool("walk", true);
+                //anim.SetBool("walkforwards", true);
                 //print(gameObject.name + " läuft vorwärts");
             }
             else if (horizontal > 0.2f)
             {
+                //anim.SetBool("walkbackwards", true);
                 //print(gameObject.name + " läuft rückwärts");
             }
         }
             else if (move == 0)
             {
-                //anim.SetBool("walk", false);
-                //print(gameObject.name + " steht");
-            }
+            //anim.SetBool("walkbackwards", false);
+            //anim.SetBool("walkforwards", false);
+            //print(gameObject.name + " steht");
+        }
 
         //do move if
         if (transform.position.x <= border && transform.position.x >= -border)
@@ -348,8 +409,7 @@ public class Player : MonoBehaviour
     public void Jump()
     {
         grounded = false;
-        rigid.AddForce(new Vector2(0f, JumpForce / 10));
-        
+        rigid.AddForce(new Vector2(0f, JumpForce / 10));        
     }
 
     IEnumerator Attack1()
