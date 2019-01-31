@@ -133,7 +133,8 @@ public class GameManager : MonoBehaviour
         switch (GameMode)
         {
             case eGameMode.MatchStart:
-                StartCoroutine(MatchStartText());
+                //StartCoroutine(MatchStartText());
+                GameMode = eGameMode.Running;
                 break;
 
             case eGameMode.Running:
