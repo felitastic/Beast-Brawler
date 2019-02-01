@@ -42,12 +42,12 @@ public class CAnimationEvents : MonoBehaviour
         print("AE Hit3");
         player.GetAttackValues();
     }
-    ////HACK JumpAttack Dmg Check?
-    //public void HitCheck4()
-    //{
-    //    print("AE Hit4");
-    //    player.GetAttackValues();
-    //}
+    //HACK JumpAttack Dmg Check?
+    public void HitCheck4()
+    {
+        print("AE Hit4");
+        player.GetAttackValues();
+    }
 
     public void Attack1Finished()
     {
@@ -75,4 +75,13 @@ public class CAnimationEvents : MonoBehaviour
         player.anim.SetTrigger("landed");
     }
 
+    public void StartAirAttack()
+    {
+        player.state = ePlayerState.InAirAttack;
+    }
+
+    public void AirAttackFinished()
+    {
+       
+    }
 }

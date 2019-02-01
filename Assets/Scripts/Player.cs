@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
 
     public float hitrangeJA;    //range of jumpattack horizontal
     public float jumpHurt = 2.5f;   //TODO change when jump attack comes
+    public bool donotmove = false;  //can the player move
 
     public float extraGravity = 3f; //for better falling
     public float airAttackGravity = 6f;
@@ -139,7 +140,11 @@ public class Player : MonoBehaviour
 
                         shield.gameObject.SetActive(false);
 
-                        Move();
+                        if (!donotmove)
+                        {
+                            Move();
+                        }
+
                         Flip();
 
                         if (Input.GetButtonDown("Attack1_" + PlayerIndex))
@@ -198,28 +203,30 @@ public class Player : MonoBehaviour
                         }
                         else if (vertical == -1f)
                         {
-                            print("jump");
+                            donotmove = true;
                             anim.SetTrigger("startup");
-                            state = ePlayerState.InAir;
                         }
 
                         break;
                     case ePlayerState.Attacking:
                         break;
                     case ePlayerState.InAir:
-                        Move();
 
-                        //if (rigid.velocity.y > 0 && !grounded)
-                        //{
-                        //    anim.SetBool("jumping", true);
-                        //}
-                        //else 
-                        if (rigid.velocity.y < 0f && !grounded)
+                        if (!donotmove)
+                        {
+                            Move();
+                        }
+
+                        if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
+                        {
+                            attack = eAttacks.Jump;
+                        }
+
+                        if (rigid.velocity.y <= 0f && !grounded)
                         {
                             if (attack == eAttacks.Jump)
                             {
                                 anim.SetTrigger("jumpattack");
-                                state = ePlayerState.InAirAttack;
                             }
                             else
                             {
@@ -227,9 +234,8 @@ public class Player : MonoBehaviour
                                 anim.SetBool("falling", true);
                                 rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
                             }
-
                         }
-                        else if (landCheck && anim.GetBool("falling"))
+                        else if (grounded && anim.GetBool("falling"))
                         {
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
@@ -237,39 +243,18 @@ public class Player : MonoBehaviour
                             state = ePlayerState.Ready;
                         }
 
-                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && !anim.GetBool("falling"))
-                        {
-                            attack = eAttacks.Jump;
 
-
-                            //if (transform.position.y >= jumpAttack)
-                            //{
-                            //    print("JumpAttack");
-                            //    state = ePlayerState.InAirAttack;
-                            //    anim.SetBool("jumpattack", true);
-                            //    attack = eAttacks.Jump;
-
-                            //    hitCheck = true;
-                            //    CVoice.PlayAttackSound();
-                            //}
-                            //else
-                            //{
-                            //    print("not high enough for jumpattack");
-                            //}
-                        }
 
                         break;
-
+            
                     case ePlayerState.InAirAttack:
 
                         rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
+                        //TODO 45° angle in face direction downwards
 
-                        if (landCheck && anim.GetBool("jumpattack"))
+                        if (grounded)
                         {
                             anim.SetTrigger("land");
-                        }
-                        else if (grounded)
-                        {
                             state = ePlayerState.Ready;
                         }
 
@@ -440,8 +425,10 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+        state = ePlayerState.InAir;
         grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
+        donotmove = false;
     }
 
     //Checks which attack has been used to get range and dmg

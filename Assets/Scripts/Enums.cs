@@ -32,7 +32,7 @@ public enum eStage
     None,
     Stage1,
     Stage2,
-}
+};
 
 public enum eCharacter
 {
@@ -47,7 +47,7 @@ public enum eAttacks
     Heavy,
     Blockbreak,
     Jump
-}
+};
 
 
 
