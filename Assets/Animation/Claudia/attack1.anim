@@ -76,14 +76,14 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: 0.28333333
-    functionName: HitCheck1
+    functionName: HitCheck
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.36666667
-    functionName: Attack1Finished
+    functionName: AttackFinished
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

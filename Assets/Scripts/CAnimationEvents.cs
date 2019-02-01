@@ -22,57 +22,29 @@ public class CAnimationEvents : MonoBehaviour
         //hr1 = player.hitrange1;
         //hr2 = player.hitrange2;
     }
-
-    //A1
-    public void HitCheck1()
+    
+    public void HitCheck()
     {
         print("AE Hit1");
         player.GetAttackValues();
     }
-    //A2
-    public void HitCheck2()
-    {
-        print("AE Hit2");
-        player.GetAttackValues();
-    }
 
-    //BB
-    public void HitCheck3()
-    {
-        print("AE Hit3");
-        player.GetAttackValues();
-    }
-    //HACK JumpAttack Dmg Check?
-    public void HitCheck4()
-    {
-        print("AE Hit4");
-        player.GetAttackValues();
-    }
-
-    public void Attack1Finished()
-    {
-        player.state = ePlayerState.Ready;
-    }
-
-    public void Attack2Finished()
-    {
-        player.state = ePlayerState.Ready;
-    }
-
-    public void BlockbreakerFinished()
+    public void AttackFinished()
     {
         player.state = ePlayerState.Ready;
     }
 
     public void JumpStartupFinished()
     {
+        print("jump attack finished, call Jump()");
         player.GetComponent<Player>().Jump();
         player.anim.SetBool("jumping", true);
+        player.anim.SetBool("startup", false);
     }
 
     public void LandingFinished()
     {
-        player.anim.SetTrigger("landed");
+        player.state = ePlayerState.Ready;
     }
 
     public void StartAirAttack()

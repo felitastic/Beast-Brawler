@@ -57,7 +57,6 @@ public class Player : MonoBehaviour
 
     public float hitrangeJA;    //range of jumpattack horizontal
     public float jumpHurt = 2.5f;   //TODO change when jump attack comes
-    public bool donotmove = false;  //can the player move
 
     public float extraGravity = 3f; //for better falling
     public float airAttackGravity = 6f;
@@ -67,9 +66,6 @@ public class Player : MonoBehaviour
     public float curMoveSpeed;      //current Movement Speed
     [Tooltip("Offset for the Hit VXF")]
     public float HitOffset = 4.5f;
-
-    [Header("Placeholder Shit to delete")]
-    public GameObject shield;
 
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
@@ -137,13 +133,9 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
-
-                        shield.gameObject.SetActive(false);
-
-                        if (!donotmove)
-                        {
-                            Move();
-                        }
+                        
+                        attack = eAttacks.None;
+                        Move();
 
                         Flip();
 
@@ -185,14 +177,12 @@ public class Player : MonoBehaviour
                         {
                             state = ePlayerState.Blocking;
                             anim.SetBool("blocking", true);
-                            shield.gameObject.SetActive(true);
                             break;
                         }
 
                         if (vertical < 0.95f && vertical >= 0f)
                         {
                             anim.SetBool("blocking", false);
-                            shield.gameObject.SetActive(false);
                             state = ePlayerState.Ready;
                             //while (vertical == 1f)
                             //{
@@ -203,24 +193,26 @@ public class Player : MonoBehaviour
                         }
                         else if (vertical == -1f)
                         {
-                            donotmove = true;
-                            anim.SetTrigger("startup");
+                            state = ePlayerState.JumpTakeOff;
+                            anim.SetBool("walkbackwards", false);
+                            anim.SetBool("walkforwards", false);
+                            anim.SetBool("startup", true);
                         }
 
                         break;
                     case ePlayerState.Attacking:
+                        anim.SetBool("walkbackwards", false);
+                        anim.SetBool("walkforwards", false);
+                        break;
+                    case ePlayerState.JumpTakeOff:
                         break;
                     case ePlayerState.InAir:
+                        Move();                     
 
-                        if (!donotmove)
-                        {
-                            Move();
-                        }
-
-                        if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
-                        {
-                            attack = eAttacks.Jump;
-                        }
+                        //if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
+                        //{
+                        //    attack = eAttacks.Jump;
+                        //}
 
                         if (rigid.velocity.y <= 0f && !grounded)
                         {
@@ -240,13 +232,11 @@ public class Player : MonoBehaviour
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
                             //anim.ResetTrigger("land");
-                            state = ePlayerState.Ready;
                         }
-
+                        
 
 
                         break;
-            
                     case ePlayerState.InAirAttack:
 
                         rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
@@ -265,7 +255,6 @@ public class Player : MonoBehaviour
                         {
                             print("not blocking");
                             anim.SetBool("blocking", false);
-                            shield.gameObject.SetActive(false);
                             state = ePlayerState.Ready;
                         }
                         break;
@@ -428,7 +417,6 @@ public class Player : MonoBehaviour
         state = ePlayerState.InAir;
         grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
-        donotmove = false;
     }
 
     //Checks which attack has been used to get range and dmg
@@ -469,9 +457,7 @@ public class Player : MonoBehaviour
             {
                 //TODO if opponent you are trying to hit is not grounded
             }
-
             CheckForHit(dmg, range);
-            attack = eAttacks.None;
         }
     }
 

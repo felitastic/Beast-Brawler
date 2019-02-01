@@ -17,6 +17,7 @@ public enum ePlayerState
 {
     Ready,
     Attacking,
+    JumpTakeOff,
     InAir,
     InAirAttack,
     Blocking,

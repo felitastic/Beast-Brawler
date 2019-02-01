@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 93b8840aecb12db4480216b36a684cc5
+guid: 2f9d59174e50d714b83454006a5a0d3c
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ClaudiaJumpAttack_Colored_Spritesheet_0
-    21300002: ClaudiaJumpAttack_Colored_Spritesheet_1
-    21300004: ClaudiaJumpAttack_Colored_Spritesheet_2
-    21300006: ClaudiaJumpAttack_Colored_Spritesheet_3
-    21300008: ClaudiaJumpAttack_Colored_Spritesheet_4
+    21300000: ClaudiaHeavy_Key_Uncolored_Spritesheet_0
+    21300002: ClaudiaHeavy_Key_Uncolored_Spritesheet_1
+    21300004: ClaudiaHeavy_Key_Uncolored_Spritesheet_2
+    21300006: ClaudiaHeavy_Key_Uncolored_Spritesheet_3
+    21300008: ClaudiaHeavy_Key_Uncolored_Spritesheet_4
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -48,8 +48,8 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 7
+  spritePivot: {x: 0.5, y: 0}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -89,7 +89,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ClaudiaJumpAttack_Colored_Spritesheet_0
+      name: ClaudiaHeavy_Key_Uncolored_Spritesheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -103,13 +103,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4698bc6e849ab154c8dae1438fe42c63
+      spriteID: 3f3da756fa2e07a4491f7aeaf36edd61
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaJumpAttack_Colored_Spritesheet_1
+      name: ClaudiaHeavy_Key_Uncolored_Spritesheet_1
       rect:
         serializedVersion: 2
         x: 2048
@@ -123,13 +123,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87ddc598033c10843978c21d3b99d1b2
+      spriteID: e9c9ffbee4ce8e84cb5111f99bdeed20
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaJumpAttack_Colored_Spritesheet_2
+      name: ClaudiaHeavy_Key_Uncolored_Spritesheet_2
       rect:
         serializedVersion: 2
         x: 4096
@@ -143,13 +143,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 811a888acf94f5c468ea04e65f89420d
+      spriteID: dc9888e226d05e54c9e9727efef1de29
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaJumpAttack_Colored_Spritesheet_3
+      name: ClaudiaHeavy_Key_Uncolored_Spritesheet_3
       rect:
         serializedVersion: 2
         x: 6144
@@ -163,13 +163,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ff4d4f221b2c0cf4f847ef2d1e4704b4
+      spriteID: 48b2794486720ac4292b9ed09c39975f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ClaudiaJumpAttack_Colored_Spritesheet_4
+      name: ClaudiaHeavy_Key_Uncolored_Spritesheet_4
       rect:
         serializedVersion: 2
         x: 8192
@@ -183,7 +183,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34f9cca851ede774baa6aaf5d37784c1
+      spriteID: c9e71a6846fe0a44a95baec1ca6fcb62
       vertices: []
       indices: 
       edges: []
@@ -191,7 +191,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: bad169a6f4b0f0947bbbca73c4a929b9
+    spriteID: 144fd8529ace98b49832bd901e3e53ae
     vertices: []
     indices: 
     edges: []
