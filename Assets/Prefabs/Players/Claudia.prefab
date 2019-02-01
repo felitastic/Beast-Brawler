@@ -224,14 +224,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHitPoints: 10
-  MoveSpeedF: 10
-  MoveSpeedB: 7
-  MoveSpeedJ: 5
+  MoveSpeedF: 12
+  MoveSpeedB: 10
+  MoveSpeedJ: 11
   attack1Dmg: 1
   attack2Dmg: 2
+  jumpattackDmg: 2
+  blockbreakDmg: 2
   blockPct: 50
   PlayerIndex: 0
-  JumpForce: 2.3
+  JumpForce: 2.6
   KBstrength: 5
   hitPoints: 10
   horizontal: 0
@@ -240,12 +242,14 @@ MonoBehaviour:
   move: 0
   border: 17
   grounded: 1
+  landCheck: 0
   origScale: 0.85
   wins: 0
   attackDelay: 0
   hitrange1: 9
-  hitrange2: 9
-  hitrangeBB: 2
+  hitrange2: 7
+  hitrangeBB: 3
+  hitrangeJA: 0
   jumpHurt: 2.5
   extraGravity: 3
   airAttackGravity: 6
@@ -253,9 +257,7 @@ MonoBehaviour:
   hitCheck: 0
   blockbreak: 0
   curMoveSpeed: 0
-  HitOffsetC: 4.5
-  HitOffsetB: 4.5
-  shield: {fileID: 1030533357863348}
+  HitOffset: 4.5
   sprite: {fileID: 212526093235914190}
   anim: {fileID: 95431303042468918}
   rigid: {fileID: 50344508258839570}
@@ -263,6 +265,7 @@ MonoBehaviour:
   opponent: {fileID: 0}
   CVoice: {fileID: 0}
   state: 0
+  attack: 0
 --- !u!212 &212073375971737270
 SpriteRenderer:
   m_ObjectHideFlags: 1

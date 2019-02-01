@@ -15,8 +15,6 @@ public class Player : MonoBehaviour
     public float MoveSpeedF;
     [Tooltip("Speed backwards movement")]
     public float MoveSpeedB;
-    [Tooltip("Speed movement when in Air")]
-    public float MoveSpeedJ;
     [Tooltip("Damage Attack1 deals unblocked")]
     public float attack1Dmg = 1f;   //dmg attack1 does
     [Tooltip("Damage Attack2 deals unblocked")]
@@ -27,11 +25,14 @@ public class Player : MonoBehaviour
     public float blockbreakDmg = 2f;   //dmg BB does
     [Tooltip("% damage avoided by blocking")]
     public float blockPct = 50;
+    [Tooltip("How much the opponent is knocked back")]
+    public float KBstrength = 7f;       //How much enemy is knocked back
 
     [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
     public float JumpForce;
-    public float KBstrength = 7f;       //How much enemy is knocked back
+    [Tooltip("Speed movement when in Air")]
+    public float MoveSpeedJ;
     [Tooltip("Current hitpoints")]
     public float hitPoints;
     public float horizontal;
@@ -111,6 +112,11 @@ public class Player : MonoBehaviour
         //GetAnimClipTimes();
     }
 
+    public void FixedUpdate()
+    {
+
+    }
+
     public void Update()
     {
         switch (GameManager.instance.GameMode)
@@ -133,7 +139,7 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
-                        
+
                         attack = eAttacks.None;
                         Move();
 
@@ -207,7 +213,7 @@ public class Player : MonoBehaviour
                     case ePlayerState.JumpTakeOff:
                         break;
                     case ePlayerState.InAir:
-                        Move();                     
+                        Move();
 
                         //if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
                         //{
@@ -233,7 +239,7 @@ public class Player : MonoBehaviour
                             anim.SetTrigger("land");
                             //anim.ResetTrigger("land");
                         }
-                        
+
 
 
                         break;
@@ -348,6 +354,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Jump()
+    {
+        state = ePlayerState.InAir;
+        rigid.AddForce(new Vector2(0f, JumpForce / 10));
+    }
+
     //Moves the character via axis input
     public void Move()
     {
@@ -410,13 +422,6 @@ public class Player : MonoBehaviour
             default:
                 break;
         }
-    }
-
-    public void Jump()
-    {
-        state = ePlayerState.InAir;
-        grounded = false;
-        rigid.AddForce(new Vector2(0f, JumpForce / 10));
     }
 
     //Checks which attack has been used to get range and dmg

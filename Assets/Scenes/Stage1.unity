@@ -540,11 +540,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114714490734630618, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
         type: 2}
-      propertyPath: shield
-      value: 
-      objectReference: {fileID: 1699118880}
-    - target: {fileID: 114714490734630618, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
-        type: 2}
       propertyPath: sprite
       value: 
       objectReference: {fileID: 359071540}
@@ -599,11 +594,6 @@ Prefab:
     - target: {fileID: 4946969041161276, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114430181957882752, guid: 2ee29a405435c624a892a4c9e53189ac,
-        type: 2}
-      propertyPath: hitrangeBB
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
@@ -3683,11 +3673,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1659150259}
   m_CullTransparentMesh: 0
---- !u!1 &1699118880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1030533357863348, guid: 2ee29a405435c624a892a4c9e53189ac,
-    type: 2}
-  m_PrefabInternal: {fileID: 262197016}
 --- !u!1 &1743189061
 GameObject:
   m_ObjectHideFlags: 0
