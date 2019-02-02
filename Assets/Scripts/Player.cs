@@ -215,7 +215,7 @@ public class Player : MonoBehaviour
                     case ePlayerState.InAir:
                         Move();
 
-                        if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
+                        if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y >= 0f))
                         {
                             attack = eAttacks.Jump;
                             state = ePlayerState.InAirAttack;
@@ -223,16 +223,10 @@ public class Player : MonoBehaviour
 
                         if (rigid.velocity.y <= 0f && !grounded)
                         {
-                            //if (attack == eAttacks.Jump)
-                            //{
-                            //    anim.SetTrigger("jumpattack");
-                            //}
-                            //else
-                            //{
-                                anim.SetBool("jumping", false);
-                                anim.SetBool("falling", true);
-                                rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
-                            //}
+                            anim.SetBool("jumping", false);
+                            anim.SetBool("falling", true);
+                            rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
+
                         }
                         else if (grounded && anim.GetBool("falling"))
                         {
@@ -246,14 +240,16 @@ public class Player : MonoBehaviour
 
                         if (rigid.velocity.y <= 0f && !grounded)
                         {
+                            anim.SetBool("jumping", false);
                             rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
-                            //rigid.AddForce(new Vector2(30, 30), ForceMode2D.Impulse);  //NOPE xD
+                            rigid.AddForce(new Vector2(-1, -1)* Time.deltaTime);  
                             //TODO 45° angle in face direction downwards
                             anim.SetBool("jumpattack", true);
                         }
                         else if (grounded && anim.GetBool("jumpattack"))
                         {
                             anim.SetTrigger("land");
+                            anim.SetBool("jumpattack", false);
                             state = ePlayerState.Ready;
                         }
 
