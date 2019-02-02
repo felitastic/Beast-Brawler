@@ -36,11 +36,8 @@ public class CAnimationEvents : MonoBehaviour
 
     public void JumpStartupFinished()
     {
-        if (player.grounded)
-        {
-            player.grounded = false;
-            player.GetComponent<Player>().Jump();
-        }
+        player.grounded = false;
+        player.GetComponent<Player>().Jump();
         player.anim.SetBool("jumping", true);
         player.anim.SetBool("startup", false);
     }

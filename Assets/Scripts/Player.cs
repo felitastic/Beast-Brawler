@@ -197,7 +197,7 @@ public class Player : MonoBehaviour
                             //    break;
                             //}
                         }
-                        else if (vertical == -1f)
+                        else if (vertical == -1f && grounded)
                         {
                             state = ePlayerState.JumpTakeOff;
                             anim.SetBool("walkbackwards", false);
@@ -215,23 +215,24 @@ public class Player : MonoBehaviour
                     case ePlayerState.InAir:
                         Move();
 
-                        //if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
-                        //{
-                        //    attack = eAttacks.Jump;
-                        //}
+                        if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y > 0f))
+                        {
+                            attack = eAttacks.Jump;
+                            state = ePlayerState.InAirAttack;
+                        }
 
                         if (rigid.velocity.y <= 0f && !grounded)
                         {
-                            if (attack == eAttacks.Jump)
-                            {
-                                anim.SetTrigger("jumpattack");
-                            }
-                            else
-                            {
+                            //if (attack == eAttacks.Jump)
+                            //{
+                            //    anim.SetTrigger("jumpattack");
+                            //}
+                            //else
+                            //{
                                 anim.SetBool("jumping", false);
                                 anim.SetBool("falling", true);
                                 rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
-                            }
+                            //}
                         }
                         else if (grounded && anim.GetBool("falling"))
                         {
@@ -240,15 +241,17 @@ public class Player : MonoBehaviour
                             //anim.ResetTrigger("land");
                         }
 
-
-
                         break;
                     case ePlayerState.InAirAttack:
 
-                        rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
-                        //TODO 45° angle in face direction downwards
-
-                        if (grounded)
+                        if (rigid.velocity.y <= 0f && !grounded)
+                        {
+                            rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
+                            //rigid.AddForce(new Vector2(30, 30), ForceMode2D.Impulse);  //NOPE xD
+                            //TODO 45° angle in face direction downwards
+                            anim.SetBool("jumpattack", true);
+                        }
+                        else if (grounded && anim.GetBool("jumpattack"))
                         {
                             anim.SetTrigger("land");
                             state = ePlayerState.Ready;

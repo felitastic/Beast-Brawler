@@ -226,15 +226,15 @@ MonoBehaviour:
   maxHitPoints: 10
   MoveSpeedF: 12
   MoveSpeedB: 10
-  MoveSpeedJ: 11
   attack1Dmg: 1
   attack2Dmg: 2
   jumpattackDmg: 2
   blockbreakDmg: 2
   blockPct: 50
+  KBstrength: 5
   PlayerIndex: 0
   JumpForce: 2.6
-  KBstrength: 5
+  MoveSpeedJ: 12
   hitPoints: 10
   horizontal: 0
   vertical: 0
