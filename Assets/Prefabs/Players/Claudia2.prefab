@@ -249,15 +249,15 @@ MonoBehaviour:
   hitrange1: 9
   hitrange2: 7
   hitrangeBB: 3
-  hitrangeJA: 0
+  hitrangeJA: 2
   jumpHurt: 2.5
-  extraGravity: 3
-  airAttackGravity: 6
-  jumpAttack: 1.5
   hitCheck: 0
   blockbreak: 0
   curMoveSpeed: 0
   HitOffset: 4.5
+  extraGravity: 3
+  airAttackGravity: 6
+  jumpAttack: 1.5
   sprite: {fileID: 0}
   anim: {fileID: 0}
   rigid: {fileID: 0}

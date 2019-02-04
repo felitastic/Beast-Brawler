@@ -16,22 +16,22 @@ public class Player : MonoBehaviour
     [Tooltip("Speed backwards movement")]
     public float MoveSpeedB;
     [Tooltip("Damage Attack1 deals unblocked")]
-    public float attack1Dmg = 1f;   //dmg attack1 does
+    public float attack1Dmg = 1f; 
     [Tooltip("Damage Attack2 deals unblocked")]
-    public float attack2Dmg = 2f;   //dmg attack2 does    
+    public float attack2Dmg = 2f;    
     [Tooltip("Damage jumpattack deals unblocked")]
-    public float jumpattackDmg = 2f;   //dmg jumattack does    
+    public float jumpattackDmg = 2f;     
     [Tooltip("Damage Blockbreaker deals")]
-    public float blockbreakDmg = 2f;   //dmg BB does
+    public float blockbreakDmg = 2f;  
     [Tooltip("% damage avoided by blocking")]
     public float blockPct = 50;
-    [Tooltip("How much the opponent is knocked back")]
-    public float KBstrength = 7f;       //How much enemy is knocked back
+    [Tooltip("How much the opponent is knocked back after being hit")]
+    public float KBstrength = 7f;       
 
     [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
     public float JumpForce;
-    [Tooltip("Speed movement when in Air")]
+    [HideInInspector][Tooltip("Speed movement when in Air")]
     public float MoveSpeedJ;
     [Tooltip("Current hitpoints")]
     public float hitPoints;
@@ -50,39 +50,35 @@ public class Player : MonoBehaviour
     //public float attack1Hit = 0.2f; 
     //[Tooltip("When Attack2 deals damage")]
     //public float attack2Hit = 0.2f;
-    [Tooltip("Everything about the attacks")]
+
+    [Header("Attack stuff")]
     public float attackDelay;
     public float hitrange1 = 2f;    //hitrange of attack1
     public float hitrange2 = 2f;    //hitrange of attack2
     public float hitrangeBB = 2f;   //hitrange of the blockbreaker
-
     public float hitrangeJA;    //range of jumpattack horizontal
     public float jumpHurt = 2.5f;   //TODO change when jump attack comes
-
-    public float extraGravity = 3f; //for better falling
-    public float airAttackGravity = 6f;
-    public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
     public bool hitCheck = false;   //to make sure it is only once checked for hit and not continuously
     public bool blockbreak = false;
     public float curMoveSpeed;      //current Movement Speed
     [Tooltip("Offset for the Hit VXF")]
     public float HitOffset = 4.5f;
 
+    [Header("Jump stuff")]
+    public float extraGravity = 3f; //for better falling
+    public float airAttackGravity = 6f;
+    public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
+    
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
     public Animator anim;
     public Rigidbody2D rigid;
     public CamShake camShake;
     public GameObject opponent;
-
     [Tooltip("Reference to script with CVoices specials")]
     public CSounds CVoice;
 
-    [Header("Possibly now useless Animation times")]
-    //public float clipAttack1;
-    //public float clipAttack2;
-    //public float clipHurt;
-
+    [Header("Enum stuff")]
     public ePlayerState state;
     public eAttacks attack = eAttacks.None;
     //public eCharacter character;
@@ -190,12 +186,6 @@ public class Player : MonoBehaviour
                         {
                             anim.SetBool("blocking", false);
                             state = ePlayerState.Ready;
-                            //while (vertical == 1f)
-                            //{
-                            //    print("block");
-                            //    state = ePlayerState.Blocking;
-                            //    break;
-                            //}
                         }
                         else if (vertical == -1f && grounded)
                         {
@@ -215,7 +205,7 @@ public class Player : MonoBehaviour
                     case ePlayerState.InAir:
                         Move();
 
-                        if ((Input.GetButtonDown("Attack1_" + PlayerIndex) && rigid.velocity.y >= 0f))
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && anim.GetBool("jumping"))
                         {
                             attack = eAttacks.Jump;
                             state = ePlayerState.InAirAttack;
@@ -241,13 +231,18 @@ public class Player : MonoBehaviour
                         if (rigid.velocity.y <= 0f && !grounded)
                         {
                             anim.SetBool("jumping", false);
-                            rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
-                            rigid.AddForce(new Vector2(-1, -1)* Time.deltaTime);  
-                            //TODO 45° angle in face direction downwards
                             anim.SetBool("jumpattack", true);
+                            rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
+
+                            //TODO 45° angle in face direction downwards
+                            if (!facingRight)
+                                rigid.AddForce(new Vector2(-1, -1)* Time.deltaTime);  
+                            else if (facingRight)
+                                rigid.AddForce(new Vector2(1, -1) * Time.deltaTime); 
                         }
                         else if (grounded && anim.GetBool("jumpattack"))
                         {
+                            GetAttackValues();
                             anim.SetTrigger("land");
                             anim.SetBool("jumpattack", false);
                             state = ePlayerState.Ready;
@@ -397,20 +392,20 @@ public class Player : MonoBehaviour
                 {
                     curMoveSpeed = MoveSpeedB;
                     anim.SetBool("walkbackwards", true);
-                    print(gameObject.name + " läuft rückwärts");
+                    //print(gameObject.name + " läuft rückwärts");
                 }
                 else if ((facingRight && horizontal > 0.2f) || (!facingRight && horizontal < -0.2f))
                 {
                     curMoveSpeed = MoveSpeedF;
                     anim.SetBool("walkforwards", true);
-                    print(gameObject.name + " läuft vorwärts");
+                    //print(gameObject.name + " läuft vorwärts");
                 }
                 else if (move == 0)
                 {
                     curMoveSpeed = 0f;
                     anim.SetBool("walkbackwards", false);
                     anim.SetBool("walkforwards", false);
-                    print(gameObject.name + " steht");
+                    //print(gameObject.name + " steht");
                 }
                 break;
 
