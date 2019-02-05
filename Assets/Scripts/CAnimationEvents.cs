@@ -9,18 +9,10 @@ using UnityEngine;
 public class CAnimationEvents : MonoBehaviour
 {
     private Player player;
-    //private float dmg1;
-    //private float dmg2;
-    //private float hr1;
-    //private float hr2;
 
     void Start()
     {
         player = GetComponentInParent<Player>();
-        //dmg1 = player.attack1Dmg;
-        //dmg2 = player.attack2Dmg;
-        //hr1 = player.hitrange1;
-        //hr2 = player.hitrange2;
     }
     
     public void HitCheck()
@@ -32,6 +24,14 @@ public class CAnimationEvents : MonoBehaviour
     public void AttackFinished()
     {
         player.state = ePlayerState.Ready;
+    }
+
+    public void JumpAttackFinished()
+    {
+        //set velocity to downward?
+        //fall anim
+        player.anim.SetBool("falling", true);
+        player.state = ePlayerState.InAir;
     }
 
     public void JumpStartupFinished()
@@ -55,5 +55,10 @@ public class CAnimationEvents : MonoBehaviour
     public void AirAttackFinished()
     {
        
+    }
+
+    public void HurtFinished()
+    {
+        player.state = ePlayerState.Ready;
     }
 }

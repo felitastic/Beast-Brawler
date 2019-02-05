@@ -20,6 +20,7 @@ public enum ePlayerState
     JumpTakeOff,
     InAir,
     InAirAttack,
+    DiveAttack,
     Blocking,
     Hurt,
     Dead
@@ -47,7 +48,8 @@ public enum eAttacks
     Light,
     Heavy,
     Blockbreak,
-    Jump
+    Jump,
+    Dive
 };
 
 

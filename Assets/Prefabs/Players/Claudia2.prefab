@@ -246,8 +246,8 @@ MonoBehaviour:
   origScale: 0.85
   wins: 0
   attackDelay: 0
-  hitrange1: 9
-  hitrange2: 7
+  hitrange1: 9.5
+  hitrange2: 9
   hitrangeBB: 3
   hitrangeJA: 2
   jumpHurt: 2.5

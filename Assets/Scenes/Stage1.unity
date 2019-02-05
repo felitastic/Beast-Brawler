@@ -565,11 +565,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4946969041161276, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -7.99
+      value: -8.75
       objectReference: {fileID: 0}
     - target: {fileID: 4946969041161276, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.7600002
+      value: -3.76
       objectReference: {fileID: 0}
     - target: {fileID: 4946969041161276, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
       propertyPath: m_LocalPosition.z
@@ -813,6 +813,34 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 345498241}
   m_CullTransparentMesh: 0
+--- !u!1 &347037953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347037954}
+  m_Layer: 0
+  m_Name: P2Respawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347037954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 347037953}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.42, y: -3.76, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &359071537 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95431303042468918, guid: 2ee29a405435c624a892a4c9e53189ac,
@@ -2480,6 +2508,8 @@ MonoBehaviour:
   potatoTimer: 0
   PotatoDmg: 1
   Potato: {fileID: 0}
+  P1Respawn: {fileID: 1427795407}
+  P2Respawn: {fileID: 347037954}
   countdown: 0
   maxTime: 0
   matchCounter: 0
@@ -2493,6 +2523,7 @@ MonoBehaviour:
   Hitpoints2: 0
   maxHitpoints1: 0
   maxHitpoints2: 0
+  startSlowMo: 0
 --- !u!4 &1077833500
 Transform:
   m_ObjectHideFlags: 0
@@ -3053,6 +3084,34 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1408235361}
   m_CullTransparentMesh: 0
+--- !u!1 &1427795406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1427795407}
+  m_Layer: 0
+  m_Name: P1Respawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1427795407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1427795406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.78, y: -3.76, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449718939
 GameObject:
   m_ObjectHideFlags: 0

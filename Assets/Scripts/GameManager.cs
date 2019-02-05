@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
     public GameObject Potato;
 
     [Header("For the match countdown")]
+    public Transform P1Respawn;
+    public Transform P2Respawn;
     public float countdown;
     public float maxTime;   //Stage maxTime for Lerp
     public int matchCounter = 1;
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour
     public float maxHitpoints1;
     public float maxHitpoints2;
 
+    private bool slowed;    //for the slowmo coroutine
+    public bool startSlowMo;
 
     void Awake()
     {
@@ -117,6 +121,9 @@ public class GameManager : MonoBehaviour
         maxHitpoints1 = Player1.GetComponent<Player>().maxHitPoints;
         maxHitpoints2 = Player2.GetComponent<Player>().maxHitPoints;
 
+        Player1.transform.position = P1Respawn.position;
+        Player2.transform.position = P2Respawn.position;
+
         hpBarRed1.fillAmount = maxHitpoints1;
         hpBarRed2.fillAmount = maxHitpoints2;
         clock.fillAmount = countdown;
@@ -142,6 +149,9 @@ public class GameManager : MonoBehaviour
                 LerpTiming();
                 //PotatoTiming();
                 StageCountdown();
+
+                if (startSlowMo)
+                    StartCoroutine(SlowMo());
 
                 if (Input.GetButtonDown("Start"))
                 {
@@ -400,6 +410,21 @@ public class GameManager : MonoBehaviour
         hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 3);
     }
 
+    public IEnumerator SlowMo()
+    {
+        if (slowed)
+            yield break;
+        
+        slowed = true;
+        startSlowMo = false;
+        print("slowing down");
+        Time.timeScale = 0.1f;
+        yield return new WaitForSecondsRealtime(0.2f);
+        Time.timeScale = 1f;
+        print("time back to normal");
+        slowed = false;
+    }
+
     //Pauses the game time
     public void Pause()
     {
@@ -418,16 +443,7 @@ public class GameManager : MonoBehaviour
     {
         Pause();
     }
-
-    private IEnumerator GameOverThing()
-    {
-        yield return new WaitForSeconds(delay);
-        GameOverScreen.gameObject.SetActive(true);
-        Pause();
-        yield return new WaitForSeconds(delay);
-        RestartButton.gameObject.SetActive(true);
-    }
-
+    
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -438,5 +454,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Title");
         GameMode = eGameMode.Running;
+    }
+
+    public void NextMatch()
+    {
+        Player1.GetComponent<Player>().hitPoints = maxHitpoints1;
+        Player2.GetComponent<Player>().hitPoints = maxHitpoints2;
+        Player1.transform.position = P1Respawn.position;
+        Player2.transform.position = P2Respawn.position;
     }
 }
