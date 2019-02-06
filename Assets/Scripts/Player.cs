@@ -10,23 +10,23 @@ public class Player : MonoBehaviour
 {
     [Header("Atomic Parameters for the GD to meddle with")]
     [Tooltip("Max HP this character starts with")]
-    public float maxHitPoints;
+    public float maxHitPoints = 4000f;
     [Tooltip("Speed forwards movement")]
-    public float MoveSpeedF;
+    public float MoveSpeedF = 12f;
     [Tooltip("Speed backwards movement")]
-    public float MoveSpeedB;
+    public float MoveSpeedB = 12f;
     [Tooltip("Damage Attack1 deals unblocked")]
-    public float attack1Dmg = 1f; 
+    public float attack1Dmg = 185f; 
     [Tooltip("Damage Attack2 deals unblocked")]
-    public float attack2Dmg = 2f;    
+    public float attack2Dmg = 340f;    
     [Tooltip("Damage jumpattack deals unblocked")]
-    public float jumpattackDmg = 2f;     
+    public float jumpattackDmg = 200f;     
     [Tooltip("Damage Blockbreaker deals")]
-    public float blockbreakDmg = 2f;  
+    public float blockbreakDmg = 250f;  
     [Tooltip("% damage avoided by blocking")]
-    public float blockPct = 50;
+    public float blockPct = 80;
     [Tooltip("How much the opponent is knocked back after being hit")]
-    public float KBstrength = 7f;       
+    public float KBstrength = 5f;       
 
     [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
@@ -39,7 +39,8 @@ public class Player : MonoBehaviour
     public float vertical;
     public bool facingRight;
     private float dmg;
-    private float range;
+    private float rangeY;
+    private float rangeX;
     public float move = 0f;
     public float border = 17f;      //stage borders, center is 0
     public bool grounded;
@@ -52,12 +53,12 @@ public class Player : MonoBehaviour
     //public float attack2Hit = 0.2f;
 
     [Header("Attack stuff")]
-    public float attackDelay;
-    public float hitrange1 = 2f;    //hitrange of attack1
-    public float hitrange2 = 2f;    //hitrange of attack2
-    public float hitrangeBB = 2f;   //hitrange of the blockbreaker
-    public float hitrangeJA;    //range of jumpattack horizontal
-    public float jumpHurt = 2.5f;   //TODO change when jump attack comes
+    public float hitrange1 = 9.5f;    //hitrange of attack1
+    public float hitrange2 = 9f;    //hitrange of attack2
+    public float hitrangeBB = 3f;   //hitrange of the blockbreaker
+    public float hitrangeJX = 6.5f;    //range of jumpattack horizontal
+    public float hitrangeJY = 6.25f;    //range of jumpattack vertical
+    public float jumpHurt = 2.5f;
     public bool hitCheck = false;   //to make sure it is only once checked for hit and not continuously
     public bool blockbreak = false;
     public float curMoveSpeed;      //current Movement Speed
@@ -68,10 +69,14 @@ public class Player : MonoBehaviour
     public float extraGravity = 3f; //for better falling
     public float airAttackGravity = 6f;
     public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
-    
+    public bool attackpossible = false; //jumpattack allowed
+
+    public float knockUp = 1f;  //upward knock when knocked back
+
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
     public Animator anim;
+    public Animator shield;
     public Rigidbody2D rigid;
     public CamShake camShake;
     public GameObject opponent;
@@ -80,6 +85,7 @@ public class Player : MonoBehaviour
 
     [Header("Enum stuff")]
     public ePlayerState state;
+    public eStun stun;
     public eAttacks attack = eAttacks.None;
     //public eCharacter character;
 
@@ -110,11 +116,13 @@ public class Player : MonoBehaviour
 
     public void FixedUpdate()
     {
-
+        anim.SetFloat("velocityY", rigid.velocity.y);
     }
 
     public void Update()
     {
+        anim.SetBool("grounded", grounded);
+
         switch (GameManager.instance.GameMode)
         {
             case eGameMode.Running:
@@ -135,8 +143,10 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
-
+                        
                         attack = eAttacks.None;
+                        anim.SetBool("blocking", false);
+
                         Move();
 
                         Flip();
@@ -175,19 +185,14 @@ public class Player : MonoBehaviour
                             //Blockbreaking Move
                         }
 
-                        while (vertical == 1f)
+                        if (Input.GetButton("Block_" + PlayerIndex) && grounded)
                         {
+                            print("block");
                             state = ePlayerState.Blocking;
-                            anim.SetBool("blocking", true);
-                            break;
+                            //break; //for while loop
                         }
 
-                        if (vertical < 0.95f && vertical >= 0f)
-                        {
-                            anim.SetBool("blocking", false);
-                            state = ePlayerState.Ready;
-                        }
-                        else if (vertical == -1f && grounded)
+                        if (vertical == -1f && grounded)
                         {
                             state = ePlayerState.JumpTakeOff;
                             anim.SetBool("walkbackwards", false);
@@ -205,22 +210,14 @@ public class Player : MonoBehaviour
                     case ePlayerState.InAir:
                         Move();
 
-                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && !grounded)
-                        {
-                            state = ePlayerState.InAirAttack;
-                            attack = eAttacks.Jump;
-                            anim.SetBool("jumping", false);
-                            anim.SetTrigger("attack1");
-                            hitCheck = true;
-                            CVoice.PlayAttackSound();
-                        }
-
                         if (rigid.velocity.y > 0f && !grounded && !anim.GetBool("jumping"))
                         {
+                            attackpossible = true;
                             anim.SetBool("jumping", true);
                         }
                         else if (rigid.velocity.y <= 0f && !grounded)
                         {
+                            attackpossible = true;
                             anim.SetBool("jumping", false);
                             anim.SetBool("falling", true);
                             rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
@@ -228,9 +225,19 @@ public class Player : MonoBehaviour
                         }
                         else if (grounded && anim.GetBool("falling"))
                         {
+                            attackpossible = false;
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
                             //anim.ResetTrigger("land");
+                        }
+
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && attackpossible)
+                        {
+                            state = ePlayerState.InAirAttack;
+                            attack = eAttacks.Jump;
+                            anim.SetTrigger("jumpattack");
+                            CVoice.PlayAttackSound();
+                            hitCheck = true;
                         }
 
                         break;
@@ -246,7 +253,7 @@ public class Player : MonoBehaviour
                             anim.SetBool("jumpattack", true);
                             rigid.velocity += Vector2.up * Physics.gravity * airAttackGravity * Time.deltaTime;
 
-                            //TODO 45° angle in face direction downwards
+                            //45° angle in face direction downwards
                             if (!facingRight)
                                 rigid.AddForce(new Vector2(-1, -1) * Time.deltaTime);
                             else if (facingRight)
@@ -262,13 +269,23 @@ public class Player : MonoBehaviour
 
                         break;
                     case ePlayerState.Blocking:
-                        //Move();
-                        if (vertical < 0.95f && vertical >= 0f)
+
+                        anim.SetBool("walkbackwards", false);
+                        anim.SetBool("walkforwards", false);
+                        anim.SetBool("blocking", true);
+                        stun = eStun.blocking;
+
+                        if (Input.GetButtonUp("Block_" + PlayerIndex))
                         {
-                            print("not blocking");
-                            anim.SetBool("blocking", false);
                             state = ePlayerState.Ready;
+                            stun = eStun.normal;
                         }
+                        //if (vertical < 0.95f && vertical >= 0f)
+                        //{
+                        //    print("not blocking");
+                        //    anim.SetBool("blocking", false);
+                        //    state = ePlayerState.Ready;
+                        //}
                         break;
                     case ePlayerState.Hurt:
                         break;
@@ -288,7 +305,7 @@ public class Player : MonoBehaviour
     void GetComponents()
     {
         sprite = this.GetComponentInChildren<SpriteRenderer>();
-        anim = this.GetComponentInChildren<Animator>();
+        //anim = this.GetComponentInChildren<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
         CVoice = FindObjectOfType<CSounds>();
@@ -327,22 +344,75 @@ public class Player : MonoBehaviour
     //Called by opponent on hit
     public void ApplyDamage(float dmgreceived)
     {
-        state = ePlayerState.Hurt;
-        anim.SetTrigger("hurt");
-        hitPoints -= dmgreceived;
-        print(gameObject.name + " got hurt");
-        CVoice.PlayVoiceSound();
-        StartCoroutine(camShake.Shake(0.15f, 0.4f));
-        GameManager.instance.UpdateHP();
-        Debug.Log(gameObject.name + " got hit.");
+        print(gameObject.name + " got hit");
+
+        if (stun == eStun.blocking)
+        {
+            shield.SetTrigger("show");
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+
+        }
+        else if (stun == eStun.normal)
+        {
+            state = ePlayerState.Hurt;
+            anim.SetTrigger("hurt");
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+        }
+        else if (stun == eStun.jumped)
+        {
+            state = ePlayerState.Hurt;
+            anim.SetTrigger("longhurt");
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+        }
+        else if (stun == eStun.blockbroken)
+        {
+            state = ePlayerState.Hurt;
+            shield.SetTrigger("break");
+            anim.SetTrigger("hurt");
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+        }
         print(gameObject.name + "s HP: " + hitPoints);
-        //GameManager.instance.lerpTimer = GameManager.instance.lerpCooldown;
+        stun = eStun.normal;
     }
 
     //Knocks the player backwards
     public void Knockback(float strength)
     {
         print(gameObject.name + " is knocked back by " + strength);
+
+        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
+            rigid.AddForce(new Vector2(-0.1f / 10, knockUp));
+        else
+        {
+            if (facingRight)
+            {
+                rigid.AddForce(new Vector2(-strength / 10, knockUp));
+            }
+            else if (!facingRight)
+            {
+                rigid.AddForce(new Vector2(+strength / 10, knockUp));
+            }
+        }
+    }
+
+    public void Knockdown()
+    {
+        print(gameObject.name + " is knocked down");
+
+        float strength;
+        strength = 5f;
 
         if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
             rigid.AddForce(new Vector2(-0.1f / 10, 0f));
@@ -362,6 +432,7 @@ public class Player : MonoBehaviour
     public void Jump()
     {
         state = ePlayerState.InAir;
+        grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
     }
 
@@ -437,9 +508,7 @@ public class Player : MonoBehaviour
         if (hitCheck)
         {
             hitCheck = false;
-
-            if (opponent.GetComponent<Player>().grounded)
-            {
+            
                 switch (attack)
                 {
                     case eAttacks.None:
@@ -447,19 +516,24 @@ public class Player : MonoBehaviour
                         break;
                     case eAttacks.Light:
                         dmg = attack1Dmg;
-                        range = hitrange1;
-                        break;
+                        rangeX = hitrange1;
+                        opponent.GetComponent<Player>().stun = eStun.normal;
+                    break;
                     case eAttacks.Heavy:
                         dmg = attack2Dmg;
-                        range = hitrange2;
-                        break;
+                        rangeX = hitrange2;
+                        opponent.GetComponent<Player>().stun = eStun.normal;
+                    break;
                     case eAttacks.Blockbreak:
                         dmg = blockbreakDmg;
-                        range = hitrangeBB;
-                        break;
+                        rangeX = hitrangeBB;
+                        opponent.GetComponent<Player>().stun = eStun.blockbroken;
+                    break;
                     case eAttacks.Jump:
                         dmg = jumpattackDmg;
-                        range = hitrangeJA;
+                        rangeY = hitrangeJY;
+                        rangeX = hitrangeJX;
+                        opponent.GetComponent<Player>().stun = eStun.jumped;
                         break;
                     case eAttacks.Dive:
                         //dmg = jumpattackDmg;
@@ -468,17 +542,12 @@ public class Player : MonoBehaviour
                     default:
                         break;
                 }
-            }
-            else
-            {
-                //TODO if opponent you are trying to hit is not grounded
-            }
-            CheckForHit(dmg, range);
+            CheckForHit(dmg, rangeX, rangeY);
         }
     }
 
     //Checks if attack has gone through
-    public void CheckForHit(float dmg, float range)
+    public void CheckForHit(float dmg, float rangeX, float rangeY)
     {
         float opponentX = opponent.transform.position.x;
         float opponentY = opponent.transform.position.y;
@@ -488,9 +557,9 @@ public class Player : MonoBehaviour
         {
             if (facingRight)
             {
-                if (player.y >= opponentY - range && player.y <= opponentY)
+                if (player.y <= opponentY + rangeY && player.y >= opponentY)
                 {
-                    if (player.x >= opponentX - range && player.x <= opponentX)
+                    if (player.x >= opponentX - rangeX && player.x <= opponentX)
                     {
                         DealDmg(dmg);
                     }
@@ -498,36 +567,32 @@ public class Player : MonoBehaviour
             }
             else if (!facingRight)
             {
-                if (player.y <= opponentY + range && player.y >= opponentY)
+                if (player.y >= opponentY - rangeY && player.y <= opponentY)
                 {
-                    if (player.x <= opponentX + range && player.x >= opponentX)
+                    if (player.x <= opponentX + rangeX && player.x >= opponentX)
                     {
                         DealDmg(dmg);
                     }
                 }
             }
-
         }
-        else
+        else if (opponent.GetComponent<Player>().grounded)
         {
-            if (opponent.GetComponent<Player>().grounded)
+            if (facingRight)
             {
-                if (facingRight)
+                if (player.x >= opponentX - rangeX && player.x <= opponentX)
                 {
-                    if (player.x >= opponentX - range && player.x <= opponentX)
-                    {
-                        DealDmg(dmg);
-                    }
-                }
-                else if (!facingRight)
-                {
-                    if (player.x <= opponentX + range && player.x >= opponentX)
-                    {
-                        DealDmg(dmg);
-                    }
+                    DealDmg(dmg);
                 }
             }
-        }       
+            else if (!facingRight)
+            {
+                if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                {
+                    DealDmg(dmg);
+                }
+            }
+        }
     }
 
     //Deal damage after successful hit
@@ -540,17 +605,15 @@ public class Player : MonoBehaviour
             if (attack == eAttacks.Blockbreak)
             {
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
-                //StartCoroutine(GameManager.instance.SlowMo());
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                opponent.GetComponent<Player>().Knockback(KBstrength);
+                opponent.GetComponent<Player>().Knockdown();
             }
             else
             {
                 float realdmg = dmg - (dmg * (blockPct / 100));
                 print(gameObject.name + " deals " + realdmg + " to " + opponent.name);
-                //StartCoroutine(GameManager.instance.SlowMo());
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(realdmg);
@@ -559,7 +622,6 @@ public class Player : MonoBehaviour
         else
         {
             print(gameObject.name + " deals " + dmg + " to " + opponent.name);
-            //StartCoroutine(GameManager.instance.SlowMo());
             GameManager.instance.startSlowMo = true;
             SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
             opponent.GetComponent<Player>().ApplyDamage(dmg);

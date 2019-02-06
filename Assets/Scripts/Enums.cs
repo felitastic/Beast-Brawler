@@ -26,6 +26,14 @@ public enum ePlayerState
     Dead
 };
 
+public enum eStun
+{
+    normal,
+    blocking,
+    blockbroken,
+    jumped
+}
+
 /// <summary>
 /// Current stage
 /// </summary>
@@ -34,12 +42,6 @@ public enum eStage
     None,
     Stage1,
     Stage2,
-};
-
-public enum eCharacter
-{
-    CVoice,
-    Bruno,
 };
 
 public enum eAttacks

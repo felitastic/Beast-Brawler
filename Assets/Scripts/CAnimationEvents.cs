@@ -28,18 +28,14 @@ public class CAnimationEvents : MonoBehaviour
 
     public void JumpAttackFinished()
     {
-        //set velocity to downward?
-        //fall anim
-        player.anim.SetBool("falling", true);
+        player.anim.ResetTrigger("jumpattack");
         player.state = ePlayerState.InAir;
     }
 
     public void JumpStartupFinished()
     {
-        player.grounded = false;
-        player.GetComponent<Player>().Jump();
-        player.anim.SetBool("jumping", true);
         player.anim.SetBool("startup", false);
+        player.GetComponent<Player>().Jump();
     }
 
     public void LandingFinished()
@@ -50,15 +46,16 @@ public class CAnimationEvents : MonoBehaviour
     public void StartAirAttack()
     {
         player.state = ePlayerState.InAirAttack;
-    }
-
-    public void AirAttackFinished()
-    {
-       
-    }
+    }    
 
     public void HurtFinished()
     {
         player.state = ePlayerState.Ready;
+    }
+
+    public void ShieldBroken()
+    {
+        player.shield.ResetTrigger("break");
+        //
     }
 }

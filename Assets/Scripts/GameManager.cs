@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public Text timerText;
     public Text timerTextShade;
     public Text MatchWinText;
+    public Text MatchWinTextShade;
     public Text StageWinText;
     public Text IntroCDText;
 
@@ -45,18 +46,18 @@ public class GameManager : MonoBehaviour
     public bool lerpUI = false;
     public float delay = 2f;    //temporary delay for timers
 
-    [Header("Potato values")]
-    public float potatoTime = 6f;   //how many seconds without hit before getting potato dmg
-    public float potatoTimer;
-    public float PotatoDmg = 1f;
-    public GameObject Potato;
+    //[Header("Potato values")]
+    //public float potatoTime = 6f;   //how many seconds without hit before getting potato dmg
+    //public float potatoTimer;
+    //public float PotatoDmg = 1f;
+    //public GameObject Potato;
 
     [Header("For the match countdown")]
     public Transform P1Respawn;
     public Transform P2Respawn;
     public float countdown;
     public float maxTime;   //Stage maxTime for Lerp
-    public int matchCounter = 1;
+    public int matchCounter;
 
     [Header("Do not touch")]
     public GameObject Player1 = null;
@@ -98,6 +99,8 @@ public class GameManager : MonoBehaviour
             maxTime = TimerStage1;
             countdown = TimerStage2;
         }
+
+        matchCounter = 1;
     }
 
     void Start()
@@ -115,8 +118,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        potatoTimer = potatoTime;
-        Potato = Player1;
+        //potatoTimer = potatoTime;
+        //Potato = Player1;
 
         maxHitpoints1 = Player1.GetComponent<Player>().maxHitPoints;
         maxHitpoints2 = Player2.GetComponent<Player>().maxHitPoints;
@@ -173,9 +176,9 @@ public class GameManager : MonoBehaviour
                 break;
 
             case eGameMode.GameOver:
-                GameOver();
+                //GameOver();
                 StartCoroutine(MatchOver(winner, loser));
-                //Pause();
+                Pause();
                 //UpdateUI();
                 break;
             default:
@@ -309,6 +312,7 @@ public class GameManager : MonoBehaviour
         winner.GetComponent<Player>().wins += 1;
         name = winner.name;
         MatchWinText.text = ("Match Over \n" + name + " wins");
+        MatchWinTextShade.text = MatchWinText.text;
         if (winner == Player1)
         {
             hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 5);
@@ -439,10 +443,10 @@ public class GameManager : MonoBehaviour
     }
 
     //Update to be run after the last match and show a result screen
-    public void GameOver()
-    {
-        Pause();
-    }
+    //public void GameOver()
+    //{
+    //    Pause();
+    //}
     
     public void Restart()
     {
