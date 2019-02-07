@@ -9,10 +9,12 @@ using UnityEngine;
 public class CAnimationEvents : MonoBehaviour
 {
     private Player player;
+    public CamShake camShake;
 
     void Start()
     {
         player = GetComponentInParent<Player>();
+        camShake = FindObjectOfType<CamShake>();
     }
     
     public void HitCheck()
@@ -24,6 +26,11 @@ public class CAnimationEvents : MonoBehaviour
     public void AttackFinished()
     {
         player.state = ePlayerState.Ready;
+    }
+
+    public void HeavyAScreenShake()
+    {
+        StartCoroutine(camShake.Shake(0.15f, 0.4f));
     }
 
     public void JumpAttackFinished()
@@ -57,5 +64,23 @@ public class CAnimationEvents : MonoBehaviour
     {
         player.shield.ResetTrigger("break");
         //
+    }
+
+    public void ShieldHit()
+    {
+        player.shield.ResetTrigger("show");
+        player.state = ePlayerState.Ready;
+    }
+
+    //After getting knocked down and getting back up
+    public void GotUp()
+    {
+        player.state = ePlayerState.Ready;
+    }    
+
+    public void KnockDownFinished()
+    {
+        player.anim.SetBool("knockdown", false);
+        player.anim.SetTrigger("getup");
     }
 }

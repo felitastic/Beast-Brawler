@@ -251,7 +251,7 @@ MonoBehaviour:
   jumpattackDmg: 200
   blockbreakDmg: 250
   blockPct: 80
-  KBstrength: 5
+  KBstrength: 1
   PlayerIndex: 1
   JumpForce: 2.6
   MoveSpeedJ: 12
@@ -279,7 +279,7 @@ MonoBehaviour:
   airAttackGravity: 6
   jumpAttack: 1.5
   attackpossible: 0
-  knockUp: 1
+  knockUp: 0.1
   sprite: {fileID: 0}
   anim: {fileID: 95350942225948754}
   shield: {fileID: 95253737911683108}

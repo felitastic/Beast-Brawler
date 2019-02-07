@@ -61,6 +61,27 @@ public class CSounds : MonoBehaviour
         }
     }
 
+    public void PlayLongCrySound()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 4);
+
+        switch (ran)
+        {
+            case 1:
+                SVFXManager.instance.PlayCVoice1(transform.position);
+                break;
+            case 2:
+                SVFXManager.instance.PlayCVoice4(transform.position);
+                break;
+            case 3:
+                SVFXManager.instance.PlayCVoice5(transform.position);
+                break;
+            default:
+                break;
+        }
+    }
+
     public void PlayImpactSound()
     {
         //Getting a value to choose a sound from (last is excluded)

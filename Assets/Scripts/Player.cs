@@ -16,22 +16,24 @@ public class Player : MonoBehaviour
     [Tooltip("Speed backwards movement")]
     public float MoveSpeedB = 12f;
     [Tooltip("Damage Attack1 deals unblocked")]
-    public float attack1Dmg = 185f; 
+    public float attack1Dmg = 185f;
     [Tooltip("Damage Attack2 deals unblocked")]
-    public float attack2Dmg = 340f;    
+    public float attack2Dmg = 340f;
     [Tooltip("Damage jumpattack deals unblocked")]
-    public float jumpattackDmg = 200f;     
+    public float jumpattackDmg = 200f;
     [Tooltip("Damage Blockbreaker deals")]
-    public float blockbreakDmg = 250f;  
+    public float blockbreakDmg = 250f;
     [Tooltip("% damage avoided by blocking")]
     public float blockPct = 80;
     [Tooltip("How much the opponent is knocked back after being hit")]
-    public float KBstrength = 5f;       
+    public float KBstrength = 5f;
+    [Tooltip("How much the opponent is knocked up after being hit")]
+    public float knockUp = 1f;  //upward knock when knocked back
 
     [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
     public float JumpForce;
-    [HideInInspector][Tooltip("Speed movement when in Air")]
+    [Tooltip("Speed movement when in Air")]
     public float MoveSpeedJ;
     [Tooltip("Current hitpoints")]
     public float hitPoints;
@@ -67,11 +69,10 @@ public class Player : MonoBehaviour
 
     [Header("Jump stuff")]
     public float extraGravity = 3f; //for better falling
-    public float airAttackGravity = 6f;
+    public float airAttackGravity = 6f; //for the dive attack
     public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
     public bool attackpossible = false; //jumpattack allowed
 
-    public float knockUp = 1f;  //upward knock when knocked back
 
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
@@ -143,7 +144,7 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
-                        
+
                         attack = eAttacks.None;
                         anim.SetBool("blocking", false);
 
@@ -326,7 +327,6 @@ public class Player : MonoBehaviour
     //Turn character around
     public void Flip()
     {
-        //TODO Prio5: langsamer umdrehen wenn blockend
         Vector3 scale = transform.localScale;
 
         if (facingRight)
@@ -341,99 +341,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    //Called by opponent on hit
-    public void ApplyDamage(float dmgreceived)
-    {
-        print(gameObject.name + " got hit");
-
-        if (stun == eStun.blocking)
-        {
-            shield.SetTrigger("show");
-            CVoice.PlayVoiceSound();
-            StartCoroutine(camShake.Shake(0.15f, 0.4f));
-            hitPoints -= dmgreceived;
-            GameManager.instance.UpdateHP();
-
-        }
-        else if (stun == eStun.normal)
-        {
-            state = ePlayerState.Hurt;
-            anim.SetTrigger("hurt");
-            CVoice.PlayVoiceSound();
-            StartCoroutine(camShake.Shake(0.15f, 0.4f));
-            hitPoints -= dmgreceived;
-            GameManager.instance.UpdateHP();
-        }
-        else if (stun == eStun.jumped)
-        {
-            state = ePlayerState.Hurt;
-            anim.SetTrigger("longhurt");
-            CVoice.PlayVoiceSound();
-            StartCoroutine(camShake.Shake(0.15f, 0.4f));
-            hitPoints -= dmgreceived;
-            GameManager.instance.UpdateHP();
-        }
-        else if (stun == eStun.blockbroken)
-        {
-            state = ePlayerState.Hurt;
-            shield.SetTrigger("break");
-            anim.SetTrigger("hurt");
-            CVoice.PlayVoiceSound();
-            StartCoroutine(camShake.Shake(0.15f, 0.4f));
-            hitPoints -= dmgreceived;
-            GameManager.instance.UpdateHP();
-        }
-        print(gameObject.name + "s HP: " + hitPoints);
-        stun = eStun.normal;
-    }
-
-    //Knocks the player backwards
-    public void Knockback(float strength)
-    {
-        print(gameObject.name + " is knocked back by " + strength);
-
-        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
-            rigid.AddForce(new Vector2(-0.1f / 10, knockUp));
-        else
-        {
-            if (facingRight)
-            {
-                rigid.AddForce(new Vector2(-strength / 10, knockUp));
-            }
-            else if (!facingRight)
-            {
-                rigid.AddForce(new Vector2(+strength / 10, knockUp));
-            }
-        }
-    }
-
-    public void Knockdown()
-    {
-        print(gameObject.name + " is knocked down");
-
-        float strength;
-        strength = 5f;
-
-        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
-            rigid.AddForce(new Vector2(-0.1f / 10, 0f));
-        else
-        {
-            if (facingRight)
-            {
-                rigid.AddForce(new Vector2(-strength / 10, 0f));
-            }
-            else if (!facingRight)
-            {
-                rigid.AddForce(new Vector2(+strength / 10, 0f));
-            }
-        }
-    }
-
-    public void Jump()
+       public void Jump()
     {
         state = ePlayerState.InAir;
         grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
+        //TODO instantiate jump dust anim
     }
 
     //Moves the character via axis input
@@ -508,40 +421,43 @@ public class Player : MonoBehaviour
         if (hitCheck)
         {
             hitCheck = false;
-            
-                switch (attack)
-                {
-                    case eAttacks.None:
-                        print("No attack mode set");
-                        break;
-                    case eAttacks.Light:
-                        dmg = attack1Dmg;
-                        rangeX = hitrange1;
-                        opponent.GetComponent<Player>().stun = eStun.normal;
+
+            switch (attack)
+            {
+                case eAttacks.None:
+                    print("No attack mode set");
                     break;
-                    case eAttacks.Heavy:
-                        dmg = attack2Dmg;
-                        rangeX = hitrange2;
-                        opponent.GetComponent<Player>().stun = eStun.normal;
+                case eAttacks.Light:
+                    dmg = attack1Dmg;
+                    rangeX = hitrange1;
+                    opponent.GetComponent<Player>().stun = eStun.normal;
                     break;
-                    case eAttacks.Blockbreak:
-                        dmg = blockbreakDmg;
-                        rangeX = hitrangeBB;
+                case eAttacks.Heavy:
+                    dmg = attack2Dmg;
+                    rangeX = hitrange2;
+                    opponent.GetComponent<Player>().stun = eStun.normal;
+                    break;
+                case eAttacks.Blockbreak:
+                    dmg = blockbreakDmg;
+                    rangeX = hitrangeBB;
+                    if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
                         opponent.GetComponent<Player>().stun = eStun.blockbroken;
+                    else
+                        opponent.GetComponent<Player>().stun = eStun.normal;
                     break;
-                    case eAttacks.Jump:
-                        dmg = jumpattackDmg;
-                        rangeY = hitrangeJY;
-                        rangeX = hitrangeJX;
-                        opponent.GetComponent<Player>().stun = eStun.jumped;
-                        break;
-                    case eAttacks.Dive:
-                        //dmg = jumpattackDmg;
-                        //range = hitrangeJA;
-                        break;
-                    default:
-                        break;
-                }
+                case eAttacks.Jump:
+                    dmg = jumpattackDmg;
+                    rangeY = hitrangeJY;
+                    rangeX = hitrangeJX;
+                    opponent.GetComponent<Player>().stun = eStun.jumped;
+                    break;
+                case eAttacks.Dive:
+                    //dmg = jumpattackDmg;
+                    //range = hitrangeJA;
+                    break;
+                default:
+                    break;
+            }
             CheckForHit(dmg, rangeX, rangeY);
         }
     }
@@ -595,28 +511,31 @@ public class Player : MonoBehaviour
         }
     }
 
-    //Deal damage after successful hit
+    //Deal damage and special effects after successful hit
     public void DealDmg(float dmg)
     {
         float offset = opponent.GetComponent<Player>().HitOffset;
 
         if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
         {
-            if (attack == eAttacks.Blockbreak)
+            if (opponent.GetComponent<Player>().stun == eStun.blockbroken)
             {
-                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name + " by breaking their shield");
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().shield.SetTrigger("break");     //TODO sounds for shield being hit/broken
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                opponent.GetComponent<Player>().Knockdown();
+                opponent.GetComponent<Player>().Knockdown(KBstrength);
+
             }
             else
             {
-                float realdmg = dmg - (dmg * (blockPct / 100));
-                print(gameObject.name + " deals " + realdmg + " to " + opponent.name);
+                float newdmg = dmg - (dmg * (blockPct / 100));
+                print(gameObject.name + " deals " + dmg + " to the blocking " + opponent.name);
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
-                opponent.GetComponent<Player>().ApplyDamage(realdmg);
+                opponent.GetComponent<Player>().shield.SetTrigger("show");
+                opponent.GetComponent<Player>().ApplyDamage(newdmg);
             }
         }
         else
@@ -626,6 +545,92 @@ public class Player : MonoBehaviour
             SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
             opponent.GetComponent<Player>().ApplyDamage(dmg);
             opponent.GetComponent<Player>().Knockback(KBstrength);
+        }
+    }
+
+    //Called by opponent on hit
+    public void ApplyDamage(float dmgreceived)
+    {
+        print(gameObject.name + " got hit");
+
+        if (stun == eStun.blocking)
+        {
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+
+        }
+        else if (stun == eStun.blockbroken)
+        {
+            state = ePlayerState.Hurt;
+            //anim.SetBool("knockdown", true);        //TODO implement knockdown anim   
+            CVoice.PlayLongCrySound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+        }
+        else if (stun == eStun.jumped)
+        {
+            state = ePlayerState.Hurt;
+            anim.SetTrigger("longhurt");
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+        }
+        else if (stun == eStun.normal)
+        {
+            state = ePlayerState.Hurt;
+            anim.SetTrigger("hurt");
+            CVoice.PlayVoiceSound();
+            StartCoroutine(camShake.Shake(0.15f, 0.4f));
+            hitPoints -= dmgreceived;
+            GameManager.instance.UpdateHP();
+        }
+
+        print(gameObject.name + "s HP: " + hitPoints);
+        stun = eStun.normal;
+    }
+
+    //Knocks the player backwards
+    public void Knockback(float strength)
+    {
+        print(gameObject.name + " is knocked back by " + strength);
+
+        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
+            rigid.AddForce(new Vector2(-0.1f / 10, knockUp));
+        else
+        {
+            if (facingRight)
+            {
+                rigid.AddForce(new Vector2(-strength / 10, knockUp));
+            }
+            else if (!facingRight)
+            {
+                rigid.AddForce(new Vector2(+strength / 10, knockUp));
+            }
+        }
+    }
+
+    //Knocks the player down
+    public void Knockdown(float strength)
+    {
+        print(gameObject.name + " is knocked down");
+        anim.SetBool("knockdown", true);
+
+        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
+            rigid.AddForce(new Vector2(-0.1f / 10, 0f));
+        else
+        {
+            if (facingRight)
+            {
+                rigid.AddForce(new Vector2(-strength / 10, knockUp));
+            }
+            else if (!facingRight)
+            {
+                rigid.AddForce(new Vector2(+strength / 10, knockUp));
+            }
         }
     }
 }
