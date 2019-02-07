@@ -9,7 +9,8 @@ using UnityEngine;
 public class CAnimationEvents : MonoBehaviour
 {
     private Player player;
-    public CamShake camShake;
+    private CamShake camShake;
+    public ShadowBehaviour shade;
 
     void Start()
     {
@@ -62,14 +63,18 @@ public class CAnimationEvents : MonoBehaviour
 
     public void ShieldBroken()
     {
-        player.shield.ResetTrigger("break");
-        //
+        GameObject.Destroy(this.gameObject);
     }
 
     public void ShieldHit()
     {
         player.shield.ResetTrigger("show");
         player.state = ePlayerState.Ready;
+    }
+
+    public void DustFinish()
+    {
+        GameObject.Destroy(this.gameObject);
     }
 
     //After getting knocked down and getting back up
@@ -82,5 +87,10 @@ public class CAnimationEvents : MonoBehaviour
     {
         player.anim.SetBool("knockdown", false);
         player.anim.SetTrigger("getup");
+    }
+
+    public void KnockDownScale()
+    {
+        shade.NewScale(1.75f, 0.8f);
     }
 }

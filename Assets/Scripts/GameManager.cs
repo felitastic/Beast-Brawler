@@ -44,7 +44,8 @@ public class GameManager : MonoBehaviour
     public float lerpTimer;
     public float lerpCooldown = 1f;
     public bool lerpUI = false;
-    public float delay = 2f;    //temporary delay for timers
+    public float delay;    //temporary delay for timers
+    public float deathTime;    //for match end so death anim can play
 
     //[Header("Potato values")]
     //public float potatoTime = 6f;   //how many seconds without hit before getting potato dmg
@@ -308,22 +309,20 @@ public class GameManager : MonoBehaviour
     {
         print("Match over");
         loser.GetComponent<Player>().hitPoints = 0f;
-        UpdateHP();
-        winner.GetComponent<Player>().wins += 1;
+        //loser.GetComponent<Player>().Knockdown(1f);
+        loser.GetComponent<Player>().anim.SetTrigger("dying");
         name = winner.name;
         MatchWinText.text = ("Match Over \n" + name + " wins");
         MatchWinTextShade.text = MatchWinText.text;
-        if (winner == Player1)
-        {
-            hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 5);
-        }
-        else if (winner == Player2)
-        {
-            hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 5);
-        }
-        yield return new WaitForSeconds(delay);
-
-        //TODO set if cond for final match
+        //if (winner == Player1)
+        //{
+        //    hpBarRed1.fillAmount = Mathf.Lerp(hpBarRed1.fillAmount, Hitpoints1 / maxHitpoints1, Time.deltaTime * 5);
+        //}
+        //else if (winner == Player2)
+        //{
+        //    hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 5);
+        //}
+        yield return new WaitForSeconds(deathTime);        
         MatchOverScreen.gameObject.SetActive(true);
         Pause();
     }
@@ -423,7 +422,7 @@ public class GameManager : MonoBehaviour
         startSlowMo = false;
         print("slowing down");
         Time.timeScale = 0.1f;
-        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1f;
         print("time back to normal");
         slowed = false;

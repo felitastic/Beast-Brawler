@@ -19,17 +19,27 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - time: 0.083333336
-      value: {fileID: 21300002, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - time: 0.25
-      value: {fileID: 21300004, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
+      value: {fileID: 21300000, guid: 54b1149c86727df4ea10db6cd6b5da74, type: 3}
+    - time: 0.11666667
+      value: {fileID: 21300000, guid: 11046d07d2c0b084882ab4fc2f7c6fd7, type: 3}
+    - time: 0.26666668
+      value: {fileID: 21300000, guid: 312d0780912d83f4db2e12084ef3a23a, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300006, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - time: 0.48333332
-      value: {fileID: 21300006, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - time: 0.6666667
-      value: {fileID: 21300008, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
+      value: {fileID: 21300000, guid: b24de6e80d3cbdc4fae80365d82aff0d, type: 3}
+    - time: 0.4
+      value: {fileID: 21300000, guid: c31673d921b5a324fad93f9215e391cd, type: 3}
+    - time: 0.46666667
+      value: {fileID: 21300000, guid: c31673d921b5a324fad93f9215e391cd, type: 3}
+    - time: 0.51666665
+      value: {fileID: 21300000, guid: ef3454c20b3dc404181f74da8526a960, type: 3}
+    - time: 0.56666666
+      value: {fileID: 21300000, guid: 1cc77b1d35a92074fb3dd0bb522ef382, type: 3}
+    - time: 0.6166667
+      value: {fileID: 21300000, guid: 7a75213504d0b3240a92bcfd85715408, type: 3}
+    - time: 0.68333334
+      value: {fileID: 21300000, guid: eedc61c7dad11bf40bc64855be8b9ddf, type: 3}
+    - time: 0.73333335
+      value: {fileID: 21300000, guid: 1201fff7bb1d8bb4c8e21ec4267cb6c2, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -49,18 +59,23 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - {fileID: 21300002, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - {fileID: 21300004, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - {fileID: 21300006, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - {fileID: 21300006, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
-    - {fileID: 21300008, guid: 2f9d59174e50d714b83454006a5a0d3c, type: 3}
+    - {fileID: 21300000, guid: 54b1149c86727df4ea10db6cd6b5da74, type: 3}
+    - {fileID: 21300000, guid: 11046d07d2c0b084882ab4fc2f7c6fd7, type: 3}
+    - {fileID: 21300000, guid: 312d0780912d83f4db2e12084ef3a23a, type: 3}
+    - {fileID: 21300000, guid: b24de6e80d3cbdc4fae80365d82aff0d, type: 3}
+    - {fileID: 21300000, guid: c31673d921b5a324fad93f9215e391cd, type: 3}
+    - {fileID: 21300000, guid: c31673d921b5a324fad93f9215e391cd, type: 3}
+    - {fileID: 21300000, guid: ef3454c20b3dc404181f74da8526a960, type: 3}
+    - {fileID: 21300000, guid: 1cc77b1d35a92074fb3dd0bb522ef382, type: 3}
+    - {fileID: 21300000, guid: 7a75213504d0b3240a92bcfd85715408, type: 3}
+    - {fileID: 21300000, guid: eedc61c7dad11bf40bc64855be8b9ddf, type: 3}
+    - {fileID: 21300000, guid: 1201fff7bb1d8bb4c8e21ec4267cb6c2, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.68333334
+    m_StopTime: 0.75
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -81,14 +96,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0.48333332
+  - time: 0.26666668
+    functionName: HeavyAScreenShake
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.28333333
     functionName: HitCheck
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.6666667
+  - time: 0.73333335
     functionName: AttackFinished
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     public float airAttackGravity = 6f; //for the dive attack
     public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
     public bool attackpossible = false; //jumpattack allowed
+    public float dustJumpY; //Jump dust animation offset
 
 
     [Header("Components the script grabs itself")]
@@ -346,7 +347,7 @@ public class Player : MonoBehaviour
         state = ePlayerState.InAir;
         grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
-        //TODO instantiate jump dust anim
+        SVFXManager.instance.InstantiateDustJump(dustJumpY, this.gameObject);
     }
 
     //Moves the character via axis input
@@ -520,21 +521,28 @@ public class Player : MonoBehaviour
         {
             if (opponent.GetComponent<Player>().stun == eStun.blockbroken)
             {
+                //    float scale;
+                //    if (!opponent.GetComponent<Player>().facingRight)
+                //        scale = -1;
+                //    else
+                //        scale = 1;
+
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name + " by breaking their shield");
-                GameManager.instance.startSlowMo = true;
+                GameManager.instance.startSlowMo = true; 
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
-                opponent.GetComponent<Player>().shield.SetTrigger("break");     //TODO sounds for shield being hit/broken
+                //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
                 opponent.GetComponent<Player>().Knockdown(KBstrength);
-
-            }
-            else
+        }
+        else
             {
                 float newdmg = dmg - (dmg * (blockPct / 100));
                 print(gameObject.name + " deals " + dmg + " to the blocking " + opponent.name);
                 GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
-                opponent.GetComponent<Player>().shield.SetTrigger("show");
+                //opponent.GetComponent<Player>().shield.SetTrigger("show");
                 opponent.GetComponent<Player>().ApplyDamage(newdmg);
             }
         }
@@ -542,6 +550,7 @@ public class Player : MonoBehaviour
         {
             print(gameObject.name + " deals " + dmg + " to " + opponent.name);
             GameManager.instance.startSlowMo = true;
+            SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
             SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
             opponent.GetComponent<Player>().ApplyDamage(dmg);
             opponent.GetComponent<Player>().Knockback(KBstrength);
@@ -616,11 +625,12 @@ public class Player : MonoBehaviour
     //Knocks the player down
     public void Knockdown(float strength)
     {
+        state = ePlayerState.Knockeddown;
         print(gameObject.name + " is knocked down");
         anim.SetBool("knockdown", true);
 
         if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
-            rigid.AddForce(new Vector2(-0.1f / 10, 0f));
+            rigid.AddForce(new Vector2(-0.5f / 10, 0f));
         else
         {
             if (facingRight)

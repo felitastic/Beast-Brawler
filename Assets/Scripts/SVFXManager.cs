@@ -50,7 +50,12 @@ public class SVFXManager : MonoBehaviour
 
     [Header("VISUAL EFFECTS")]
     public GameObject HitWhite;
+    public GameObject HitMarker;
     public GameObject ComicPow;
+
+    [Header("Animations")]
+    public GameObject DustJump;
+    public GameObject BreakShield;
 
     void Awake()
     {
@@ -150,9 +155,26 @@ public class SVFXManager : MonoBehaviour
     public void PlayVFX_ComicPow(float offsetY, GameObject player)
     {
         GameObject comicPow = Instantiate(ComicPow, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
-        comicPow.transform.parent = player.transform;
+        //comicPow.transform.parent = player.transform;
     }
 
+    public void PlayVFX_HitMarker(float offsetY, GameObject player)
+    {
+        GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+        //hitMarker.transform.parent = player.transform;
+    }
+
+    public void InstantiateDustJump(float offsetY, GameObject player)
+    {
+        GameObject dustJump = Instantiate(DustJump, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+    }
+
+    public void InstantiateBreakShield(float offsetY, float scale, GameObject player)
+    {
+        print("breaking shield");
+        GameObject breakShield = Instantiate(BreakShield, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+        breakShield.transform.localScale *= scale;
+    }
 
 
     //public void B1PainSound(Vector3 position)

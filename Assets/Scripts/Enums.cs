@@ -22,6 +22,7 @@ public enum ePlayerState
     InAirAttack,
     DiveAttack,
     Blocking,
+    Knockeddown,
     Hurt,
     Dead
 };
