@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject MatchOverScreen;
     public GameObject RestartButton;
     public GameObject PauseScreen;
+    public Image Pulse1;
+    public Image Pulse2;
 
     public Image hpBarGreen1;
     public Image hpBarRed1;
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
     public bool lerpUI = false;
     public float delay;    //temporary delay for timers
     public float deathTime;    //for match end so death anim can play
+    public bool warn;
 
     //[Header("Potato values")]
     //public float potatoTime = 6f;   //how many seconds without hit before getting potato dmg
@@ -144,8 +147,9 @@ public class GameManager : MonoBehaviour
         switch (GameMode)
         {
             case eGameMode.MatchStart:
-                //StartCoroutine(MatchStartText());
-                GameMode = eGameMode.Running;
+                warn = false;
+                StartCoroutine(MatchStartText());
+                //GameMode = eGameMode.Running;
                 break;
 
             case eGameMode.Running:
@@ -190,22 +194,32 @@ public class GameManager : MonoBehaviour
     void TestInput() //HACK testshit
     {
         if (Input.GetKeyDown("space"))
-            Player1.GetComponent<Player>().Knockdown(1f,5f);
+            Hitpoints1 = maxHitpoints1 / 5;
+        //Player1.GetComponent<Player>().Knockdown(1f, 5f);
     }
 
     //Match intro text
     IEnumerator MatchStartText()
     {
+        if (GameMode == eGameMode.Countdown)
+            yield break;
+
+        Vector3 inZoom = new Vector3(0, 0, 0);
+        Vector3 outZoom = new Vector3(1, 1, 1);
+
+        GameMode = eGameMode.Countdown;
         IntroCDText.gameObject.SetActive(true);
-        print("ein");
-        StartCoroutine(FadeTextIn(0.5f, IntroCDText, ("Match " + matchCounter.ToString(""))));
+        StartCoroutine(FadeTextIn(1f, IntroCDText, ("Ready?")));
+        StartCoroutine(ZoomTextIn(1f, IntroCDText, ("Ready?"), inZoom, 1f));
+        yield return new WaitForSeconds(2.5f);
+        StartCoroutine(FadeTextOut(0.5f, IntroCDText));
+        StartCoroutine(ZoomTextOut(0.5f, IntroCDText, outZoom));
         yield return new WaitForSeconds(0.5f);
-        print("wait");
-        yield return new WaitForSeconds(2f);
-        print("aus");
-        StartCoroutine(FadeTextOut(0.5f, IntroCDText, ("Match " + matchCounter.ToString(""))));
+        StartCoroutine(FadeTextIn(0.5f, IntroCDText, ("Fight!")));
+        StartCoroutine(ZoomTextIn(0.1f, IntroCDText, ("Fight!"), inZoom, 3f));
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(FadeTextOut(0.3f, IntroCDText));
         yield return new WaitForSeconds(0.5f);
-        print("fertig");
         IntroCDText.gameObject.SetActive(false);
         GameMode = eGameMode.Running;
     }
@@ -222,15 +236,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator FadeTextOut(float t, Text textfield, string textline)
+    IEnumerator FadeTextOut(float t, Text textfield)
     {
-        textfield.text = (textline);
-
         textfield.color = new Color(textfield.color.r, textfield.color.g, textfield.color.b, 1);
         while (textfield.color.a > 0.0f)
         {
             textfield.color = new Color(textfield.color.r, textfield.color.g, textfield.color.b, textfield.color.a - (Time.deltaTime / t));
             yield return null;
+        }
+    }
+
+    IEnumerator ZoomTextIn(float t, Text textfield, string textline, Vector3 newScale, float Endsize)
+    {
+        textfield.text = (textline);
+
+        textfield.transform.localScale = newScale;
+        while (textfield.transform.localScale.x < Endsize)
+        {
+            textfield.transform.localScale = new Vector3(
+                 textfield.transform.localScale.x + (Time.deltaTime / t),
+                 textfield.transform.localScale.y + (Time.deltaTime / t),
+                 textfield.transform.localScale.z + (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+
+    IEnumerator ZoomTextOut(float t, Text textfield, Vector3 newScale)
+    {
+        textfield.transform.localScale = newScale;
+        while (textfield.transform.localScale.x > 0.0f)
+        {
+            textfield.transform.localScale = new Vector3(
+                 textfield.transform.localScale.x - (Time.deltaTime / t),
+                 textfield.transform.localScale.y - (Time.deltaTime / t),
+                 textfield.transform.localScale.z - (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+    
+    //Low Health warning
+    IEnumerator LowHealth(Image pulse)
+    {
+        if (warn)
+            yield break;
+
+        while (warn)
+        {
+            Pulse1.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            Pulse1.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -322,7 +377,7 @@ public class GameManager : MonoBehaviour
         //{
         //    hpBarRed2.fillAmount = Mathf.Lerp(hpBarRed2.fillAmount, Hitpoints2 / maxHitpoints2, Time.deltaTime * 5);
         //}
-        yield return new WaitForSeconds(deathTime);        
+        yield return new WaitForSeconds(deathTime);
         MatchOverScreen.gameObject.SetActive(true);
         Pause();
     }
@@ -417,7 +472,7 @@ public class GameManager : MonoBehaviour
     {
         if (slowed)
             yield break;
-        
+
         slowed = true;
         startSlowMo = false;
         print("slowing down");
@@ -446,7 +501,7 @@ public class GameManager : MonoBehaviour
     //{
     //    Pause();
     //}
-    
+
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

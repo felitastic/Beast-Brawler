@@ -4,6 +4,7 @@
 public enum eGameMode
 {
     MatchStart,
+    Countdown,
     Running,
     MatchOver,
     Pause,
