@@ -30,8 +30,8 @@ public enum ePlayerState
 public enum eStun
 {
     normal,
-    blocking,
     blockbroken,
+    blocking,
     jumped
 }
 

@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviour
     void TestInput() //HACK testshit
     {
         if (Input.GetKeyDown("space"))
-            Player1.GetComponent<Player>().Knockdown(1f);
+            Player1.GetComponent<Player>().Knockdown(1f,5f);
     }
 
     //Match intro text

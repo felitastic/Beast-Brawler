@@ -28,7 +28,9 @@ public class Player : MonoBehaviour
     [Tooltip("How much the opponent is knocked back after being hit")]
     public float KBstrength = 5f;
     [Tooltip("How much the opponent is knocked up after being hit")]
-    public float knockUp = 1f;  //upward knock when knocked back
+    public float knockUp = 1f;  //upward knock when knocked back    
+    [Tooltip("How much the opponent is knocked up after being hit")]
+    public float knockDown = -0.2f;  //downward knock when knocked back
 
     [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
     public int PlayerIndex;
@@ -48,6 +50,7 @@ public class Player : MonoBehaviour
     public bool grounded;
     public bool landCheck;
     public float origScale; //for flipping, get how big the char is scaled
+    public bool cornered = false;   //is the player standing in the corner
     public int wins;
     //[Tooltip("When Attack1 deals damage")]
     //public float attack1Hit = 0.2f; 
@@ -342,7 +345,7 @@ public class Player : MonoBehaviour
         }
     }
 
-       public void Jump()
+    public void Jump()
     {
         state = ePlayerState.InAir;
         grounded = false;
@@ -441,10 +444,7 @@ public class Player : MonoBehaviour
                 case eAttacks.Blockbreak:
                     dmg = blockbreakDmg;
                     rangeX = hitrangeBB;
-                    if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
-                        opponent.GetComponent<Player>().stun = eStun.blockbroken;
-                    else
-                        opponent.GetComponent<Player>().stun = eStun.normal;
+                    opponent.GetComponent<Player>().stun = eStun.normal;
                     break;
                 case eAttacks.Jump:
                     dmg = jumpattackDmg;
@@ -517,25 +517,32 @@ public class Player : MonoBehaviour
     {
         float offset = opponent.GetComponent<Player>().HitOffset;
 
-        if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
+        if (attack == eAttacks.Blockbreak)
         {
-            if (opponent.GetComponent<Player>().stun == eStun.blockbroken)
+            if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
             {
-                //    float scale;
-                //    if (!opponent.GetComponent<Player>().facingRight)
-                //        scale = -1;
-                //    else
-                //        scale = 1;
-
+                opponent.GetComponent<Player>().stun = eStun.blockbroken;
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name + " by breaking their shield");
-                GameManager.instance.startSlowMo = true; 
+                GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                opponent.GetComponent<Player>().Knockdown(KBstrength);
+                opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
+            }
+            else //stronger knockback when hit by blockbreaker
+            {
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                opponent.GetComponent<Player>().Knockback(KBstrength * 1.5f);
+            }
         }
-        else
+        else //not attacking with blockbreak
+        {
+            if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
             {
                 float newdmg = dmg - (dmg * (blockPct / 100));
                 print(gameObject.name + " deals " + dmg + " to the blocking " + opponent.name);
@@ -545,15 +552,24 @@ public class Player : MonoBehaviour
                 //opponent.GetComponent<Player>().shield.SetTrigger("show");
                 opponent.GetComponent<Player>().ApplyDamage(newdmg);
             }
-        }
-        else
-        {
-            print(gameObject.name + " deals " + dmg + " to " + opponent.name);
-            GameManager.instance.startSlowMo = true;
-            SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
-            SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
-            opponent.GetComponent<Player>().ApplyDamage(dmg);
-            opponent.GetComponent<Player>().Knockback(KBstrength);
+            else if (opponent.GetComponent<Player>().state == ePlayerState.InAir)
+            {
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                opponent.GetComponent<Player>().Knockdown(KBstrength, knockDown);
+            }
+            else
+            {
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                opponent.GetComponent<Player>().Knockback(KBstrength);
+            }
         }
     }
 
@@ -607,15 +623,26 @@ public class Player : MonoBehaviour
     {
         print(gameObject.name + " is knocked back by " + strength);
 
-        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
-            rigid.AddForce(new Vector2(-0.1f / 10, knockUp));
-        else
+        if (facingRight)
         {
-            if (facingRight)
+            if (cornered)
+            {
+                rigid.AddForce(new Vector2(-strength / 30, knockUp));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, knockUp));
+            }
+            else
             {
                 rigid.AddForce(new Vector2(-strength / 10, knockUp));
             }
-            else if (!facingRight)
+        }
+        else if (!facingRight)
+        {
+            if (cornered)
+            {
+                rigid.AddForce(new Vector2(+strength / 30, knockUp));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 20, knockUp));
+            }
+            else
             {
                 rigid.AddForce(new Vector2(+strength / 10, knockUp));
             }
@@ -623,24 +650,36 @@ public class Player : MonoBehaviour
     }
 
     //Knocks the player down
-    public void Knockdown(float strength)
+    public void Knockdown(float strength, float upOrdown)
     {
         state = ePlayerState.Knockeddown;
         print(gameObject.name + " is knocked down");
         anim.SetBool("knockdown", true);
 
-        if (transform.position.x >= border && move > 0 || transform.position.x <= -border && move < 0)
-            rigid.AddForce(new Vector2(-0.5f / 10, 0f));
-        else
+        if (facingRight)
         {
-            if (facingRight)
+            if (cornered)
             {
-                rigid.AddForce(new Vector2(-strength / 10, knockUp));
+                rigid.AddForce(new Vector2(-strength / 30, upOrdown));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, upOrdown));
             }
-            else if (!facingRight)
+            else
             {
-                rigid.AddForce(new Vector2(+strength / 10, knockUp));
+                rigid.AddForce(new Vector2(-strength / 10, upOrdown));
             }
         }
+        else if (!facingRight)
+        {
+            if (cornered)
+            {
+                rigid.AddForce(new Vector2(+strength / 30, upOrdown));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 10, upOrdown));
+            }
+            else
+            {
+                rigid.AddForce(new Vector2(+strength / 10, upOrdown));
+            }
+        }
+
     }
 }

@@ -204,6 +204,7 @@ MonoBehaviour:
   blockPct: 80
   KBstrength: 1
   knockUp: 0.1
+  knockDown: -0.05
   PlayerIndex: 0
   JumpForce: 2.6
   MoveSpeedJ: 12
@@ -217,8 +218,8 @@ MonoBehaviour:
   landCheck: 0
   origScale: 1
   wins: 0
-  hitrange1: 9.5
-  hitrange2: 6
+  hitrange1: 9
+  hitrange2: 10
   hitrangeBB: 7
   hitrangeJX: 6.5
   hitrangeJY: 6.25

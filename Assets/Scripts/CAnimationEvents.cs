@@ -91,6 +91,6 @@ public class CAnimationEvents : MonoBehaviour
 
     public void KnockDownScale()
     {
-        shade.NewScale(1.75f, 0.8f);
-    }
+        shade.NewScale(1.75f, 0.7f);
+    }    
 }
