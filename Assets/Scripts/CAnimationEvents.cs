@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class CAnimationEvents : MonoBehaviour
 {
-    private Player player;
+    public Player player;
     private CamShake camShake;
     public ShadowBehaviour shade;
 
@@ -22,7 +22,31 @@ public class CAnimationEvents : MonoBehaviour
     {
         print("AE Hit1");
         player.GetAttackValues();
+    }   
+    
+    public void Attack1()
+    {
+        if (player.attack1)
+            player.attack1 = false;
+        else
+            player.attack1 = true;
     }
+    
+    public void Attack2()
+    {
+        if (player.attack2)
+            player.attack2 = false;
+        else
+            player.attack2 = true;
+    }
+    
+    //public void BreakAttack()
+    //{
+    //    if (player.breakattack)
+    //        player.breakattack = false;
+    //    else
+    //        player.breakattack = true;
+    //}
 
     public void AttackFinished()
     {
@@ -58,6 +82,7 @@ public class CAnimationEvents : MonoBehaviour
 
     public void HurtFinished()
     {
+        print("hurt done");
         player.state = ePlayerState.Ready;
     }
 

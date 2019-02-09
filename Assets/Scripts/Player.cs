@@ -67,13 +67,19 @@ public class Player : MonoBehaviour
     public bool hitCheck = false;   //to make sure it is only once checked for hit and not continuously
     public bool blockbreak = false;
     public float curMoveSpeed;      //current Movement Speed
+
+    public bool attack1;
+    public bool attack2;
+    //public bool breakattack;
+
+
     [Tooltip("Offset for the Hit VXF")]
     public float HitOffset = 4.5f;
 
     [Header("Jump stuff")]
     public float extraGravity = 3f; //for better falling
     public float airAttackGravity = 6f; //for the dive attack
-    public float jumpAttack = 1.5f; //jumpattacks are allowed from this hight on
+    public float jumpAttack = -3f; //jumpattacks are allowed from this hight on
     public bool attackpossible = false; //jumpattack allowed
     public float dustJumpY; //Jump dust animation offset
 
@@ -217,12 +223,10 @@ public class Player : MonoBehaviour
 
                         if (rigid.velocity.y > 0f && !grounded && !anim.GetBool("jumping"))
                         {
-                            attackpossible = true;
                             anim.SetBool("jumping", true);
                         }
                         else if (rigid.velocity.y <= 0f && !grounded)
                         {
-                            attackpossible = true;
                             anim.SetBool("jumping", false);
                             anim.SetBool("falling", true);
                             rigid.velocity += Vector2.up * Physics.gravity * extraGravity * Time.deltaTime;
@@ -230,13 +234,11 @@ public class Player : MonoBehaviour
                         }
                         else if (grounded && anim.GetBool("falling"))
                         {
-                            attackpossible = false;
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
-                            //anim.ResetTrigger("land");
                         }
 
-                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && attackpossible && !landCheck)
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && transform.position.y >= jumpAttack)
                         {
                             state = ePlayerState.InAirAttack;
                             attack = eAttacks.Jump;
@@ -470,46 +472,100 @@ public class Player : MonoBehaviour
         float opponentY = opponent.transform.position.y;
         Vector3 player = transform.position;
 
-        if (attack == eAttacks.Jump)
+        switch(attack)
         {
-            if (facingRight)
-            {
-                if (player.y <= opponentY + rangeY && player.y >= opponentY)
+            case eAttacks.Light:
+
+                if (facingRight)
                 {
-                    if (player.x >= opponentX - rangeX && player.x <= opponentX)
+                    if (opponent.GetComponent<Player>().attack1)
+                    {
+                        if (player.x >= opponentX - rangeX - 2.2f && player.x <= opponentX)
+                        {
+                            DealDmg(dmg);
+                        }
+                    }
+                    else if (player.x >= opponentX - rangeX && player.x <= opponentX)
                     {
                         DealDmg(dmg);
                     }
                 }
-            }
-            else if (!facingRight)
-            {
-                if (player.y >= opponentY - rangeY && player.y <= opponentY)
+                else
                 {
-                    if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                    if (opponent.GetComponent<Player>().attack1)
+                    {
+                        if (player.x <= opponentX + rangeX + 2.2f && player.x >= opponentX)
+                        {
+                            DealDmg(dmg);
+                        }
+                    }
+                    else if (player.x <= opponentX + rangeX && player.x >= opponentX)
                     {
                         DealDmg(dmg);
                     }
                 }
-            }
-        }
-        else if (opponent.GetComponent<Player>().grounded)
-        {
-            if (facingRight)
-            {
-                if (player.x >= opponentX - rangeX && player.x <= opponentX)
+                    break;
+
+            case eAttacks.Heavy:
+                
+                if (player.y <= opponentY + 2.75f && player.y >= opponentY)
                 {
-                    DealDmg(dmg);
+                    if (facingRight)
+                    {
+                        if (opponent.GetComponent<Player>().attack1)
+                        {
+                            if (player.x >= opponentX - rangeX - 4.7f && player.x <= opponentX)
+                            {
+                                DealDmg(dmg);
+                            }
+                        }
+                        else if (player.x >= opponentX - rangeX && player.x <= opponentX)
+                        {
+                            DealDmg(dmg);
+                        }
+                    }
+                    else
+                    {
+                        if (opponent.GetComponent<Player>().attack1)
+                        {
+                            if (player.x <= opponentX + rangeX + 4.7f && player.x >= opponentX)
+                            {
+                                DealDmg(dmg);
+                            }
+                        }
+                        else if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                        {
+                            DealDmg(dmg);
+                        }
+                    }
                 }
-            }
-            else if (!facingRight)
-            {
-                if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                
+                break;
+
+            case eAttacks.Jump:
+
+                if (facingRight)
                 {
-                    DealDmg(dmg);
+                    if (player.y <= opponentY + rangeY && player.y >= opponentY)
+                    {
+                        if (player.x >= opponentX - rangeX && player.x <= opponentX)
+                        {
+                            DealDmg(dmg);
+                        }
+                    }
                 }
-            }
-        }
+                else
+                {
+                    if (player.y >= opponentY - rangeY && player.y <= opponentY)
+                    {
+                        if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                        {
+                            DealDmg(dmg);
+                        }
+                    }
+                }
+                break;
+        }    
     }
 
     //Deal damage and special effects after successful hit
@@ -702,12 +758,12 @@ public class Player : MonoBehaviour
         {
             if (!grounded)
                 rigid.AddForce(new Vector2(0, -0.1f));
-            
+
             anim.SetTrigger("timeout");
         }
         else
         {
-            anim.SetTrigger("dying");   
+            anim.SetTrigger("dying");
         }
 
     }
