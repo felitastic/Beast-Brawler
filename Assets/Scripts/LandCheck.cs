@@ -7,10 +7,15 @@ using UnityEngine;
 /// </summary>
 public class LandCheck : MonoBehaviour
 {
-
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
             other.GetComponent<Player>().landCheck = true;
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+            other.GetComponent<Player>().landCheck = false;
     }
 }

@@ -236,7 +236,7 @@ public class Player : MonoBehaviour
                             //anim.ResetTrigger("land");
                         }
 
-                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && attackpossible)
+                        if (Input.GetButtonDown("Attack1_" + PlayerIndex) && attackpossible && !landCheck)
                         {
                             state = ePlayerState.InAirAttack;
                             attack = eAttacks.Jump;
@@ -679,6 +679,35 @@ public class Player : MonoBehaviour
             {
                 rigid.AddForce(new Vector2(+strength / 10, upOrdown));
             }
+        }
+    }
+
+    //public void DeathKB()
+    //{
+    //    if (facingRight)
+    //    {
+    //        rigid.AddForce(new Vector2(-KBstrength / 10, 0));
+    //    }
+    //    else
+    //    {
+    //        rigid.AddForce(new Vector2(+KBstrength / 10, 0));
+    //    }
+    //}
+
+    public void Death()
+    {
+        state = ePlayerState.Dead;
+
+        if (GameManager.instance.timeout)
+        {
+            if (!grounded)
+                rigid.AddForce(new Vector2(0, -0.1f));
+            
+            anim.SetTrigger("timeout");
+        }
+        else
+        {
+            anim.SetTrigger("dying");   
         }
 
     }
