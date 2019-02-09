@@ -93,7 +93,7 @@ public class CAnimationEvents : MonoBehaviour
 
     public void ShieldHit()
     {
-        player.shield.ResetTrigger("show");
+        //player.shield.ResetTrigger("show");
         player.state = ePlayerState.Ready;
     }
 

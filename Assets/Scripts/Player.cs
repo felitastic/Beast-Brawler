@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
     [Header("Components the script grabs itself")]
     public SpriteRenderer sprite;
     public Animator anim;
-    public Animator shield;
+    //public Animator shield;
     public Rigidbody2D rigid;
     public CamShake camShake;
     public GameObject opponent;
@@ -154,6 +154,9 @@ public class Player : MonoBehaviour
                 switch (state)
                 {
                     case ePlayerState.Ready:
+
+                        attack1 = false;
+                        attack2 = false;
 
                         attack = eAttacks.None;
                         anim.SetBool("blocking", false);
@@ -312,7 +315,7 @@ public class Player : MonoBehaviour
     void GetComponents()
     {
         sprite = this.GetComponentInChildren<SpriteRenderer>();
-        //anim = this.GetComponentInChildren<Animator>();
+        anim = this.GetComponentInChildren<Animator>();
         rigid = this.GetComponent<Rigidbody2D>();
         camShake = FindObjectOfType<CamShake>();
         CVoice = FindObjectOfType<CSounds>();

@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e25ad2035b466342a955154a475f2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   shade: {fileID: 0}
 --- !u!114 &114187253168682834
 MonoBehaviour:
@@ -220,7 +221,7 @@ MonoBehaviour:
   cornered: 0
   wins: 0
   hitrange1: 9.5
-  hitrange2: 11
+  hitrange2: 11.5
   hitrangeBB: 7
   hitrangeJX: 6.5
   hitrangeJY: 6.25
@@ -228,6 +229,8 @@ MonoBehaviour:
   hitCheck: 0
   blockbreak: 0
   curMoveSpeed: 0
+  attack1: 0
+  attack2: 0
   HitOffset: 4.5
   extraGravity: 3
   airAttackGravity: 6
@@ -235,7 +238,7 @@ MonoBehaviour:
   attackpossible: 0
   dustJumpY: 0
   sprite: {fileID: 0}
-  anim: {fileID: 95431303042468918}
+  anim: {fileID: 0}
   shield: {fileID: 0}
   rigid: {fileID: 0}
   camShake: {fileID: 0}

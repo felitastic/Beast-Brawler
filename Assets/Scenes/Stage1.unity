@@ -904,11 +904,6 @@ Prefab:
       propertyPath: shade
       value: 
       objectReference: {fileID: 1002874004}
-    - target: {fileID: 114714490734630618, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
-        type: 2}
-      propertyPath: hitrange2
-      value: 11.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 839ed7a1b58b4eb41ab1e6144a37d626, type: 2}
   m_IsPrefabAsset: 0
@@ -3009,11 +3004,6 @@ Prefab:
       propertyPath: shade
       value: 
       objectReference: {fileID: 1411095267}
-    - target: {fileID: 114430181957882752, guid: 2ee29a405435c624a892a4c9e53189ac,
-        type: 2}
-      propertyPath: hitrange2
-      value: 11.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
   m_IsPrefabAsset: 0
