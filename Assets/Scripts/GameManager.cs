@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public Image Pulse1;
     public Image Pulse2;
 
+    public GameObject UI;
+
     public Image hpBarGreen1;
     public Image hpBarRed1;
     public Image hpBarGreen2;
@@ -157,6 +159,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case eGameMode.Running:
+                UI.gameObject.SetActive(true);
                 Unpause();
                 LerpTiming();
                 StageCountdown();
@@ -172,12 +175,14 @@ public class GameManager : MonoBehaviour
                 break;
 
             case eGameMode.Pause:
+                UI.gameObject.SetActive(false);
                 PauseScreen.gameObject.SetActive(true);
                 if (Input.GetButtonDown("Start"))
                     GameMode = eGameMode.Running;
                 break;
 
             case eGameMode.MatchOver:
+                UI.gameObject.SetActive(true);
                 StartCoroutine(MatchOver(winner, loser));
                 StageCountdown();
                 LerpUI();

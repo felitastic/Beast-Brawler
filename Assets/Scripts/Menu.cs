@@ -6,21 +6,38 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-    public Button SettingButton;
-
-    private void Start()
-    {
-        SettingButton.interactable = false;
-    }
+    public GameObject controlmenu;
+    public GameObject titlemenu;
+    public GameObject creditwindow;
+    public GameObject titlebuttons;    
 
     public void Play()
     {
         SceneManager.LoadScene("Stage1");
     }
 
-    public void Settings()
+    public void Controls()
     {
-        //nothing yet
+        controlmenu.gameObject.SetActive(true);
+        titlemenu.gameObject.SetActive(false);
+    }
+    
+    public void CloseControls()
+    {
+        controlmenu.gameObject.SetActive(false);
+        titlemenu.gameObject.SetActive(true);
+    }
+
+    public void CloseCredits()
+    {
+        creditwindow.gameObject.SetActive(false);
+        titlebuttons.gameObject.SetActive(true);
+    }
+
+    public void Credits()
+    {
+        creditwindow.gameObject.SetActive(true);
+        titlebuttons.gameObject.SetActive(false);
     }
 
     public void Exit()

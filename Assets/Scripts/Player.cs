@@ -472,7 +472,7 @@ public class Player : MonoBehaviour
         float opponentY = opponent.transform.position.y;
         Vector3 player = transform.position;
 
-        switch(attack)
+        switch (attack)
         {
             case eAttacks.Light:
 
@@ -480,12 +480,12 @@ public class Player : MonoBehaviour
                 {
                     if (opponent.GetComponent<Player>().attack1)
                     {
-                        if (player.x >= opponentX - rangeX - 2.2f && player.x <= opponentX)
+                        if (player.x >= opponentX - rangeX - 2.2f && player.x <= opponentX && player.y == opponentY)
                         {
                             DealDmg(dmg);
                         }
                     }
-                    else if (player.x >= opponentX - rangeX && player.x <= opponentX)
+                    else if (player.x >= opponentX - rangeX && player.x <= opponentX && player.y == opponentY)
                     {
                         DealDmg(dmg);
                     }
@@ -494,21 +494,21 @@ public class Player : MonoBehaviour
                 {
                     if (opponent.GetComponent<Player>().attack1)
                     {
-                        if (player.x <= opponentX + rangeX + 2.2f && player.x >= opponentX)
+                        if (player.x <= opponentX + rangeX + 2.2f && player.x >= opponentX && player.y == opponentY)
                         {
                             DealDmg(dmg);
                         }
                     }
-                    else if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                    else if (player.x <= opponentX + rangeX && player.x >= opponentX && player.y == opponentY)
                     {
                         DealDmg(dmg);
                     }
                 }
-                    break;
+                break;
 
             case eAttacks.Heavy:
-                
-                if (player.y <= opponentY + 2.75f && player.y >= opponentY)
+
+                if (opponentY - 2.75f <= player.y)
                 {
                     if (facingRight)
                     {
@@ -537,9 +537,8 @@ public class Player : MonoBehaviour
                         {
                             DealDmg(dmg);
                         }
-                    }
                 }
-                
+        }
                 break;
 
             case eAttacks.Jump:
@@ -565,7 +564,25 @@ public class Player : MonoBehaviour
                     }
                 }
                 break;
-        }    
+
+            case eAttacks.Blockbreak:
+
+                if (facingRight)
+                {
+                    if (player.x >= opponentX - rangeX && player.x <= opponentX)
+                    {
+                        DealDmg(dmg);
+                    }
+                }
+                else
+                {
+                    if (player.x <= opponentX + rangeX && player.x >= opponentX)
+                    {
+                        DealDmg(dmg);
+                    }
+                }
+                break;
+        }
     }
 
     //Deal damage and special effects after successful hit
@@ -738,33 +755,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    //public void DeathKB()
-    //{
-    //    if (facingRight)
-    //    {
-    //        rigid.AddForce(new Vector2(-KBstrength / 10, 0));
-    //    }
-    //    else
-    //    {
-    //        rigid.AddForce(new Vector2(+KBstrength / 10, 0));
-    //    }
-    //}
 
-    public void Death()
+public void Death()
+{
+    state = ePlayerState.Dead;
+
+    if (GameManager.instance.timeout)
     {
-        state = ePlayerState.Dead;
+        if (!grounded)
+            rigid.AddForce(new Vector2(0, -0.1f));
 
-        if (GameManager.instance.timeout)
-        {
-            if (!grounded)
-                rigid.AddForce(new Vector2(0, -0.1f));
-
-            anim.SetTrigger("timeout");
-        }
-        else
-        {
-            anim.SetTrigger("dying");
-        }
-
+        anim.SetTrigger("timeout");
     }
+    else
+    {
+        anim.SetTrigger("dying");
+    }
+
+}
 }
