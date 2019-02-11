@@ -2400,11 +2400,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4493ff7258ec36343b24fc27b42e41e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hit1: {fileID: 1712584524470948, guid: a0ec87bd9a2dc1645a490dfb81b9f380, type: 2}
-  Hit3: {fileID: 1445889033752864, guid: e6b583fb2b89da944ba4e6d6a2221a42, type: 2}
-  Hit4: {fileID: 1445850527514398, guid: 6e79cceaeed067e4687103b7f0edd6c7, type: 2}
-  Hit6: {fileID: 1485167995646044, guid: 432f0651a6602114fa37564415fd720e, type: 2}
-  Hit7: {fileID: 1890408146158546, guid: ad0123ac2038aea48a8f21ab465d649f, type: 2}
+  BB1: {fileID: 1540870150590574, guid: f8dfaed5159f35f4e9e8fa248e39ec84, type: 2}
+  BB2: {fileID: 1222026901530728, guid: ac08f0fa8b7f7de46b21f9912b60a922, type: 2}
+  BB3: {fileID: 1797591170384752, guid: 00e11144509957346b4d7cc33c0b2b74, type: 2}
+  Heavy1: {fileID: 1571547338772928, guid: 0da936e48290b4e4a94200e784940a0f, type: 2}
+  Heavy2: {fileID: 1188517018289256, guid: 58376c00dfd46cb46baead5f26b4d7c8, type: 2}
+  Heavy3: {fileID: 1583861757022416, guid: 6d59a3cf2e0eef14ead7f7cdf4542896, type: 2}
+  Light1: {fileID: 1472661711169672, guid: 4a1f3f88e6a73e948a53e36cb04ee878, type: 2}
+  Light2: {fileID: 1607483136898524, guid: 37ae419160fee474e88891cfd0ff6bfb, type: 2}
+  Light3: {fileID: 1114685606569322, guid: 2ef5ffdbf60d1aa42a37bded2e8e416c, type: 2}
+  LightHit1: {fileID: 1484809623117168, guid: 71a646e616e36f842b3d7157970e231f, type: 2}
+  LightHit2: {fileID: 1402035072727268, guid: 5bcd82a515cf0ed499f1deb3780a22ea, type: 2}
+  LightHit3: {fileID: 1399819772275866, guid: f2693741824b722478d5f087311c9535, type: 2}
+  HeavyHit1: {fileID: 1156702995548022, guid: 7ad21c34957bdb642838150f0891d467, type: 2}
+  HeavyHit2: {fileID: 1672198753542820, guid: f8a1a406a7973d34e869df6cc0866279, type: 2}
+  HeavyHit3: {fileID: 1546440641718612, guid: d2bb8ebc437219242ae1bcbab90046ed, type: 2}
+  Land1: {fileID: 1081109715648994, guid: 699c2fffd2d5cdc4a9c70b7c76b66b89, type: 2}
+  Land2: {fileID: 1562844323839426, guid: d6aa1610198211744892308da6525850, type: 2}
+  Land3: {fileID: 1847469333934210, guid: e51c13f25eee18c4c8a486a02df6e289, type: 2}
   CVoice2: {fileID: 1861220942199178, guid: a4f14fe1b09740243a3f4183a6853ac2, type: 2}
   CVoice3: {fileID: 1814217021183902, guid: 39d56f629bd48cb4e86b78c3284c5400, type: 2}
   CVoice6: {fileID: 1541496235219132, guid: fd8e9c6a253aa5948b46b41521b25c1f, type: 2}
@@ -2414,6 +2427,15 @@ MonoBehaviour:
   CVoice5: {fileID: 1849797941942652, guid: 300e539d830dc5f45a1705b6d0c3829a, type: 2}
   CVoice8: {fileID: 1737057999973350, guid: e6e8ad4684fde984280344a3540c834a, type: 2}
   CVoice9: {fileID: 1720751885168464, guid: b8ba63d74b6b29c4aac150f5e56654aa, type: 2}
+  HeavyOpenFingers: {fileID: 1709924188243090, guid: d7c409d88ec99eb45bdd06e7c43ae874,
+    type: 2}
+  KnockdownImpact: {fileID: 1327512662162908, guid: 8da86407a7cda4347936ce0d9d595a6e,
+    type: 2}
+  Hit1: {fileID: 1712584524470948, guid: a0ec87bd9a2dc1645a490dfb81b9f380, type: 2}
+  Hit3: {fileID: 1445889033752864, guid: e6b583fb2b89da944ba4e6d6a2221a42, type: 2}
+  Hit4: {fileID: 1445850527514398, guid: 6e79cceaeed067e4687103b7f0edd6c7, type: 2}
+  Hit6: {fileID: 1485167995646044, guid: 432f0651a6602114fa37564415fd720e, type: 2}
+  Hit7: {fileID: 1890408146158546, guid: ad0123ac2038aea48a8f21ab465d649f, type: 2}
   Bang1: {fileID: 0}
   Bang2: {fileID: 0}
   Bang3: {fileID: 0}
@@ -2428,20 +2450,8 @@ MonoBehaviour:
   Roger: {fileID: 1610861682730960, guid: 03501a2203a01cc44b766929366c7155, type: 2}
   Fight: {fileID: 1082041451942428, guid: 5759d9b7d5848c443b63d9239b87e7ee, type: 2}
   Start: {fileID: 1724289803074668, guid: eba417c9683271e4eb7408ead8fe3437, type: 2}
-  Attack1: {fileID: 0}
-  Attack2: {fileID: 1534037931726454, guid: 1c0f67b5ed57db44a8ad4ee7c1fbb48a, type: 2}
-  Blockbreak: {fileID: 1668481851720408, guid: b77070de9f61fcb49b2478ce9c28e777, type: 2}
-  BlockHit: {fileID: 0}
-  KickInAir: {fileID: 0}
-  KnockdownLand: {fileID: 1086761883465474, guid: 548355368be32ef4ab57242d3ea8a468,
-    type: 2}
-  JumpLand: {fileID: 0}
-  JumpStart: {fileID: 0}
   Hit2: {fileID: 1367081476335528, guid: fee06d7dc126e3a4393196eee142fd49, type: 2}
   Hit5: {fileID: 1570309054613656, guid: 70e31391257f803489695b8a63c12684, type: 2}
-  Land1: {fileID: 1081109715648994, guid: 699c2fffd2d5cdc4a9c70b7c76b66b89, type: 2}
-  Land2: {fileID: 1562844323839426, guid: d6aa1610198211744892308da6525850, type: 2}
-  Land3: {fileID: 1847469333934210, guid: e51c13f25eee18c4c8a486a02df6e289, type: 2}
   HitWhite: {fileID: 1452502342013528, guid: 66dfe0dd7aed5a94f829e9f3fcf6456e, type: 2}
   HitMarker: {fileID: 1630331239624022, guid: f9c40b27cd0e5bc478d58a2da20631ba, type: 2}
   ComicPow: {fileID: 1408506602516516, guid: 010fed3ec8956284aace126b807e9053, type: 2}

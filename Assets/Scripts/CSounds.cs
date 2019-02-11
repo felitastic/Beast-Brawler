@@ -8,37 +8,77 @@ using UnityEngine;
 
 public class CSounds : MonoBehaviour
 {
-    public void PlayAttackSound()
+    #region Attack1
+    public void PlayAttack1Sound()
     {
         //Getting a value to choose a sound from (last is excluded)
-        int ran = Random.Range(1, 6);
+        int ran = Random.Range(1, 4);
 
         switch (ran)
         {
             case 1:
-                SVFXManager.instance.PlaySFX_Hit1(transform.position);
+                SVFXManager.instance.PlayLight1(transform.position);
                 break;
             case 2:
-                SVFXManager.instance.PlaySFX_Hit6(transform.position);
+                SVFXManager.instance.PlayLight2(transform.position);
                 break;
             case 3:
-                SVFXManager.instance.PlaySFX_Hit3(transform.position);
-                break;
-            case 4:
-                SVFXManager.instance.PlaySFX_Hit4(transform.position);
-                break;
-            case 5:
-                SVFXManager.instance.PlayHit7(transform.position);
+                SVFXManager.instance.PlayLight3(transform.position);
                 break;
             default:
                 break;
         }
     }
+    #endregion
+    #region Attack2
+    public void PlayAttack2Sound()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 4);
 
+        switch (ran)
+        {
+            case 1:
+                SVFXManager.instance.PlayHeavy1(transform.position);
+                break;
+            case 2:
+                SVFXManager.instance.PlayHeavy2(transform.position);
+                break;
+            case 3:
+                SVFXManager.instance.PlayHeavy3(transform.position);
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+    #region BlockBreak 
+    public void PlayBlockBreakSound()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 4);
+
+        switch (ran)
+        {
+            case 1:
+                SVFXManager.instance.PlayBB1(transform.position);
+                break;
+            case 2:
+                SVFXManager.instance.PlayBB2(transform.position);
+                break;
+            case 3:
+                SVFXManager.instance.PlayBB3(transform.position);
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+    #region Short Hurt Cry
     public void PlayVoiceSound()
     {
         //Getting a value to choose a sound from (last is excluded)
-        int ran = Random.Range(1, 5);
+        int ran = Random.Range(1, 4);
 
         switch (ran)
         {
@@ -58,7 +98,8 @@ public class CSounds : MonoBehaviour
                 break;
         }
     }
-
+    #endregion
+    #region Long Hurt Cry
     public void PlayLongCrySound()
     {
         //Getting a value to choose a sound from (last is excluded)
@@ -79,7 +120,8 @@ public class CSounds : MonoBehaviour
                 break;
         }
     }
-
+    #endregion
+    #region Jump Landing SFX
     public void PlayLandSound()
     {
         //Getting a value to choose a sound from (last is excluded)
@@ -100,19 +142,41 @@ public class CSounds : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
-    public void PlayImpactSound()
+    #region Jump
+    public void PlayTakeOffSound()
     {
         //Getting a value to choose a sound from (last is excluded)
-        int ran = Random.Range(1, 3);
+        int ran = Random.Range(1, 4);
 
         switch (ran)
         {
             case 1:
-                SVFXManager.instance.PlayBang1(transform.position);
+                SVFXManager.instance.PlayLight1(transform.position);
                 break;
             case 2:
-                SVFXManager.instance.PlayBang2(transform.position);
+                SVFXManager.instance.PlayLight2(transform.position);
+                break;
+            case 3:
+                SVFXManager.instance.PlayLight3(transform.position);
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+
+
+    public void PlayImpactSound()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 2);
+
+        switch (ran)
+        {
+            case 1:
+                SVFXManager.instance.PlayKnockdownImpact(transform.position);
                 break;
             default:
                 break;

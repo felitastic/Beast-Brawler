@@ -40,13 +40,10 @@ public class CAnimationEvents : MonoBehaviour
             player.attack2 = true;
     }
     
-    //public void BreakAttack()
-    //{
-    //    if (player.breakattack)
-    //        player.breakattack = false;
-    //    else
-    //        player.breakattack = true;
-    //}
+    public void HeavyOpenFingers()
+    {
+        SVFXManager.instance.PlayHeavyOpenFingers(player.transform.position);
+    }
 
     public void AttackFinished()
     {

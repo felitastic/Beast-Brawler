@@ -9,31 +9,31 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1712584524470948}
+  m_RootGameObject: {fileID: 1156702995548022}
   m_IsPrefabAsset: 1
---- !u!1 &1712584524470948
+--- !u!1 &1156702995548022
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4365155892745490}
-  - component: {fileID: 82663472178518272}
-  - component: {fileID: 114153821868494170}
+  - component: {fileID: 4617297226900860}
+  - component: {fileID: 82943269284918772}
+  - component: {fileID: 114452770389518500}
   m_Layer: 0
-  m_Name: Hit1
+  m_Name: HH1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4365155892745490
+--- !u!4 &4617297226900860
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1712584524470948}
+  m_GameObject: {fileID: 1156702995548022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,12 +41,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &82663472178518272
+--- !u!82 &82943269284918772
 AudioSource:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1712584524470948}
+  m_GameObject: {fileID: 1156702995548022}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243464148636138766, guid: 41f81008683d04c4c821cca2bd4f0ddb,
@@ -137,12 +137,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114153821868494170
+--- !u!114 &114452770389518500
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1712584524470948}
+  m_GameObject: {fileID: 1156702995548022}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4dfe2e31a2921f41ac5fe8af79b69d3, type: 3}

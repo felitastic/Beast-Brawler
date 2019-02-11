@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
                             attack = eAttacks.Light;
                             anim.SetTrigger("attack1");
                             hitCheck = true;
-                            CVoice.PlayAttackSound();
+                            CVoice.PlayAttack1Sound();
                             //StartCoroutine(Attack1());
                         }
 
@@ -184,7 +184,7 @@ public class Player : MonoBehaviour
                             attack = eAttacks.Heavy;
                             anim.SetTrigger("attack2");
                             hitCheck = true;
-                            CVoice.PlayAttackSound();
+                            CVoice.PlayAttack2Sound();
                             //StartCoroutine(Attack2());
                         }
 
@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
                             anim.SetTrigger("blockbreak");
                             blockbreak = true;
                             hitCheck = true;
-                            CVoice.PlayAttackSound();
+                            CVoice.PlayBlockBreakSound();
                             //Blockbreaking Move
                         }
 
@@ -248,7 +248,7 @@ public class Player : MonoBehaviour
                             state = ePlayerState.InAirAttack;
                             attack = eAttacks.Jump;
                             anim.SetTrigger("jumpattack");
-                            CVoice.PlayAttackSound();
+                            CVoice.PlayAttack1Sound();
                             hitCheck = true;
                         }
 
