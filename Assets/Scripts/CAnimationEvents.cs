@@ -118,4 +118,9 @@ public class CAnimationEvents : MonoBehaviour
     {
         shade.NewScale(1.75f, 0.7f);
     }    
+
+    public void VictoryDone()
+    {
+        player.anim.SetBool("victorydone", true);
+    }    
 }

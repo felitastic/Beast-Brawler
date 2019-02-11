@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// CVoices Sounds
+/// All sounds regarding Claudia
 /// </summary>
 
 public class CSounds : MonoBehaviour
 {
-
-
     public void PlayAttackSound()
     {
         //Getting a value to choose a sound from (last is excluded)
@@ -76,6 +74,27 @@ public class CSounds : MonoBehaviour
                 break;
             case 3:
                 SVFXManager.instance.PlayCVoice5(transform.position);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void PlayLandSound()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 4);
+
+        switch (ran)
+        {
+            case 1:
+                SVFXManager.instance.PlayLand1(transform.position);
+                break;
+            case 2:
+                SVFXManager.instance.PlayLand2(transform.position);
+                break;
+            case 3:
+                SVFXManager.instance.PlayLand3(transform.position);
                 break;
             default:
                 break;

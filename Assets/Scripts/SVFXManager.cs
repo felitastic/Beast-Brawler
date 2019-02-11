@@ -18,11 +18,18 @@ public class SVFXManager : MonoBehaviour
     public GameObject Hit6;
     public GameObject Hit7;
 
-    [Header("CVoice Voice")]
+    [Header("Short Pain Screams")]
     public GameObject CVoice2;
     public GameObject CVoice3;
     public GameObject CVoice6;
     public GameObject CVoice7;
+
+    [Header("Longer Pain Screams")]
+    public GameObject CVoice1;
+    public GameObject CVoice4;
+    public GameObject CVoice5;
+    public GameObject CVoice8;
+    public GameObject CVoice9;
 
     [Header("Hitting the opponent")]
     public GameObject Bang1;
@@ -30,23 +37,34 @@ public class SVFXManager : MonoBehaviour
     public GameObject Bang3;
     public GameObject Bang4;
 
+    [Header("Announcer")]
+    public GameObject Matchstart;
+    public GameObject Matchfinish;
+    public GameObject Close;
+    public GameObject Affirmative;
+    public GameObject Confirmed;
+    public GameObject Roger;
+    public GameObject Fight;
+    public GameObject Start;
+    
+    [Header("")]
+    public GameObject Attack1;
+    public GameObject Attack2;
+    public GameObject Blockbreak;
+    public GameObject BlockHit;
+    public GameObject KickInAir;
+    public GameObject KnockdownLand;
+    public GameObject JumpLand;
+    public GameObject JumpStart;
+
     [Header("Erstmal aussortiert")]
     public GameObject Hit2;
     public GameObject Hit5;
-    public GameObject CVoice1;
-    public GameObject CVoice4;
-    public GameObject CVoice5;
-    public GameObject CVoice8;
-    public GameObject CVoice9;
-
+       
     [Header("Jump landing")]
     public GameObject Land1;
     public GameObject Land2;
     public GameObject Land3;
-
-    [Header("Menus and Buttons")]
-    public GameObject Button1;
-    public GameObject Button2;
 
     [Header("VISUAL EFFECTS")]
     public GameObject HitWhite;
@@ -69,7 +87,7 @@ public class SVFXManager : MonoBehaviour
         }
     }
 
-    //SFX
+    #region SFX Hit
     public void PlaySFX_Hit1(Vector3 position)
     {
         GameObject.Instantiate(Hit1, position, new Quaternion());
@@ -98,7 +116,9 @@ public class SVFXManager : MonoBehaviour
     {
         GameObject.Instantiate(Hit7, position, new Quaternion());
     }
+    #endregion
 
+    #region Voice
     public void PlayCVoice1(Vector3 position)
     {
         GameObject.Instantiate(CVoice1, position, new Quaternion());
@@ -135,6 +155,7 @@ public class SVFXManager : MonoBehaviour
     {
         GameObject.Instantiate(CVoice9, position, new Quaternion());
     }
+    #endregion
 
     public void PlayBang1(Vector3 position)
     {
@@ -145,7 +166,57 @@ public class SVFXManager : MonoBehaviour
         GameObject.Instantiate(Bang2, position, new Quaternion());
     }
 
-    // VFX
+    #region LandSounds
+    public void PlayLand1(Vector3 position)
+    {
+        GameObject.Instantiate(Land1, position, new Quaternion());
+    }
+    public void PlayLand2(Vector3 position)
+    {
+        GameObject.Instantiate(Land2, position, new Quaternion());
+    }
+    public void PlayLand3(Vector3 position)
+    {
+        GameObject.Instantiate(Land3, position, new Quaternion());
+    }
+    #endregion
+
+    #region Announcer
+    public void PlayMatchstart(Vector3 position)
+    {
+        GameObject.Instantiate(Matchstart, position, new Quaternion());
+    }
+    public void PlayMatchfinish(Vector3 position)
+    {
+        GameObject.Instantiate(Matchfinish, position, new Quaternion());
+    }
+    public void PlayClose(Vector3 position)
+    {
+        GameObject.Instantiate(Close, position, new Quaternion());
+    }
+    public void PlayAffirmative(Vector3 position)
+    {
+        GameObject.Instantiate(Affirmative, position, new Quaternion());
+    }
+    public void PlayConfirmed(Vector3 position)
+    {
+        GameObject.Instantiate(Confirmed, position, new Quaternion());
+    }
+    public void PlayRoger(Vector3 position)
+    {
+        GameObject.Instantiate(Roger, position, new Quaternion());
+    }
+    public void PlayFight(Vector3 position)
+    {
+        GameObject.Instantiate(Fight, position, new Quaternion());
+    }
+    public void PlayStart(Vector3 position)
+    {
+        GameObject.Instantiate(Start, position, new Quaternion());
+    }
+    #endregion    
+
+    #region VFX
     public void PlayVFX_HitWhite(float offsetY, GameObject player)
     {
         GameObject hitWhite = Instantiate(HitWhite, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
@@ -163,7 +234,9 @@ public class SVFXManager : MonoBehaviour
         GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
         //hitMarker.transform.parent = player.transform;
     }
+    #endregion
 
+    #region Animations
     public void InstantiateDustJump(float offsetY, GameObject player)
     {
         GameObject dustJump = Instantiate(DustJump, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
@@ -175,44 +248,7 @@ public class SVFXManager : MonoBehaviour
         GameObject breakShield = Instantiate(BreakShield, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
         breakShield.transform.localScale *= scale;
     }
+    #endregion
 
-
-    //public void B1PainSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(b1PainSound, position, new Quaternion());
-    //}
-    //public void B1DieSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(b1DieSound, position, new Quaternion());
-    //}
-    //public void B1CurseSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(b1CurseSound, position, new Quaternion());
-    //}
-    //public void E1Hitsound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(e1Hitsound, position, new Quaternion());
-    //}
-    //public void E1PainSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(e1PainSound, position, new Quaternion());
-    //}
-    //public void E1DieSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(e1DieSound, position, new Quaternion());
-    //}
-    //public void StageClearSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(stageClearSound, position, new Quaternion());
-    //}
-    //public void WipeOutSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(wipeOutSound, position, new Quaternion());
-    //}
-    //public void SireneSound(Vector3 position)
-    //{
-    //    GameObject.Instantiate(sireneSound, position, new Quaternion());
-    //}
-    //... etc
-
+    
 }

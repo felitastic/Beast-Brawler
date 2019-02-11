@@ -148,9 +148,10 @@ public class Player : MonoBehaviour
 
                 if (hitPoints <= 0)
                 {
-                    state = ePlayerState.Dead;
+                    print(name + " is dead");
                 }
 
+                #region Playerstate switch
                 switch (state)
                 {
                     case ePlayerState.Ready:
@@ -239,6 +240,7 @@ public class Player : MonoBehaviour
                         {
                             anim.SetBool("falling", false);
                             anim.SetTrigger("land");
+                            CVoice.PlayLandSound();
                         }
 
                         if (Input.GetButtonDown("Attack1_" + PlayerIndex) && transform.position.y >= jumpAttack)
@@ -307,6 +309,8 @@ public class Player : MonoBehaviour
                     default:
                         break;
                 }
+                #endregion
+
                 break;
         }
     }
@@ -540,8 +544,8 @@ public class Player : MonoBehaviour
                         {
                             DealDmg(dmg);
                         }
+                    }
                 }
-        }
                 break;
 
             case eAttacks.Jump:
@@ -759,21 +763,25 @@ public class Player : MonoBehaviour
     }
 
 
-public void Death()
-{
-    state = ePlayerState.Dead;
-
-    if (GameManager.instance.timeout)
+    public void Death()
     {
-        if (!grounded)
-            rigid.AddForce(new Vector2(0, -0.1f));
+        if (state == ePlayerState.Dead)
+            return;
 
-        anim.SetTrigger("timeout");
-    }
-    else
-    {
-        anim.SetTrigger("dying");
-    }
+        state = ePlayerState.Dead;
+        CVoice.PlayLongCrySound();
+        if (GameManager.instance.timeout)
+        {
+            if (!grounded)
+                rigid.AddForce(new Vector2(0, -0.1f));
 
-}
+            anim.SetTrigger("timeout");
+        }
+        else
+        {
+            anim.SetTrigger("dying");
+        }
+
+        StartCoroutine(GameManager.instance.TextStuff());
+    }
 }

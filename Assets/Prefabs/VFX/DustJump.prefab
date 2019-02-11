@@ -71,7 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e25ad2035b466342a955154a475f2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camShake: {fileID: 0}
+  player: {fileID: 0}
+  shade: {fileID: 0}
 --- !u!212 &212326434928388774
 SpriteRenderer:
   m_ObjectHideFlags: 1

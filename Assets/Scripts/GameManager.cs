@@ -21,10 +21,15 @@ public class GameManager : MonoBehaviour
     public eStage Stage;
 
     [Header("Menu Drag n Drop")]
+    public GameObject mainCam;
     public GameObject GameOverScreen;
     public GameObject MatchOverScreen;
     public GameObject RestartButton;
     public GameObject PauseScreen;
+
+    public GameObject MatchOverButtons;
+    public SpriteRenderer MatchOverBlackScreen;
+    public Transform WinnerPose;
 
     public Image Pulse1;
     public Image Pulse2;
@@ -57,7 +62,8 @@ public class GameManager : MonoBehaviour
     //for timer text zoomin/out
     public bool text = false; 
     //has time run out before anyone wins
-    public bool timeout = false; 
+    public bool timeout = false;
+    bool end = false;       //for end of match
 
     //[Header("Potato values")]
     //public float potatoTime = 6f;   //how many seconds without hit before getting potato dmg
@@ -152,17 +158,31 @@ public class GameManager : MonoBehaviour
 
         TestInput();
 
+
         switch (GameMode)
         {
             case eGameMode.MatchStart:
                 StartCoroutine(MatchStartText());
                 break;
 
+            #region GameMode Running
             case eGameMode.Running:
                 UI.gameObject.SetActive(true);
                 Unpause();
                 LerpTiming();
                 StageCountdown();
+
+                if (Player1.GetComponent<Player>().hitPoints <= (Player1.GetComponent<Player>().maxHitPoints / 4) && !warn1)
+                {
+                    print("starting pulse1");
+                    StartCoroutine(LowHealth1(0.75f, Pulse1));
+                }
+
+                if (Player2.GetComponent<Player>().hitPoints <= (Player2.GetComponent<Player>().maxHitPoints / 4) && !warn2)
+                {
+                    print("starting pulse2");
+                    StartCoroutine(LowHealth2(0.75f, Pulse2));
+                }
 
                 //if (startSlowMo)
                 //    StartCoroutine(SlowMo());
@@ -173,6 +193,7 @@ public class GameManager : MonoBehaviour
                     Pause();
                 }
                 break;
+            #endregion
 
             case eGameMode.Pause:
                 UI.gameObject.SetActive(false);
@@ -183,12 +204,13 @@ public class GameManager : MonoBehaviour
 
             case eGameMode.MatchOver:
                 UI.gameObject.SetActive(true);
-                StartCoroutine(MatchOver(winner, loser));
-                StageCountdown();
                 LerpUI();
+                StageCountdown();
                 break;
 
             case eGameMode.GameOver:
+                winner.transform.position = WinnerPose.position;
+                UI.gameObject.SetActive(false);
                 //show victory screen
                 //rematch / back to title
                 break;
@@ -196,6 +218,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
 
     void TestInput() //HACK testshit
     {
@@ -222,28 +245,32 @@ public class GameManager : MonoBehaviour
         Vector3 inZoom = new Vector3(0, 0, 0);
         Vector3 outZoom = new Vector3(1, 1, 1);
         IntroCDText.gameObject.SetActive(true);
-        StartCoroutine(FadeTextIn(1f, IntroCDText, ("Ready?")));
-        StartCoroutine(ZoomTextIn(1f, IntroCDText, ("Ready?"), inZoom, 1f));
+        StartCoroutine(FadeTextIn(1f, IntroCDText, ("Initiating research")));
+        StartCoroutine(ZoomTextIn(1f, IntroCDText, ("Initiating research"), inZoom, 1f));
+        SVFXManager.instance.PlayMatchstart(mainCam.transform.position);
         yield return new WaitForSeconds(2f);
         StartCoroutine(FadeTextOut(0.5f, IntroCDText));
         StartCoroutine(ZoomTextOut(0.5f, IntroCDText, outZoom, 0));
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(FadeTextIn(0.5f, IntroCDText, ("Fight!")));
         StartCoroutine(ZoomTextIn(0.6f, IntroCDText, ("Fight!"), inZoom, 4f));
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(0.2f);
+        SVFXManager.instance.PlayFight(mainCam.transform.position);
+        //TODO play stupid research start sound
+        yield return new WaitForSeconds(0.8f);
         StartCoroutine(FadeTextOut(0.2f, IntroCDText));
         yield return new WaitForSeconds(0.3f);
         IntroCDText.gameObject.SetActive(false);
         GameMode = eGameMode.Running;
     }
 
-    IEnumerator LowHealth1(float speed, float hp, float maxhp, Image pulse)
+    IEnumerator LowHealth1(float speed, Image pulse)
     {
         if (warn1)
             yield break;
 
         warn1 = true;
-        while (hp <= maxhp/4 && warn1)
+        while (Hitpoints1 <= maxHitpoints1 / 4 && warn1)
         {
             StartCoroutine(FadeImageIn(speed, pulse));
             yield return new WaitForSeconds(speed);
@@ -252,13 +279,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator LowHealth2(float speed, float hp, float maxhp, Image pulse)
+    IEnumerator LowHealth2(float speed, Image pulse)
     {
         if (warn2)
             yield break;
 
         warn2 = true;
-        while (hp <= maxhp/4 && warn2)
+        while (Hitpoints2 <= maxHitpoints2/4 && warn2)
         {
             StartCoroutine(FadeImageIn(speed, pulse));
             yield return new WaitForSeconds(speed);
@@ -337,6 +364,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator FadeSpriteIn(float t, SpriteRenderer sprite)
+    {
+        print("starting sprite fadein");
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0);
+        while (sprite.color.a < 255f)
+        {
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, sprite.color.a + (Time.deltaTime / t));
+            yield return null;
+        }
+    }
+
     //Countdown for time til match ends and also match win
     void StageCountdown()
     {
@@ -352,7 +390,7 @@ public class GameManager : MonoBehaviour
                 winner = Player2;
                 loser = Player1;
                 GameMode = eGameMode.MatchOver;
-                //StartCoroutine(MatchOver(winner, loser));
+                MatchOver(winner, loser);
             }
             else if (Hitpoints2 < Hitpoints1)
             {
@@ -360,14 +398,14 @@ public class GameManager : MonoBehaviour
                 winner = Player1;
                 loser = Player2;
                 GameMode = eGameMode.MatchOver;
-                //StartCoroutine(MatchOver(winner, loser));
+                MatchOver(winner, loser);
             }
             else if (Hitpoints1 == Hitpoints2)
             {
                 print("Draw, Hot Potato!");
             }
         }
-        else if (Player1.GetComponent<Player>().state == ePlayerState.Dead || Player2.GetComponent<Player>().state == ePlayerState.Dead)
+        else if (Player1.GetComponent<Player>().hitPoints <= 0f || Player2.GetComponent<Player>().hitPoints <= 0f)
         {
             //TODO counter for how many matches have been played
             if (Hitpoints1 < Hitpoints2)
@@ -376,7 +414,7 @@ public class GameManager : MonoBehaviour
                 winner = Player2;
                 loser = Player1;
                 GameMode = eGameMode.MatchOver;
-                //StartCoroutine(MatchOver(winner, loser));
+                MatchOver(winner, loser);
             }
             else if (Hitpoints2 < Hitpoints1)
             {
@@ -384,7 +422,7 @@ public class GameManager : MonoBehaviour
                 winner = Player1;
                 loser = Player2;
                 GameMode = eGameMode.MatchOver;
-                //StartCoroutine(MatchOver(winner, loser));
+                MatchOver(winner, loser);
             }
         }
         else
@@ -472,7 +510,7 @@ public class GameManager : MonoBehaviour
     //}
 
     //Runs after a match has finished
-    public IEnumerator MatchOver(GameObject winner, GameObject loser)
+    public void MatchOver(GameObject winner, GameObject loser)
     {
         if (timeout)
         {
@@ -485,18 +523,41 @@ public class GameManager : MonoBehaviour
             print("Match over");
             loser.GetComponent<Player>().Death();
         }
-        name = winner.name;
-        MatchWinTextShade.text = MatchWinText.text;
-        MatchWinText.text = ("Match Over \n" + name + " wins");
-        yield return new WaitForSeconds(deathTime);
-        //show victory screen and pose
-        GameOver();
     }
 
-    public void GameOver()
+    public IEnumerator TextStuff()
     {
-        MatchOverScreen.gameObject.SetActive(true);
-        Pause();
+        if (end)
+            yield break;
+
+        end = true;
+        name = winner.name;
+        MatchWinText.text = ("Research complete: \n" + name + " lives");
+        yield return new WaitForSeconds(0.7f);
+
+        Vector3 inZoom = new Vector3(0, 0, 0);
+        StartCoroutine(FadeTextIn(0.2f, MatchWinText, MatchWinText.text));
+        StartCoroutine(ZoomTextIn(0.3f, MatchWinText, MatchWinText.text, inZoom, 1f));
+        SVFXManager.instance.PlayMatchfinish(mainCam.transform.position);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(FadeTextOut(0.3f, MatchWinText));
+        yield return new WaitForSeconds(deathTime);
+        float x = WinnerPose.position.x;
+        mainCam.transform.position = new Vector3(x, mainCam.transform.position.y, mainCam.transform.position.z);
+        StartCoroutine(GameOver());
+    }
+
+    public IEnumerator GameOver()
+    {
+        winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 0);
+        GameMode = eGameMode.GameOver; 
+        yield return new WaitForSeconds(0.5f);
+        winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 255);
+        winner.GetComponent<Player>().anim.Play("victory");
+        yield return new WaitForSeconds(0.5f);
+        //TODO spawn fireworks + sound
+        yield return new WaitForSeconds(2f);
+        MatchOverButtons.SetActive(true);
     }
 
     //HACK old unfinished hot potato code
@@ -549,18 +610,6 @@ public class GameManager : MonoBehaviour
             Hitpoints1 = maxHitpoints1;
         if (Hitpoints2 > maxHitpoints2)
             Hitpoints2 = maxHitpoints2;
-
-        if (Hitpoints1 <= (maxHitpoints1 / 4) && !warn1)
-        {
-            print("starting pulse1");
-            StartCoroutine(LowHealth1(0.75f, Hitpoints1, maxHitpoints1, Pulse1));
-        }
-
-        if (Hitpoints2 <= (maxHitpoints2 / 4) && !warn2)
-        {
-            print("starting pulse2");
-            StartCoroutine(LowHealth2(0.75f, Hitpoints2, maxHitpoints2, Pulse2));
-        }
 
         //reset lerptimer if damage is taken
         if (lerpTimer <= 0)
@@ -623,6 +672,7 @@ public class GameManager : MonoBehaviour
     public void Unpause()
     {
         PauseScreen.gameObject.SetActive(false);
+        GameMode = eGameMode.Running;
         Time.timeScale = 1;
     }
 
@@ -652,4 +702,5 @@ public class GameManager : MonoBehaviour
         Player2.transform.position = P2Respawn.position;
         GameMode = eGameMode.Running;
     }
+
 }

@@ -9,7 +9,8 @@ public class Menu : MonoBehaviour
     public GameObject controlmenu;
     public GameObject titlemenu;
     public GameObject creditwindow;
-    public GameObject titlebuttons;    
+    public GameObject titlebuttons;
+
 
     public void Play()
     {
