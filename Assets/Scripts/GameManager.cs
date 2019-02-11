@@ -224,9 +224,11 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
+
+            SVFXManager.instance.PlayVFX_Steam();
             //Player1.GetComponent<Player>().Death();
 
-            countdown = 5f;
+            //countdown = 5f;
 
             //Player1.GetComponent<Player>().hitPoints = maxHitpoints1 / 4;
             //UpdateHP();

@@ -487,12 +487,12 @@ public class Player : MonoBehaviour
                 {
                     if (opponent.GetComponent<Player>().attack1)
                     {
-                        if (player.x >= opponentX - rangeX - 2.2f && player.x <= opponentX && player.y == opponentY)
+                        if (player.x >= opponentX - rangeX - 2.2f && player.x <= opponentX && (Mathf.Approximately(player.y, opponentY)))
                         {
                             DealDmg(dmg);
                         }
                     }
-                    else if (player.x >= opponentX - rangeX && player.x <= opponentX && player.y == opponentY)
+                    else if (player.x >= opponentX - rangeX && player.x <= opponentX && (Mathf.Approximately(player.y, opponentY)))
                     {
                         DealDmg(dmg);
                     }
@@ -501,12 +501,12 @@ public class Player : MonoBehaviour
                 {
                     if (opponent.GetComponent<Player>().attack1)
                     {
-                        if (player.x <= opponentX + rangeX + 2.2f && player.x >= opponentX && player.y == opponentY)
+                        if (player.x <= opponentX + rangeX + 2.2f && player.x >= opponentX && (Mathf.Approximately(player.y, opponentY)))
                         {
                             DealDmg(dmg);
                         }
                     }
-                    else if (player.x <= opponentX + rangeX && player.x >= opponentX && player.y == opponentY)
+                    else if (player.x <= opponentX + rangeX && player.x >= opponentX && (Mathf.Approximately(player.y, opponentY)))
                     {
                         DealDmg(dmg);
                     }

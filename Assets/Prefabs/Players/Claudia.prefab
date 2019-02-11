@@ -196,8 +196,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHitPoints: 3000
-  MoveSpeedF: 22
-  MoveSpeedB: 20
+  MoveSpeedF: 21
+  MoveSpeedB: 19
   attack1Dmg: 185
   attack2Dmg: 340
   jumpattackDmg: 200
@@ -239,7 +239,6 @@ MonoBehaviour:
   dustJumpY: 0
   sprite: {fileID: 0}
   anim: {fileID: 0}
-  shield: {fileID: 0}
   rigid: {fileID: 0}
   camShake: {fileID: 0}
   opponent: {fileID: 0}
@@ -283,7 +282,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 20724f7714a60aa49ac34c63c766ff35, type: 3}
-  m_Color: {r: 0.48584908, g: 0.7917901, b: 1, a: 1}
+  m_Color: {r: 0.3066038, g: 0.37018266, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

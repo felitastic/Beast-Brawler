@@ -10,6 +10,8 @@ public class SVFXManager : MonoBehaviour
 {
     public static SVFXManager instance = null;
 
+    public Transform steamtransform;
+
     [Header("SOUND EFFECTS")]
     [Header("Attack Sounds")]
     public GameObject BB1;
@@ -79,6 +81,7 @@ public class SVFXManager : MonoBehaviour
     public GameObject HitWhite;
     public GameObject HitMarker;
     public GameObject ComicPow;
+    public GameObject Steam;
 
     [Header("Animations")]
     public GameObject DustJump;
@@ -280,6 +283,12 @@ public class SVFXManager : MonoBehaviour
     {
         GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
         //hitMarker.transform.parent = player.transform;
+    }
+
+    public void PlayVFX_Steam()
+    {
+        GameObject steam = Instantiate(Steam, new Vector2(steamtransform.transform.position.x, steamtransform.transform.position.y), new Quaternion());
+        Destroy(steam, 2.0f);
     }
     #endregion
 

@@ -111,6 +111,11 @@ public class CAnimationEvents : MonoBehaviour
         player.anim.SetTrigger("getup");
     }
 
+    public void KnockdownSound()
+    {
+        SVFXManager.instance.PlayKnockdownImpact(player.transform.position);
+    }
+
     public void KnockDownScale()
     {
         shade.NewScale(1.75f, 0.7f);
@@ -120,4 +125,9 @@ public class CAnimationEvents : MonoBehaviour
     {
         player.anim.SetBool("victorydone", true);
     }    
+
+    public void HeavySteam()
+    {
+        SVFXManager.instance.PlayVFX_Steam();
+    }
 }

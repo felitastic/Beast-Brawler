@@ -20,13 +20,13 @@ public class Menu : MonoBehaviour
     public void Controls()
     {
         controlmenu.gameObject.SetActive(true);
-        titlemenu.gameObject.SetActive(false);
+        titlebuttons.gameObject.SetActive(false);
     }
     
     public void CloseControls()
     {
         controlmenu.gameObject.SetActive(false);
-        titlemenu.gameObject.SetActive(true);
+        titlebuttons.gameObject.SetActive(true);
     }
 
     public void CloseCredits()
@@ -43,7 +43,6 @@ public class Menu : MonoBehaviour
 
     public void Exit()
     {
-        Application.Quit();
+         Application.Quit();
     }
-
 }
