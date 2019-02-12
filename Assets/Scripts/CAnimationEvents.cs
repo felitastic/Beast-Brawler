@@ -52,6 +52,7 @@ public class CAnimationEvents : MonoBehaviour
 
     public void HeavyAScreenShake()
     {
+        SVFXManager.instance.PlayVFX_Steam();
         StartCoroutine(camShake.Shake(0.15f, 0.4f));
     }
 

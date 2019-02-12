@@ -27,13 +27,13 @@ public class Player : MonoBehaviour
     public float blockPct = 80;
     [Tooltip("How much the opponent is knocked back after being hit")]
     public float KBstrength = 5f;
+
+    [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
+    public int PlayerIndex;
     [Tooltip("How much the opponent is knocked up after being hit")]
     public float knockUp = 1f;  //upward knock when knocked back    
     [Tooltip("How much the opponent is knocked up after being hit")]
     public float knockDown = -0.2f;  //downward knock when knocked back
-
-    [Header("CODERS ONLY! DO NOT TOUCH OR OUCH! ----------------------")]
-    public int PlayerIndex;
     public float JumpForce;
     [Tooltip("Speed movement when in Air")]
     public float MoveSpeedJ;
@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
     public bool attack2;
     //public bool breakattack;
 
+    public float hurtCooldown = 1f; //max Hurt time before going into ready
+    private float hurtT;
 
     [Tooltip("Offset for the Hit VXF")]
     public float HitOffset = 4.5f;
@@ -104,12 +106,12 @@ public class Player : MonoBehaviour
     {
         if (PlayerIndex == 0)
         {
-            gameObject.name = "Player 1";
+            gameObject.name = "Subject 1";
             facingRight = true;
         }
         else if (PlayerIndex == 1)
         {
-            gameObject.name = "Player 2";
+            gameObject.name = "Subject 2";
             facingRight = false;
         }
 
@@ -300,6 +302,7 @@ public class Player : MonoBehaviour
                         //}
                         break;
                     case ePlayerState.Hurt:
+                        HurtTimer();
                         break;
                     case ePlayerState.Dead:
                         //play dying animation
@@ -312,6 +315,23 @@ public class Player : MonoBehaviour
                 #endregion
 
                 break;
+        }
+    }
+
+    public void HurtTimer()
+    {
+        if (hurtT > 0)
+        {
+            hurtT -= Time.deltaTime;
+        }
+        if (hurtT == 0)
+        {
+            state = ePlayerState.Ready;
+            hurtT = hurtCooldown;
+        }
+        if (hurtT < 0)
+        {
+            hurtT = hurtCooldown;
         }
     }
 
@@ -359,7 +379,7 @@ public class Player : MonoBehaviour
         state = ePlayerState.InAir;
         grounded = false;
         rigid.AddForce(new Vector2(0f, JumpForce / 10));
-        SVFXManager.instance.InstantiateDustJump(dustJumpY, this.gameObject);
+        //SVFXManager.instance.InstantiateDustJump(dustJumpY, this.gameObject);
     }
 
     //Moves the character via axis input
@@ -597,49 +617,82 @@ public class Player : MonoBehaviour
     {
         float offset = opponent.GetComponent<Player>().HitOffset;
 
-        if (attack == eAttacks.Blockbreak)
+        if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
         {
-            if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
+            if (attack == eAttacks.Blockbreak)
             {
                 opponent.GetComponent<Player>().stun = eStun.blockbroken;
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name + " by breaking their shield");
                 GameManager.instance.startSlowMo = true;
+                //TODO: pow effekte
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
-                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
                 //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
+                SetHurtTimer(0.54f);
                 opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
             }
-            else //knockdown
+            else
             {
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
                 GameManager.instance.startSlowMo = true;
-                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
-                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_Blocked(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
+                SetHurtTimer(0.54f);
                 opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);    //Knockback(KBstrength * 1.5f); stronger knockback when hit by blockbreaker
             }
         }
-        else //not attacking with blockbreak
+        else if (opponent.GetComponent<Player>().state == ePlayerState.InAir)
         {
-            if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
-            {
-                float newdmg = dmg - (dmg * (blockPct / 100));
-                print(gameObject.name + " deals " + dmg + " to the blocking " + opponent.name);
-                GameManager.instance.startSlowMo = true;
-                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
-                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
-                //opponent.GetComponent<Player>().shield.SetTrigger("show");
-                opponent.GetComponent<Player>().ApplyDamage(newdmg);
-            }
-            else if (opponent.GetComponent<Player>().state == ePlayerState.InAir)
+            print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+            GameManager.instance.startSlowMo = true;
+            SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+            SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
+            opponent.GetComponent<Player>().ApplyDamage(dmg);
+            SetHurtTimer(1f);
+            opponent.GetComponent<Player>().Knockdown(KBstrength, knockDown);
+        }
+        else
+        {
+            if (attack == eAttacks.Blockbreak)
             {
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                opponent.GetComponent<Player>().Knockdown(KBstrength, knockDown);
+                SetHurtTimer(0.54f);
+                opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
+            }
+            else if (attack == eAttacks.Light)
+            {
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicSlash(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                SetHurtTimer(0.14f);
+                opponent.GetComponent<Player>().Knockback(KBstrength);
+            }
+            else if (attack == eAttacks.Heavy)
+            {
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicHeavyPow(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                SetHurtTimer(0.14f);
+                opponent.GetComponent<Player>().Knockback(KBstrength);
+            }
+            else if (attack == eAttacks.Jump)
+            {
+                print(gameObject.name + " deals " + dmg + " to " + opponent.name);
+                GameManager.instance.startSlowMo = true;
+                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                SetHurtTimer(0.14f);
+                opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else
             {
@@ -648,9 +701,10 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
+                SetHurtTimer(0.14f);
                 opponent.GetComponent<Player>().Knockback(KBstrength);
             }
-        }
+        } 
     }
 
     //Called by opponent on hit
@@ -696,6 +750,12 @@ public class Player : MonoBehaviour
 
         print(gameObject.name + "s HP: " + hitPoints);
         stun = eStun.normal;
+    }
+
+    public void SetHurtTimer(float time)
+    {
+        hurtCooldown = time;
+        hurtT = hurtCooldown;
     }
 
     //Knocks the player backwards

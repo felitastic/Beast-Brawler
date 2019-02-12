@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114328971487536066}
   - component: {fileID: 199925408305741746}
   m_Layer: 0
-  m_Name: Hitmarker
+  m_Name: HitMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

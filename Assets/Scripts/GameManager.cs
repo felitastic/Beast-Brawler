@@ -550,29 +550,26 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(FadeTextOut(0.5f, MatchWinText));
         MatchWinText.text = (name + " lives");
-        StartCoroutine(FadeTextIn(0.7f, MatchWinText, MatchWinText.text));
-        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(FadeTextIn(0.6f, MatchWinText, MatchWinText.text));
+        yield return new WaitForSeconds(1.7f);
 
         StartCoroutine(FadeTextOut(0.5f, MatchWinText));
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
 
-        float x = WinnerPose.position.x;
+        float x = WinnerPose.position.x;       
         mainCam.transform.position = new Vector3(x, mainCam.transform.position.y, mainCam.transform.position.z);
+        winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 0);
         MatchWinText.gameObject.SetActive(false);
         StartCoroutine(GameOver());
     }
 
     public IEnumerator GameOver()
     {
-        winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 0);
-
-        GameMode = eGameMode.GameOver; 
-        yield return new WaitForSeconds(1f);
-
-        winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 255);
-
-        winner.GetComponent<Player>().anim.Play("victory");
         yield return new WaitForSeconds(0.5f);
+        GameMode = eGameMode.GameOver;
+        winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 255);
+        winner.GetComponent<Player>().anim.Play("victory");
+        yield return new WaitForSeconds(0.1f);
         //TODO spawn fireworks + sound
         yield return new WaitForSeconds(4f);
         MatchOverButtons.SetActive(true);

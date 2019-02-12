@@ -78,9 +78,12 @@ public class SVFXManager : MonoBehaviour
 
 
     [Header("VISUAL EFFECTS")]
-    public GameObject HitWhite;
     public GameObject HitMarker;
     public GameObject ComicPow;
+    public GameObject ComicHeavyPow;
+    public GameObject ComicSlash;
+    public GameObject Blocked;
+    public GameObject Ouch;
     public GameObject Steam;
 
     [Header("Animations")]
@@ -267,22 +270,35 @@ public class SVFXManager : MonoBehaviour
     #endregion    
 
     #region VFX
-    public void PlayVFX_HitWhite(float offsetY, GameObject player)
+    public void PlayVFX_HitMarker(float offsetY, GameObject player)
     {
-        GameObject hitWhite = Instantiate(HitWhite, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
-        hitWhite.transform.parent = player.transform;
+        GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+        //hitWhite.transform.parent = player.transform;
     }
 
     public void PlayVFX_ComicPow(float offsetY, GameObject player)
     {
         GameObject comicPow = Instantiate(ComicPow, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
-        //comicPow.transform.parent = player.transform;
     }
 
-    public void PlayVFX_HitMarker(float offsetY, GameObject player)
+    public void PlayVFX_ComicHeavyPow(float offsetY, GameObject player)
     {
-        GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
-        //hitMarker.transform.parent = player.transform;
+        GameObject comicHeavyPow = Instantiate(ComicHeavyPow, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+    }
+    
+    public void PlayVFX_ComicSlash(float offsetY, GameObject player)
+    {
+        GameObject comicSlash = Instantiate(ComicSlash, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+    }
+        
+    public void PlayVFX_Blocked(float offsetY, GameObject player)
+    {
+        GameObject blocked = Instantiate(Blocked, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+    }
+
+    public void PlayVFX_Ouch(float offsetY, GameObject player)
+    {
+        GameObject ouch = Instantiate(Ouch, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
     }
 
     public void PlayVFX_Steam()
