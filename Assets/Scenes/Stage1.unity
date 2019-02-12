@@ -3167,6 +3167,8 @@ MonoBehaviour:
   Success: {fileID: 1373369455242754, guid: 708dd4c1e370c5740b5213ed37b5e580, type: 2}
   SteamSound: {fileID: 0}
   HitMarker: {fileID: 1630331239624022, guid: f9c40b27cd0e5bc478d58a2da20631ba, type: 2}
+  HitMarkerHeavy: {fileID: 1370493196586882, guid: a05c5cfe7f989104d816f63e9d4341f2,
+    type: 2}
   ComicPow: {fileID: 1408506602516516, guid: 010fed3ec8956284aace126b807e9053, type: 2}
   ComicHeavyPow: {fileID: 1474041826941540, guid: 9d073e73f6028294fa6a3518ecebf7c6,
     type: 2}
@@ -3176,6 +3178,7 @@ MonoBehaviour:
   Steam: {fileID: 1411993534459256, guid: e942d6c45cb8c534aac968d5274629b4, type: 2}
   Firework1: {fileID: 1576700424996008, guid: 129647c21347fcd4090f61de44600d14, type: 2}
   DustJump: {fileID: 1113799076610032, guid: 5d2694dfa7cc38942bcd3f1d6ec3df80, type: 2}
+  Hurricane: {fileID: 1813766876922290, guid: 6e4d832c57a55c843a3c7ace26f1edbb, type: 2}
   BreakShield: {fileID: 0}
 --- !u!1 &1099530335
 GameObject:

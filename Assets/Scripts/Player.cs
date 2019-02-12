@@ -625,7 +625,7 @@ public class Player : MonoBehaviour
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name + " by breaking their shield");
                 GameManager.instance.startSlowMo = true;
                 //TODO: pow effekte
-                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_HitMarkerHeavy(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
                 //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
@@ -678,7 +678,7 @@ public class Player : MonoBehaviour
             {
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
                 GameManager.instance.startSlowMo = true;
-                SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_HitMarkerHeavy(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicHeavyPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
                 SetHurtTimer(0.14f);

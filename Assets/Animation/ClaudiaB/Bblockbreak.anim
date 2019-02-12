@@ -32,7 +32,7 @@ AnimationClip:
       value: {fileID: 21300000, guid: 7c6ca37685f20144e80eaf4d92e64bdb, type: 3}
     - time: 0.37499997
       value: {fileID: 21300000, guid: 917ce5d17c3d382469905a0f96b2e55e, type: 3}
-    - time: 0.41666663
+    - time: 0.41666666
       value: {fileID: 21300000, guid: 2c44e0c092321f1449f3b83ca320580c, type: 3}
     - time: 0.5416667
       value: {fileID: 21300000, guid: b8908b68fae2eaf46aa6a689b581f3b1, type: 3}
@@ -99,7 +99,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0.375
+  - time: 0.20833333
+    functionName: ShowHurricane
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.33333334
     functionName: HitCheck
     data: 
     objectReferenceParameter: {fileID: 0}

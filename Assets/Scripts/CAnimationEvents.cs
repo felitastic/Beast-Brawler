@@ -12,6 +12,8 @@ public class CAnimationEvents : MonoBehaviour
     private CamShake camShake;
     public ShadowBehaviour shade;
 
+    float x;
+
     void Start()
     {
         player = GetComponentInParent<Player>();
@@ -135,5 +137,20 @@ public class CAnimationEvents : MonoBehaviour
     {
         print("victory scream");
         SVFXManager.instance.PlayCVoice5(player.transform.position);
+    }
+
+    public void ShowHurricane()
+    {
+        if (player.facingRight)
+             x = 2f;
+        else if (!player.facingRight)
+             x = -2f;
+
+        SVFXManager.instance.InstantiateHurricane(x, 11f, player.gameObject);
+    }
+
+    public void HurricaneFinish()
+    {
+        GameObject.Destroy(this.gameObject);
     }
 }

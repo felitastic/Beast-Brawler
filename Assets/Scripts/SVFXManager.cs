@@ -84,6 +84,7 @@ public class SVFXManager : MonoBehaviour
 
     [Header("VISUAL EFFECTS")]
     public GameObject HitMarker;
+    public GameObject HitMarkerHeavy;
     public GameObject ComicPow;
     public GameObject ComicHeavyPow;
     public GameObject ComicSlash;
@@ -93,6 +94,7 @@ public class SVFXManager : MonoBehaviour
     public GameObject Firework1;
     [Header("Animations")]
     public GameObject DustJump;
+    public GameObject Hurricane;
     public GameObject BreakShield;
 
     #region Settings this as an instance
@@ -328,9 +330,14 @@ public class SVFXManager : MonoBehaviour
     {
         GameObject.Instantiate(Success, position, new Quaternion());
     }
-    #endregion    
+    #endregion
 
     #region VFX
+    public void PlayVFX_HitMarkerHeavy(float offsetY, GameObject player)
+    {
+        GameObject hitMarkerHeavy = Instantiate(HitMarkerHeavy, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+        //hitWhite.transform.parent = player.transform;
+    }
     public void PlayVFX_HitMarker(float offsetY, GameObject player)
     {
         GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
@@ -374,6 +381,11 @@ public class SVFXManager : MonoBehaviour
     public void InstantiateDustJump(float offsetY, GameObject player)
     {
         GameObject dustJump = Instantiate(DustJump, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
+    }
+
+    public void InstantiateHurricane(float offsetX, float offsetY,  GameObject player)
+    {
+        GameObject hurricane = Instantiate(Hurricane, new Vector2(player.transform.position.x + offsetX, player.transform.position.y + offsetY), new Quaternion());
     }
 
     public void InstantiateBreakShield(float offsetY, float scale, GameObject player)
