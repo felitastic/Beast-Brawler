@@ -10,7 +10,7 @@ public class CamShake : MonoBehaviour
 {
     public IEnumerator Shake(float duration, float magnitude)
     {
-        Vector3 originalPos = new Vector3(0f,0f,0f);
+        Vector3 originalPos = new Vector3(0f, 0f, 0f);
 
         float elapsedTime = 0f;
 

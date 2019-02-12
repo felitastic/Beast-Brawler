@@ -106,12 +106,12 @@ public class Player : MonoBehaviour
     {
         if (PlayerIndex == 0)
         {
-            gameObject.name = "Subject 1";
+            this.gameObject.name = "Subject 1";
             facingRight = true;
         }
         else if (PlayerIndex == 1)
         {
-            gameObject.name = "Subject 2";
+            this.gameObject.name = "Subject 2";
             facingRight = false;
         }
 
@@ -768,18 +768,7 @@ public class Player : MonoBehaviour
             if (cornered)
             {
                 rigid.AddForce(new Vector2(-strength / 30, knockUp));
-                if (opponent.GetComponent<Player>().attack == eAttacks.Heavy)
-                {
-                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, 0f));
-                }
-                else
-                {
-                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, knockUp));
-                }
-            }
-            else if (attack == eAttacks.Heavy)
-            {
-                rigid.AddForce(new Vector2(-strength / 10, 0f));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 1.5f, 0f));
             }
             else
             {
@@ -791,19 +780,7 @@ public class Player : MonoBehaviour
             if (cornered)
             {
                 rigid.AddForce(new Vector2(+strength / 30, knockUp));
-
-                if (opponent.GetComponent<Player>().attack == eAttacks.Heavy)
-                {
-                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 20, 0f));
-                }
-                else
-                {
-                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 20, knockUp));
-                }
-            }
-            else if (attack == eAttacks.Heavy)
-            {
-                rigid.AddForce(new Vector2(-strength / 10, 0f));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 1.5f, 0f));
             }
             else
             {
@@ -824,7 +801,7 @@ public class Player : MonoBehaviour
             if (cornered)
             {
                 rigid.AddForce(new Vector2(-strength / 30, upOrdown));
-                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, upOrdown));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 1.5f, 0f));
             }
             else
             {
@@ -836,7 +813,7 @@ public class Player : MonoBehaviour
             if (cornered)
             {
                 rigid.AddForce(new Vector2(+strength / 30, upOrdown));
-                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 10, upOrdown));
+                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 1.5f, 0f));
             }
             else
             {

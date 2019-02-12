@@ -26,22 +26,17 @@ public class GameManager : MonoBehaviour
     public GameObject MatchOverScreen;
     public GameObject RestartButton;
     public GameObject PauseScreen;
-
     public GameObject MatchOverButtons;
     public SpriteRenderer MatchOverBlackScreen;
     public Transform WinnerPose;
-
     public Image Pulse1;
     public Image Pulse2;
-
     public GameObject UI;
-
     public Image hpBarGreen1;
     public Image hpBarRed1;
     public Image hpBarGreen2;
     public Image hpBarRed2;
-    public Slider potatoSlider;
-
+    //public Slider potatoSlider;
     public Image clock;
     public Text timerText;
     public Text timerTextShade;
@@ -49,6 +44,20 @@ public class GameManager : MonoBehaviour
     public Text MatchWinTextShade;
     public Text StageWinText;
     public Text IntroCDText;
+    [Header("Firework Transforms")]
+    public Transform FW1;
+    public Transform FW2;
+    public Transform FW3;
+    public Transform FW4;
+    public Transform FW5;
+    public Transform FW6;
+    public Transform FW7;
+    public Transform FW8;
+    public Transform FW9;
+    public Transform FW10;
+    public Transform FW11;
+    public Transform FW12;
+    public Transform FW13;
 
     [Header("Other values")]
     public float lerpTimer;
@@ -224,7 +233,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown("space"))
         {
             winner = Player1;
-            loser = Player2;            
+            loser = Player2;
+            //StartCoroutine(GameOver());
             StartCoroutine(TextStuff());
             //SVFXManager.instance.PlayVFX_Steam();
             //Player1.GetComponent<Player>().Death();
@@ -568,12 +578,30 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOver()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         GameMode = eGameMode.GameOver;
         winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 255);
         winner.GetComponent<Player>().anim.Play("victory");
+
+        //Fireworks
+        SVFXManager.instance.PlayVFX_Firework(FW1.transform.position);
+        SVFXManager.instance.PlayVFX_Firework(FW7.transform.position);
         yield return new WaitForSeconds(0.1f);
-        //TODO spawn fireworks + sound
+        SVFXManager.instance.PlayVFX_Firework(FW2.transform.position);
+        SVFXManager.instance.PlayVFX_Firework(FW8.transform.position);
+        yield return new WaitForSeconds(0.2f);
+        SVFXManager.instance.PlayVFX_Firework(FW3.transform.position);
+        SVFXManager.instance.PlayVFX_Firework(FW9.transform.position);
+        yield return new WaitForSeconds(0.1f);
+        SVFXManager.instance.PlayVFX_Firework(FW4.transform.position);
+        SVFXManager.instance.PlayVFX_Firework(FW11.transform.position);
+        yield return new WaitForSeconds(0.15f);
+        SVFXManager.instance.PlayVFX_Firework(FW5.transform.position);
+        SVFXManager.instance.PlayVFX_Firework(FW10.transform.position);
+        yield return new WaitForSeconds(0.1f);
+        SVFXManager.instance.PlayVFX_Firework(FW6.transform.position);
+        SVFXManager.instance.PlayVFX_Firework(FW12.transform.position);
+
         yield return new WaitForSeconds(4f);
         MatchOverButtons.SetActive(true);
     }

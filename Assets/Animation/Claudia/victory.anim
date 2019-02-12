@@ -87,8 +87,24 @@ AnimationClip:
     - time: 2.8333333
       value: {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
     - time: 2.9333334
+      value: {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - time: 3.0500002
+      value: {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - time: 3.15
+      value: {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - time: 3.25
+      value: {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - time: 3.35
+      value: {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - time: 3.4666667
+      value: {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - time: 3.5666666
+      value: {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - time: 3.6666667
+      value: {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - time: 3.7666667
       value: {fileID: 21300000, guid: e97642bd25e12df42b05f2dfde25b7cf, type: 3}
-    - time: 3.05
+    - time: 3.9
       value: {fileID: 21300000, guid: 0efdcf26bb6987548a504a6580fc05ff, type: 3}
     attribute: m_Sprite
     path: 
@@ -143,6 +159,14 @@ AnimationClip:
     - {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
     - {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
     - {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
+    - {fileID: 21300000, guid: abfedbe7dff08244380373db17d914d3, type: 3}
+    - {fileID: 21300000, guid: 257d69ec19f152f4580c0eaf7eccdd0d, type: 3}
     - {fileID: 21300000, guid: e97642bd25e12df42b05f2dfde25b7cf, type: 3}
     - {fileID: 21300000, guid: 0efdcf26bb6987548a504a6580fc05ff, type: 3}
   m_AnimationClipSettings:
@@ -150,7 +174,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 3.0666666
+    m_StopTime: 3.9166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -171,7 +195,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 3.05
+  - time: 2.3333333
+    functionName: VictoryScream
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 3.9
     functionName: VictoryDone
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -230,7 +230,7 @@ public class SVFXManager : MonoBehaviour
     }
     #endregion
 
-    #region Firework
+    #region Firework Sounds
     public void PlayBang1(Vector3 position)
     {
         GameObject.Instantiate(Bang1, position, new Quaternion());
@@ -362,11 +362,12 @@ public class SVFXManager : MonoBehaviour
         Destroy(steam, 2.0f);
     }
     //Feuerwerk
-    //public void PlayVFX_SteamSound()
-    //{
-    //    GameObject steam = Instantiate(Steam, new Vector2(steamtransform.transform.position.x, steamtransform.transform.position.y), new Quaternion());
-    //    Destroy(steam, 2.0f);
-    //}
+    public void PlayVFX_Firework(Vector3 position)
+    {
+        GameObject firework1 = Instantiate(Firework1, position, new Quaternion());
+        GameObject.Instantiate(Bang1, position, new Quaternion());
+        //Destroy(steam, 2.0f);
+    }
     #endregion
 
     #region Animations

@@ -130,4 +130,10 @@ public class CAnimationEvents : MonoBehaviour
     {
         SVFXManager.instance.PlayVFX_Steam();
     }
+
+    public void VictoryScream()
+    {
+        print("victory scream");
+        SVFXManager.instance.PlayCVoice5(player.transform.position);
+    }
 }
