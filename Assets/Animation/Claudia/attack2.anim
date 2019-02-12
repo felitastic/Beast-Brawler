@@ -19,27 +19,27 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: cc05e65992f00b64aa870c152965bd52, type: 3}
+      value: {fileID: 21300000, guid: 1de39d8c5b16ca640a3da95949272a1b, type: 3}
     - time: 0.11666667
-      value: {fileID: 21300000, guid: 4930d21579326cd4d8fbaf71c5469fa8, type: 3}
+      value: {fileID: 21300000, guid: 2ba8cebff3fbbc348ad93424fd64eace, type: 3}
     - time: 0.26666668
-      value: {fileID: 21300000, guid: 4f32cbec1f3045f48948c724710b6d40, type: 3}
+      value: {fileID: 21300000, guid: 9c68cbeedc4753e438593d621b092c4d, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: 4a78351d734476c4596f3d98efac9168, type: 3}
+      value: {fileID: 21300000, guid: 6df6b18d70be5f444a1a2024708b7048, type: 3}
     - time: 0.4
-      value: {fileID: 21300000, guid: 3dfa23cca588f0c4ea7e430d51854c03, type: 3}
+      value: {fileID: 21300000, guid: dac98909720867343b2e3d7e4dd82b18, type: 3}
     - time: 0.46666667
-      value: {fileID: 21300000, guid: aa28286e77606534cb4fba40471b7dd3, type: 3}
+      value: {fileID: 21300000, guid: ad69568c4f0293342bd1c8a73b8bb281, type: 3}
     - time: 0.51666665
-      value: {fileID: 21300000, guid: 0c13963e444ac5b408ed074c0e071ae7, type: 3}
+      value: {fileID: 21300000, guid: 2d1fd8f1f04736f49a8ac34ef6309ccd, type: 3}
     - time: 0.56666666
-      value: {fileID: 21300000, guid: d771a912b73197b40add2abf6bc66582, type: 3}
+      value: {fileID: 21300000, guid: d5f9a85df6ce7724e89d3b3b692ee2f4, type: 3}
     - time: 0.6166667
-      value: {fileID: 21300000, guid: 57318ae42346cde45a0f51829bd09e8c, type: 3}
+      value: {fileID: 21300000, guid: e9c580223b5b8e2409151dc91b7d5f3c, type: 3}
     - time: 0.68333334
-      value: {fileID: 21300000, guid: aecdd7febc17c314a9c6a795f531df2f, type: 3}
+      value: {fileID: 21300000, guid: f4a6b3e1c117925478a64a069477cdbd, type: 3}
     - time: 0.73333335
-      value: {fileID: 21300000, guid: aecdd7febc17c314a9c6a795f531df2f, type: 3}
+      value: {fileID: 21300000, guid: f4a6b3e1c117925478a64a069477cdbd, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -59,17 +59,17 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: cc05e65992f00b64aa870c152965bd52, type: 3}
-    - {fileID: 21300000, guid: 4930d21579326cd4d8fbaf71c5469fa8, type: 3}
-    - {fileID: 21300000, guid: 4f32cbec1f3045f48948c724710b6d40, type: 3}
-    - {fileID: 21300000, guid: 4a78351d734476c4596f3d98efac9168, type: 3}
-    - {fileID: 21300000, guid: 3dfa23cca588f0c4ea7e430d51854c03, type: 3}
-    - {fileID: 21300000, guid: aa28286e77606534cb4fba40471b7dd3, type: 3}
-    - {fileID: 21300000, guid: 0c13963e444ac5b408ed074c0e071ae7, type: 3}
-    - {fileID: 21300000, guid: d771a912b73197b40add2abf6bc66582, type: 3}
-    - {fileID: 21300000, guid: 57318ae42346cde45a0f51829bd09e8c, type: 3}
-    - {fileID: 21300000, guid: aecdd7febc17c314a9c6a795f531df2f, type: 3}
-    - {fileID: 21300000, guid: aecdd7febc17c314a9c6a795f531df2f, type: 3}
+    - {fileID: 21300000, guid: 1de39d8c5b16ca640a3da95949272a1b, type: 3}
+    - {fileID: 21300000, guid: 2ba8cebff3fbbc348ad93424fd64eace, type: 3}
+    - {fileID: 21300000, guid: 9c68cbeedc4753e438593d621b092c4d, type: 3}
+    - {fileID: 21300000, guid: 6df6b18d70be5f444a1a2024708b7048, type: 3}
+    - {fileID: 21300000, guid: dac98909720867343b2e3d7e4dd82b18, type: 3}
+    - {fileID: 21300000, guid: ad69568c4f0293342bd1c8a73b8bb281, type: 3}
+    - {fileID: 21300000, guid: 2d1fd8f1f04736f49a8ac34ef6309ccd, type: 3}
+    - {fileID: 21300000, guid: d5f9a85df6ce7724e89d3b3b692ee2f4, type: 3}
+    - {fileID: 21300000, guid: e9c580223b5b8e2409151dc91b7d5f3c, type: 3}
+    - {fileID: 21300000, guid: f4a6b3e1c117925478a64a069477cdbd, type: 3}
+    - {fileID: 21300000, guid: f4a6b3e1c117925478a64a069477cdbd, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -96,13 +96,6 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0
-    functionName: HeavyOpenFingers
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.26666668
     functionName: HeavyAScreenShake
     data: 

@@ -90,6 +90,7 @@ public class SVFXManager : MonoBehaviour
     public GameObject Blocked;
     public GameObject Ouch;
     public GameObject Steam;
+    public GameObject Firework1;
     [Header("Animations")]
     public GameObject DustJump;
     public GameObject BreakShield;
@@ -335,37 +336,37 @@ public class SVFXManager : MonoBehaviour
         GameObject hitMarker = Instantiate(HitMarker, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
         //hitWhite.transform.parent = player.transform;
     }
-
     public void PlayVFX_ComicPow(float offsetY, GameObject player)
     {
         GameObject comicPow = Instantiate(ComicPow, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
     }
-
     public void PlayVFX_ComicHeavyPow(float offsetY, GameObject player)
     {
         GameObject comicHeavyPow = Instantiate(ComicHeavyPow, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
-    }
-    
+    }    
     public void PlayVFX_ComicSlash(float offsetY, GameObject player)
     {
         GameObject comicSlash = Instantiate(ComicSlash, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
-    }
-        
+    }        
     public void PlayVFX_Blocked(float offsetY, GameObject player)
     {
         GameObject blocked = Instantiate(Blocked, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
     }
-
     public void PlayVFX_Ouch(float offsetY, GameObject player)
     {
         GameObject ouch = Instantiate(Ouch, new Vector2(player.transform.position.x, player.transform.position.y + offsetY), new Quaternion());
     }
-
     public void PlayVFX_Steam()
     {
         GameObject steam = Instantiate(Steam, new Vector2(steamtransform.transform.position.x, steamtransform.transform.position.y), new Quaternion());
         Destroy(steam, 2.0f);
     }
+    //Feuerwerk
+    //public void PlayVFX_SteamSound()
+    //{
+    //    GameObject steam = Instantiate(Steam, new Vector2(steamtransform.transform.position.x, steamtransform.transform.position.y), new Quaternion());
+    //    Destroy(steam, 2.0f);
+    //}
     #endregion
 
     #region Animations

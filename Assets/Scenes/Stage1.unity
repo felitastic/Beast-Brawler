@@ -1155,24 +1155,9 @@ Prefab:
       propertyPath: shade
       value: 
       objectReference: {fileID: 1002874004}
-    - target: {fileID: 212290508240612624, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
-        type: 2}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212290508240612624, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
-        type: 2}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212290508240612624, guid: 839ed7a1b58b4eb41ab1e6144a37d626,
-        type: 2}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1478956163595682, guid: 839ed7a1b58b4eb41ab1e6144a37d626, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Name
+      value: ClaudiaOrange
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 839ed7a1b58b4eb41ab1e6144a37d626, type: 2}
@@ -1688,6 +1673,48 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 772246389}
   m_CullTransparentMesh: 0
+--- !u!1001 &801526679
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816864479279344, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 129647c21347fcd4090f61de44600d14, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &813154922
 GameObject:
   m_ObjectHideFlags: 0
@@ -2564,6 +2591,7 @@ MonoBehaviour:
   Blocked: {fileID: 1408506602516516, guid: 010fed3ec8956284aace126b807e9053, type: 2}
   Ouch: {fileID: 1408506602516516, guid: 010fed3ec8956284aace126b807e9053, type: 2}
   Steam: {fileID: 1411993534459256, guid: e942d6c45cb8c534aac968d5274629b4, type: 2}
+  Firework1: {fileID: 0}
   DustJump: {fileID: 1113799076610032, guid: 5d2694dfa7cc38942bcd3f1d6ec3df80, type: 2}
   BreakShield: {fileID: 0}
 --- !u!1 &1099530335
@@ -3402,8 +3430,8 @@ Prefab:
       value: 
       objectReference: {fileID: 1411095267}
     - target: {fileID: 1847815343269226, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_Name
+      value: ClaudiaBlue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ee29a405435c624a892a4c9e53189ac, type: 2}

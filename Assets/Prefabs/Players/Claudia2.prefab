@@ -204,9 +204,9 @@ MonoBehaviour:
   blockbreakDmg: 100
   blockPct: 80
   KBstrength: 1
+  PlayerIndex: 1
   knockUp: 0.1
   knockDown: -0.05
-  PlayerIndex: 1
   JumpForce: 2.6
   MoveSpeedJ: 18
   hitPoints: 10
@@ -231,6 +231,7 @@ MonoBehaviour:
   curMoveSpeed: 0
   attack1: 0
   attack2: 0
+  hurtCooldown: 1
   HitOffset: 4.5
   extraGravity: 3
   airAttackGravity: 6
@@ -281,8 +282,8 @@ SpriteRenderer:
   m_SortingLayerID: 64789029
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 20724f7714a60aa49ac34c63c766ff35, type: 3}
-  m_Color: {r: 1, g: 0.5707547, b: 0.57532114, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 65ca1e5c33be2eb47987907e4e2e8a70, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

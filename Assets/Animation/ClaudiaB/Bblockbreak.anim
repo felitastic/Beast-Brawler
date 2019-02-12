@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Bblockbreak
+  serializedVersion: 6
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 7335b4811327a1e4a908fc2ed8a20c22, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 14c88d3c4277c2042a48bb8141fcb934, type: 3}
+    - time: 0.20833333
+      value: {fileID: 21300000, guid: e154c79b970873945b6f3210c6ec3e96, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 7564ef2cd2451c04b9ce32ddfabfc83a, type: 3}
+    - time: 0.29166666
+      value: {fileID: 21300000, guid: 25f7c5a7ac06b374da213b27d3652a05, type: 3}
+    - time: 0.3333333
+      value: {fileID: 21300000, guid: 7c6ca37685f20144e80eaf4d92e64bdb, type: 3}
+    - time: 0.37499997
+      value: {fileID: 21300000, guid: 917ce5d17c3d382469905a0f96b2e55e, type: 3}
+    - time: 0.41666663
+      value: {fileID: 21300000, guid: 2c44e0c092321f1449f3b83ca320580c, type: 3}
+    - time: 0.5416667
+      value: {fileID: 21300000, guid: b8908b68fae2eaf46aa6a689b581f3b1, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: aecee4ea99d2f994da217ed843f319f8, type: 3}
+    - time: 0.7916667
+      value: {fileID: 21300000, guid: 720c4842eab80124ea94346669757f8c, type: 3}
+    - time: 0.9166667
+      value: {fileID: 21300000, guid: 0ec77117201315748aab8261ba81554c, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 24
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 7335b4811327a1e4a908fc2ed8a20c22, type: 3}
+    - {fileID: 21300000, guid: 14c88d3c4277c2042a48bb8141fcb934, type: 3}
+    - {fileID: 21300000, guid: e154c79b970873945b6f3210c6ec3e96, type: 3}
+    - {fileID: 21300000, guid: 7564ef2cd2451c04b9ce32ddfabfc83a, type: 3}
+    - {fileID: 21300000, guid: 25f7c5a7ac06b374da213b27d3652a05, type: 3}
+    - {fileID: 21300000, guid: 7c6ca37685f20144e80eaf4d92e64bdb, type: 3}
+    - {fileID: 21300000, guid: 917ce5d17c3d382469905a0f96b2e55e, type: 3}
+    - {fileID: 21300000, guid: 2c44e0c092321f1449f3b83ca320580c, type: 3}
+    - {fileID: 21300000, guid: b8908b68fae2eaf46aa6a689b581f3b1, type: 3}
+    - {fileID: 21300000, guid: aecee4ea99d2f994da217ed843f319f8, type: 3}
+    - {fileID: 21300000, guid: 720c4842eab80124ea94346669757f8c, type: 3}
+    - {fileID: 21300000, guid: 0ec77117201315748aab8261ba81554c, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.9583334
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_GenerateMotionCurves: 0
+  m_Events:
+  - time: 0.375
+    functionName: HitCheck
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.9166667
+    functionName: AttackFinished
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

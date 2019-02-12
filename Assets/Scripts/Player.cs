@@ -768,7 +768,18 @@ public class Player : MonoBehaviour
             if (cornered)
             {
                 rigid.AddForce(new Vector2(-strength / 30, knockUp));
-                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, knockUp));
+                if (opponent.GetComponent<Player>().attack == eAttacks.Heavy)
+                {
+                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, 0f));
+                }
+                else
+                {
+                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(+strength / 20, knockUp));
+                }
+            }
+            else if (attack == eAttacks.Heavy)
+            {
+                rigid.AddForce(new Vector2(-strength / 10, 0f));
             }
             else
             {
@@ -780,7 +791,19 @@ public class Player : MonoBehaviour
             if (cornered)
             {
                 rigid.AddForce(new Vector2(+strength / 30, knockUp));
-                opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 20, knockUp));
+
+                if (opponent.GetComponent<Player>().attack == eAttacks.Heavy)
+                {
+                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 20, 0f));
+                }
+                else
+                {
+                    opponent.GetComponent<Rigidbody2D>().AddForce(new Vector2(-strength / 20, knockUp));
+                }
+            }
+            else if (attack == eAttacks.Heavy)
+            {
+                rigid.AddForce(new Vector2(-strength / 10, 0f));
             }
             else
             {
