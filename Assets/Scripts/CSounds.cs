@@ -167,6 +167,26 @@ public class CSounds : MonoBehaviour
     }
     #endregion
 
+    #region Impact Knockdown
+    public void PlayImpactSounds()
+    {
+        //Getting a value to choose a sound from (last is excluded)
+        int ran = Random.Range(1, 3);
+
+        switch (ran)
+        {
+            case 1:
+                SVFXManager.instance.PlayImpact2(transform.position);
+                break;
+            case 2:
+                SVFXManager.instance.PlayImpact3(transform.position);
+                break;
+            default:
+                break;
+        }
+    }
+    #endregion
+
 
     public void PlayImpactSound()
     {

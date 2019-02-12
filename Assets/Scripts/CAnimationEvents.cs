@@ -113,7 +113,7 @@ public class CAnimationEvents : MonoBehaviour
 
     public void KnockdownSound()
     {
-        SVFXManager.instance.PlayKnockdownImpact(player.transform.position);
+        player.CVoice.PlayImpactSounds();
     }
 
     public void KnockDownScale()

@@ -203,7 +203,6 @@ public class GameManager : MonoBehaviour
                 break;
 
             case eGameMode.MatchOver:
-                UI.gameObject.SetActive(true);
                 LerpUI();
                 StageCountdown();
                 break;
@@ -249,6 +248,7 @@ public class GameManager : MonoBehaviour
         Vector3 inZoom = new Vector3(0, 0, 0);
         Vector3 outZoom = new Vector3(1, 1, 1);
         IntroCDText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
         StartCoroutine(FadeTextIn(1f, IntroCDText, ("Initiating research")));
         StartCoroutine(ZoomTextIn(1f, IntroCDText, ("Initiating research"), inZoom, 1f));
         SVFXManager.instance.PlayMatchstart(mainCam.transform.position);
@@ -549,14 +549,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         StartCoroutine(FadeTextOut(0.5f, MatchWinText));
+        yield return new WaitForSeconds(0.4f);
         MatchWinText.text = (name + " lives");
-        StartCoroutine(FadeTextIn(0.6f, MatchWinText, MatchWinText.text));
-        yield return new WaitForSeconds(1.7f);
+        StartCoroutine(FadeTextIn(1f, MatchWinText, MatchWinText.text));
+        SVFXManager.instance.PlaySuccess(mainCam.transform.position);
+        yield return new WaitForSeconds(2f);
 
         StartCoroutine(FadeTextOut(0.5f, MatchWinText));
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
 
-        float x = WinnerPose.position.x;       
+        float x = WinnerPose.position.x;
+        UI.gameObject.SetActive(false);
         mainCam.transform.position = new Vector3(x, mainCam.transform.position.y, mainCam.transform.position.z);
         winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 0);
         MatchWinText.gameObject.SetActive(false);
@@ -706,7 +709,6 @@ public class GameManager : MonoBehaviour
     public void ToTitle()
     {
         SceneManager.LoadScene("Title");
-        GameMode = eGameMode.Running;
     }
 
     public void NextMatch()

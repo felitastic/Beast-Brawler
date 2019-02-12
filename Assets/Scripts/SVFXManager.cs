@@ -47,21 +47,28 @@ public class SVFXManager : MonoBehaviour
     public GameObject CVoice9;
     [Header("Other claudia sounds")]
     public GameObject HeavyOpenFingers;
+
+    [Header("Impact Sounds")]
     public GameObject KnockdownImpact;
-   
+    public GameObject Impact1;
+    public GameObject Impact2;
+    public GameObject Impact3;
+    public GameObject Impact4;
+    public GameObject Impact5;
+    public GameObject Impact6;
+
     [Header("CVoice Meelee Attack WHOOSH")]
     public GameObject Hit1;
     public GameObject Hit3;
     public GameObject Hit4;
     public GameObject Hit6;
     public GameObject Hit7;
-
-    [Header("Hitting the opponent")]
+    [Header("Firework Bangs")]
     public GameObject Bang1;
     public GameObject Bang2;
     public GameObject Bang3;
     public GameObject Bang4;
-
+    public GameObject Bang5;
     [Header("Announcer")]
     public GameObject Matchstart;
     public GameObject Matchfinish;
@@ -71,11 +78,9 @@ public class SVFXManager : MonoBehaviour
     public GameObject Roger;
     public GameObject Fight;
     public GameObject Start;
-
-    [Header("Erstmal aussortiert")]
-    public GameObject Hit2;
-    public GameObject Hit5;    
-
+    public GameObject Success;
+    [Header("Special Sounds")]
+    public GameObject SteamSound;
 
     [Header("VISUAL EFFECTS")]
     public GameObject HitMarker;
@@ -85,11 +90,11 @@ public class SVFXManager : MonoBehaviour
     public GameObject Blocked;
     public GameObject Ouch;
     public GameObject Steam;
-
     [Header("Animations")]
     public GameObject DustJump;
     public GameObject BreakShield;
 
+    #region Settings this as an instance
     void Awake()
     {
         if (instance == null)
@@ -101,6 +106,7 @@ public class SVFXManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    #endregion
 
     #region Attacks
     public void PlayLight1(Vector3 position)
@@ -223,6 +229,56 @@ public class SVFXManager : MonoBehaviour
     }
     #endregion
 
+    #region Firework
+    public void PlayBang1(Vector3 position)
+    {
+        GameObject.Instantiate(Bang1, position, new Quaternion());
+    }
+    public void PlayBang2(Vector3 position)
+    {
+        GameObject.Instantiate(Bang2, position, new Quaternion());
+    }
+    public void PlayBang3(Vector3 position)
+    {
+        GameObject.Instantiate(Bang3, position, new Quaternion());
+    }
+    public void PlayBang4(Vector3 position)
+    {
+        GameObject.Instantiate(Bang4, position, new Quaternion());
+    }
+    public void PlayBang5(Vector3 position)
+    {
+        GameObject.Instantiate(Bang5, position, new Quaternion());
+    }
+    #endregion
+
+    #region Impacts
+    public void PlayImpact1(Vector3 position)
+    {
+        GameObject.Instantiate(Impact1, position, new Quaternion());
+    }
+    public void PlayImpact2(Vector3 position)
+    {
+        GameObject.Instantiate(Impact2, position, new Quaternion());
+    }
+    public void PlayImpact3(Vector3 position)
+    {
+        GameObject.Instantiate(Impact3, position, new Quaternion());
+    }
+    public void PlayImpact4(Vector3 position)
+    {
+        GameObject.Instantiate(Impact4, position, new Quaternion());
+    }
+    public void PlayImpact5(Vector3 position)
+    {
+        GameObject.Instantiate(Impact5, position, new Quaternion());
+    }
+    public void PlayImpact6(Vector3 position)
+    {
+        GameObject.Instantiate(Impact6, position, new Quaternion());
+    }
+    #endregion
+
     #region Other
     public void PlayHeavyOpenFingers(Vector3 position)
     {
@@ -266,6 +322,10 @@ public class SVFXManager : MonoBehaviour
     public void PlayStart(Vector3 position)
     {
         GameObject.Instantiate(Start, position, new Quaternion());
+    }
+    public void PlaySuccess(Vector3 position)
+    {
+        GameObject.Instantiate(Success, position, new Quaternion());
     }
     #endregion    
 
@@ -327,10 +387,6 @@ public class SVFXManager : MonoBehaviour
     {
         GameObject.Instantiate(Hit1, position, new Quaternion());
     }
-    public void PlaySFX_Hit2(Vector3 position)
-    {
-        GameObject.Instantiate(Hit2, position, new Quaternion());
-    }
     public void PlaySFX_Hit3(Vector3 position)
     {
         GameObject.Instantiate(Hit3, position, new Quaternion());
@@ -338,10 +394,6 @@ public class SVFXManager : MonoBehaviour
     public void PlaySFX_Hit4(Vector3 position)
     {
         GameObject.Instantiate(Hit4, position, new Quaternion());
-    }
-    public void PlaySFX_Hit5(Vector3 position)
-    {
-        GameObject.Instantiate(Hit5, position, new Quaternion());
     }
     public void PlaySFX_Hit6(Vector3 position)
     {

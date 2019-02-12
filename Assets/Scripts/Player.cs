@@ -637,9 +637,9 @@ public class Player : MonoBehaviour
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_Blocked(offset, opponent.gameObject);
-                opponent.GetComponent<Player>().ApplyDamage(dmg);
+                opponent.GetComponent<Player>().ApplyDamage(dmg*0.25f);
                 SetHurtTimer(0.54f);
-                opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);    //Knockback(KBstrength * 1.5f); stronger knockback when hit by blockbreaker
+                //opponent.GetComponent<Player>().Knockback(KBstrength);
             }
         }
         else if (opponent.GetComponent<Player>().state == ePlayerState.InAir)

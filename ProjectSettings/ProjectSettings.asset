@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: IFP
-  productName: Beast Brawler
+  productName: Beast Brawl
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.078431375, g: 0.07058824, b: 0.1137255, a: 1}
