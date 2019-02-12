@@ -143,10 +143,10 @@ public class Player : MonoBehaviour
                 horizontal = Input.GetAxis("Horizontal_" + PlayerIndex);
                 vertical = Input.GetAxis("Vertical_" + PlayerIndex);
 
-                if (transform.position.x < opponent.transform.position.x)
-                    facingRight = true;
-                else if (transform.position.x > opponent.transform.position.x)
-                    facingRight = false;
+                //if (transform.position.x < opponent.transform.position.x)
+                //    facingRight = (transform.position.x < opponent.transform.position.x);
+                //else if (transform.position.x > opponent.transform.position.x)
+                //    facingRight = false;
 
                 if (hitPoints <= 0)
                 {
@@ -226,6 +226,7 @@ public class Player : MonoBehaviour
                         break;
                     case ePlayerState.InAir:
                         Move();
+                        Flip();
 
                         if (rigid.velocity.y > 0f && !grounded && !anim.GetBool("jumping"))
                         {
@@ -360,6 +361,8 @@ public class Player : MonoBehaviour
     //Turn character around
     public void Flip()
     {
+        facingRight = (transform.position.x < opponent.transform.position.x);
+
         Vector3 scale = transform.localScale;
 
         if (facingRight)
@@ -367,7 +370,7 @@ public class Player : MonoBehaviour
             scale.x = origScale;
             transform.localScale = scale;
         }
-        else if (!facingRight)
+        else
         {
             scale.x = -origScale;
             transform.localScale = scale;
@@ -616,6 +619,9 @@ public class Player : MonoBehaviour
     public void DealDmg(float dmg)
     {
         float offset = opponent.GetComponent<Player>().HitOffset;
+        //bool opponentFR = false;
+        //if (opponent.GetComponent<Player>().facingRight)
+        //    opponentFR = true;
 
         if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
         {
@@ -630,6 +636,16 @@ public class Player : MonoBehaviour
                 //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
                 SetHurtTimer(0.54f);
+                opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
+            }   
+            //if both are looking in the same direction
+            else if (opponent.GetComponent<Player>().facingRight == this.facingRight)
+            {
+                print("alle gucken nach links, alle gucken nach rechts, ich guck auch");
+                opponent.GetComponent<Player>().Flip();
+                SVFXManager.instance.PlayVFX_HitMarkerHeavy(offset, opponent.gameObject);
+                SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
+                opponent.GetComponent<Player>().ApplyDamage(dmg);
                 opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
             }
             else
