@@ -610,14 +610,14 @@ public class Player : MonoBehaviour
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
                 opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
             }
-            else //stronger knockback when hit by blockbreaker
+            else //knockdown
             {
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name);
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                opponent.GetComponent<Player>().Knockback(KBstrength * 1.5f);
+                opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);    //Knockback(KBstrength * 1.5f); stronger knockback when hit by blockbreaker
             }
         }
         else //not attacking with blockbreak

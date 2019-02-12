@@ -33,40 +33,47 @@ public class ShadowBehaviour : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (player.GetComponent<Player>().facingRight)
+        if (GameManager.instance.GameMode == eGameMode.GameOver)
         {
-            x = player.transform.position.x + 0.4f;
+            this.gameObject.SetActive(false);
         }
         else
         {
-            x = player.transform.position.x - 0.4f;
-        }
+            if (player.GetComponent<Player>().facingRight)
+            {
+                x = player.transform.position.x + 0.4f;
+            }
+            else
+            {
+                x = player.transform.position.x - 0.4f;
+            }
 
-        if (transform.localScale != newScale)
-        {
-            transform.localScale = Vector3.Lerp(transform.localScale, newScale, Time.deltaTime*3);
-        }
+            if (transform.localScale != newScale)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, newScale, Time.deltaTime * 3);
+            }
 
-        if (pbody.velocity.y > 0f)
-        {
-            NewScale(0.6f, 0.6f);
-        }
-        else if (pbody.velocity.y < 0f)
-        {
-            NewScale(1f, 1f);
-        }
-        else
-        {
-            NewScale(1f, 1f);
-        }
+            if (pbody.velocity.y > 0f)
+            {
+                NewScale(0.6f, 0.6f);
+            }
+            else if (pbody.velocity.y < 0f)
+            {
+                NewScale(1f, 1f);
+            }
+            else
+            {
+                NewScale(1f, 1f);
+            }
 
-        if (!player.GetComponentInChildren<Player>().grounded)
-        {
-            transform.position = new Vector3(x, -3.59f, 0f);            
-        }
-        else
-        {
-            transform.position = new Vector3(x, y, 0f);
+            if (!player.GetComponentInChildren<Player>().grounded)
+            {
+                transform.position = new Vector3(x, -3.59f, 0f);
+            }
+            else
+            {
+                transform.position = new Vector3(x, y, 0f);
+            }
         }
     }
 

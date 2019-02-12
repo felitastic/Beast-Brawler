@@ -79,7 +79,6 @@ public class CAnimationEvents : MonoBehaviour
 
     public void HurtFinished()
     {
-        print("hurt done");
         player.state = ePlayerState.Ready;
     }
 

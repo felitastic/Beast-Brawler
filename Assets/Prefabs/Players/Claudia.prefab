@@ -200,7 +200,7 @@ MonoBehaviour:
   MoveSpeedB: 19
   attack1Dmg: 185
   attack2Dmg: 340
-  jumpattackDmg: 200
+  jumpattackDmg: 270
   blockbreakDmg: 100
   blockPct: 80
   KBstrength: 1

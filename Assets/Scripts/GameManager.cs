@@ -224,8 +224,10 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-
-            SVFXManager.instance.PlayVFX_Steam();
+            winner = Player1;
+            loser = Player2;            
+            StartCoroutine(TextStuff());
+            //SVFXManager.instance.PlayVFX_Steam();
             //Player1.GetComponent<Player>().Death();
 
             //countdown = 5f;
@@ -534,31 +536,45 @@ public class GameManager : MonoBehaviour
 
         end = true;
         name = winner.name;
-        MatchWinText.text = ("Research complete: \n" + name + " lives");
-        yield return new WaitForSeconds(0.7f);
+        
+        yield return new WaitForSeconds(2f);
 
         Vector3 inZoom = new Vector3(0, 0, 0);
-        StartCoroutine(FadeTextIn(0.2f, MatchWinText, MatchWinText.text));
-        StartCoroutine(ZoomTextIn(0.3f, MatchWinText, MatchWinText.text, inZoom, 1f));
+        MatchWinText.gameObject.SetActive(true);
+        MatchWinText.text = ("Research complete");
+
+        StartCoroutine(FadeTextIn(1f, MatchWinText, MatchWinText.text));
+        StartCoroutine(ZoomTextIn(1f, MatchWinText, MatchWinText.text, inZoom, 1f));
         SVFXManager.instance.PlayMatchfinish(mainCam.transform.position);
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(FadeTextOut(0.3f, MatchWinText));
-        yield return new WaitForSeconds(deathTime);
+        yield return new WaitForSeconds(2f);
+
+        StartCoroutine(FadeTextOut(0.5f, MatchWinText));
+        MatchWinText.text = (name + " lives");
+        StartCoroutine(FadeTextIn(0.7f, MatchWinText, MatchWinText.text));
+        yield return new WaitForSeconds(1.5f);
+
+        StartCoroutine(FadeTextOut(0.5f, MatchWinText));
+        yield return new WaitForSeconds(0.4f);
+
         float x = WinnerPose.position.x;
         mainCam.transform.position = new Vector3(x, mainCam.transform.position.y, mainCam.transform.position.z);
+        MatchWinText.gameObject.SetActive(false);
         StartCoroutine(GameOver());
     }
 
     public IEnumerator GameOver()
     {
         winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 0);
+
         GameMode = eGameMode.GameOver; 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
+
         winner.GetComponent<Player>().sprite.color = new Color(winner.GetComponent<Player>().sprite.color.r, winner.GetComponent<Player>().sprite.color.g, winner.GetComponent<Player>().sprite.color.b, 255);
+
         winner.GetComponent<Player>().anim.Play("victory");
         yield return new WaitForSeconds(0.5f);
         //TODO spawn fireworks + sound
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         MatchOverButtons.SetActive(true);
     }
 
