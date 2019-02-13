@@ -738,6 +738,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadSceneAsync("Title");
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     public void NextMatch()
     {
         Player1.GetComponent<Player>().hitPoints = maxHitpoints1;
