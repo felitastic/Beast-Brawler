@@ -47,6 +47,13 @@ public class CAnimationEvents : MonoBehaviour
         SVFXManager.instance.PlayHeavyOpenFingers(player.transform.position);
     }
 
+    //Called at animation finish of:
+    //Attacks, Hurt, KnockdownGetup, JumpLanding
+    //public void PlayerReady()
+    //{
+    //    player.state = ePlayerState.Ready;
+    //}
+
     public void AttackFinished()
     {
         player.state = ePlayerState.Ready;
@@ -109,6 +116,7 @@ public class CAnimationEvents : MonoBehaviour
 
     public void KnockDownFinished()
     {
+        //player.state = ePlayerState.Ready;
         player.anim.SetBool("knockdown", false);
         player.anim.SetTrigger("getup");
     }

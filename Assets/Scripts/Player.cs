@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
     public bool attack1;
     public bool attack2;
     //public bool breakattack;
+    public bool countingHurt;
 
     public float hurtCooldown = 1f; //max Hurt time before going into ready
     private float hurtT;
@@ -143,10 +144,11 @@ public class Player : MonoBehaviour
                 horizontal = Input.GetAxis("Horizontal_" + PlayerIndex);
                 vertical = Input.GetAxis("Vertical_" + PlayerIndex);
 
-                //if (transform.position.x < opponent.transform.position.x)
-                //    facingRight = (transform.position.x < opponent.transform.position.x);
-                //else if (transform.position.x > opponent.transform.position.x)
-                //    facingRight = false;
+                if (Input.GetButtonDown("Reset_"+PlayerIndex))
+                {
+                    print("resetting");
+                    state = ePlayerState.Ready;
+                }
 
                 if (hitPoints <= 0)
                 {
@@ -304,7 +306,7 @@ public class Player : MonoBehaviour
                         //}
                         break;
                     case ePlayerState.Hurt:
-                        HurtTimer();
+                        //HurtTimer();
                         break;
                     case ePlayerState.Dead:
                         //play dying animation
@@ -616,6 +618,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public IEnumerator GetOutOfHurt(float stunned)
+    {
+        if (countingHurt)
+            yield break;
+
+        countingHurt = true;
+        yield return new WaitForSeconds(stunned);
+        state = ePlayerState.Ready;
+        countingHurt = false;
+    }
+
     //Deal damage and special effects after successful hit
     public void DealDmg(float dmg)
     {
@@ -632,7 +645,9 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
                 //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                SetHurtTimer(0.54f);
+                //HACK Coroutine for ready state
+                StartCoroutine(GetOutOfHurt(0.54f));
+                //SetHurtTimer(0.54f);
                 opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
             }   
             //if both are looking in the same direction
@@ -651,7 +666,8 @@ public class Player : MonoBehaviour
                 GameManager.instance.startSlowMo = true;
                 SVFXManager.instance.PlayVFX_Blocked(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg*0.25f);
-                SetHurtTimer(0.54f);
+                StartCoroutine(GetOutOfHurt(0.54f));
+                //SetHurtTimer(0.54f);
                 //opponent.GetComponent<Player>().Knockback(KBstrength);
             }
         }
@@ -662,7 +678,8 @@ public class Player : MonoBehaviour
             SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
             SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
             opponent.GetComponent<Player>().ApplyDamage(dmg);
-            SetHurtTimer(1f);
+            StartCoroutine(GetOutOfHurt(1f));
+            //SetHurtTimer(1f);
             opponent.GetComponent<Player>().Knockdown(KBstrength, knockDown);
         }
         else
@@ -674,7 +691,8 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                SetHurtTimer(0.54f);
+                StartCoroutine(GetOutOfHurt(0.54f));
+                //SetHurtTimer(0.54f);
                 opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else if (attack == eAttacks.Light)
@@ -684,7 +702,8 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicSlash(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                SetHurtTimer(0.14f);
+                StartCoroutine(GetOutOfHurt(0.14f));
+                //SetHurtTimer(0.14f);
                 opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else if (attack == eAttacks.Heavy)
@@ -694,7 +713,8 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_HitMarkerHeavy(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicHeavyPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                SetHurtTimer(0.14f);
+                StartCoroutine(GetOutOfHurt(0.14f));
+                //SetHurtTimer(0.14f);
                 opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else if (attack == eAttacks.Jump)
@@ -704,7 +724,8 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                SetHurtTimer(0.14f);
+                StartCoroutine(GetOutOfHurt(0.14f));
+                //SetHurtTimer(0.14f);
                 opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else
@@ -714,7 +735,8 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_HitMarker(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
-                SetHurtTimer(0.14f);
+                StartCoroutine(GetOutOfHurt(0.14f));
+                //SetHurtTimer(0.14f);
                 opponent.GetComponent<Player>().Knockback(KBstrength);
             }
         } 
@@ -776,6 +798,8 @@ public class Player : MonoBehaviour
     public void Knockback(float strength)
     {
         print(gameObject.name + " is knocked back by " + strength);
+        StartCoroutine(GetOutOfHurt(0.05f));
+        StartCoroutine(opponent.GetComponent<Player>().GetOutOfHurt(0.05f));
 
         if (facingRight)
         {
@@ -809,6 +833,8 @@ public class Player : MonoBehaviour
         state = ePlayerState.Knockeddown;
         print(gameObject.name + " is knocked down");
         anim.SetBool("knockdown", true);
+        StartCoroutine(GetOutOfHurt(0.27f));
+        StartCoroutine(opponent.GetComponent<Player>().GetOutOfHurt(0.05f));
 
         if (facingRight)
         {

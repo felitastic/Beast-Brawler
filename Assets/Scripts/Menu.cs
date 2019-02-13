@@ -14,7 +14,7 @@ public class Menu : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadSceneAsync("Stage1");
+        SceneManager.LoadScene("Stage1");
     }
 
     public void Controls()

@@ -231,6 +231,7 @@ MonoBehaviour:
   curMoveSpeed: 0
   attack1: 0
   attack2: 0
+  countingHurt: 0
   hurtCooldown: 1
   HitOffset: 4.5
   extraGravity: 3

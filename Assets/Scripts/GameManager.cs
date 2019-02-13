@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     public eGameMode GameMode = eGameMode.MatchStart;
     public eStage Stage;
 
+    [Header("Debug")]
+    public Text debug;
+
     [Header("Menu Drag n Drop")]
     public GameObject mainCam;
     public GameObject GameOverScreen;
@@ -69,7 +72,7 @@ public class GameManager : MonoBehaviour
     public bool warn1 = false;
     public bool warn2 = false;
     //for timer text zoomin/out
-    public bool text = false; 
+    public bool text = false;
     //has time run out before anyone wins
     public bool timeout = false;
     bool end = false;       //for end of match
@@ -104,15 +107,15 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            //Destroy this - singleton pattern, there can only ever be one instance of GameManager
-            Destroy(gameObject);
-        }
+        instance = this;
+        //if (instance == null)
+        //{
+        //}
+        //else if (instance != this)
+        //{
+        //    //Destroy this - singleton pattern, there can only ever be one instance of GameManager
+        //    Destroy(gameObject);
+        //}
 
         GameMode = eGameMode.MatchStart;
         Stage = eStage.Stage1;
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour
             maxTime = TimerStage1;
             countdown = TimerStage2;
         }
-        
+
     }
 
     void Start()
@@ -176,6 +179,21 @@ public class GameManager : MonoBehaviour
 
             #region GameMode Running
             case eGameMode.Running:
+
+                #region Debug Log
+                //HACK DebugLog
+                if (Input.GetButtonDown("Debug") && debug.gameObject.activeSelf)
+                    debug.gameObject.SetActive(false);
+                else if (Input.GetButtonDown("Debug"))
+                    debug.gameObject.SetActive(true);
+
+                debug.text =
+                    (Player1.name + " used: " + Player1.GetComponent<Player>().attack + "\n" +
+                    Player1.name + " is in state: " + Player1.GetComponent<Player>().state + "\n" +
+                    Player2.name + " used: " + Player2.GetComponent<Player>().attack + "\n" +
+                    Player2.name + " is in state: " + Player2.GetComponent<Player>().state + "\n");
+                #endregion
+
                 UI.gameObject.SetActive(true);
                 Unpause();
                 LerpTiming();
@@ -253,7 +271,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameMode == eGameMode.Countdown)
             yield break;
-               
+
         GameMode = eGameMode.Countdown;
         Vector3 inZoom = new Vector3(0, 0, 0);
         Vector3 outZoom = new Vector3(1, 1, 1);
@@ -289,7 +307,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(FadeImageIn(speed, pulse));
             yield return new WaitForSeconds(speed);
             StartCoroutine(FadeImageOut(speed, pulse));
-            yield return new WaitForSeconds(speed);            
+            yield return new WaitForSeconds(speed);
         }
     }
 
@@ -299,12 +317,12 @@ public class GameManager : MonoBehaviour
             yield break;
 
         warn2 = true;
-        while (Hitpoints2 <= maxHitpoints2/4 && warn2)
+        while (Hitpoints2 <= maxHitpoints2 / 4 && warn2)
         {
             StartCoroutine(FadeImageIn(speed, pulse));
             yield return new WaitForSeconds(speed);
             StartCoroutine(FadeImageOut(speed, pulse));
-            yield return new WaitForSeconds(speed);            
+            yield return new WaitForSeconds(speed);
         }
     }
 
@@ -530,11 +548,14 @@ public class GameManager : MonoBehaviour
         {
             print("time has run out");
             loser.GetComponent<Player>().hitPoints = 0f;
+            UpdateHP();
             loser.GetComponent<Player>().Death();
         }
         else
         {
             print("Match over");
+            loser.GetComponent<Player>().hitPoints = 0f;
+            UpdateHP();
             loser.GetComponent<Player>().Death();
         }
     }
@@ -546,7 +567,7 @@ public class GameManager : MonoBehaviour
 
         end = true;
         name = winner.name;
-        
+
         yield return new WaitForSeconds(2f);
 
         Vector3 inZoom = new Vector3(0, 0, 0);
@@ -735,6 +756,7 @@ public class GameManager : MonoBehaviour
 
     public void ToTitle()
     {
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync("Title");
     }
 
