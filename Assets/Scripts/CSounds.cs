@@ -30,6 +30,7 @@ public class CSounds : MonoBehaviour
         }
     }
     #endregion
+
     #region Attack2
     public void PlayAttack2Sound()
     {
@@ -52,6 +53,7 @@ public class CSounds : MonoBehaviour
         }
     }
     #endregion
+
     #region BlockBreak 
     public void PlayBlockBreakSound()
     {
@@ -74,6 +76,7 @@ public class CSounds : MonoBehaviour
         }
     }
     #endregion
+
     #region Short Hurt Cry
     public void PlayVoiceSound()
     {
@@ -99,6 +102,7 @@ public class CSounds : MonoBehaviour
         }
     }
     #endregion
+
     #region Long Hurt Cry
     public void PlayLongCrySound()
     {
@@ -121,6 +125,7 @@ public class CSounds : MonoBehaviour
         }
     }
     #endregion
+
     #region Jump Landing SFX
     public void PlayLandSound()
     {
@@ -145,21 +150,18 @@ public class CSounds : MonoBehaviour
     #endregion
 
     #region Jump
-    public void PlayTakeOffSound()
+    public void PlayTakeOffSound(Vector3 position)
     {
         //Getting a value to choose a sound from (last is excluded)
-        int ran = Random.Range(1, 4);
+        int ran = Random.Range(1, 3);
 
         switch (ran)
         {
             case 1:
-                SVFXManager.instance.PlayLight1(transform.position);
+                SVFXManager.instance.PlayLight2(position);
                 break;
             case 2:
-                SVFXManager.instance.PlayLight2(transform.position);
-                break;
-            case 3:
-                SVFXManager.instance.PlayLight3(transform.position);
+                SVFXManager.instance.PlayLight3(position);
                 break;
             default:
                 break;
@@ -187,19 +189,24 @@ public class CSounds : MonoBehaviour
     }
     #endregion
 
-
+    #region Hit Shield
     public void PlayImpactSound()
     {
         //Getting a value to choose a sound from (last is excluded)
-        int ran = Random.Range(1, 2);
+        int ran = Random.Range(1, 3);
 
         switch (ran)
         {
             case 1:
-                SVFXManager.instance.PlayKnockdownImpact(transform.position);
+                SVFXManager.instance.PlayBlockHit1(transform.position);
+                break;
+            case 2:
+                SVFXManager.instance.PlayBlockHit2(transform.position);
                 break;
             default:
                 break;
         }
     }
+    #endregion   
+
 }

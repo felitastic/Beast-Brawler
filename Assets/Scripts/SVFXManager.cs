@@ -63,12 +63,18 @@ public class SVFXManager : MonoBehaviour
     public GameObject Hit4;
     public GameObject Hit6;
     public GameObject Hit7;
+
+    [Header("Shield Hits")]
+    public GameObject BlockHit1;
+    public GameObject BlockHit2;
+
     [Header("Firework Bangs")]
     public GameObject Bang1;
     public GameObject Bang2;
     public GameObject Bang3;
     public GameObject Bang4;
     public GameObject Bang5;
+
     [Header("Announcer")]
     public GameObject Matchstart;
     public GameObject Matchfinish;
@@ -79,8 +85,10 @@ public class SVFXManager : MonoBehaviour
     public GameObject Fight;
     public GameObject Start;
     public GameObject Success;
+
     [Header("Special Sounds")]
     public GameObject SteamSound;
+    public GameObject JumpStart;
 
     [Header("VISUAL EFFECTS")]
     public GameObject HitMarker;
@@ -255,6 +263,17 @@ public class SVFXManager : MonoBehaviour
     }
     #endregion
 
+    #region Shield Hits
+    public void PlayBlockHit1(Vector3 position)
+    {
+        GameObject.Instantiate(BlockHit1, position, new Quaternion());
+    }
+    public void PlayBlockHit2(Vector3 position)
+    {
+        GameObject.Instantiate(BlockHit2, position, new Quaternion());
+    }
+    #endregion
+
     #region Impacts
     public void PlayImpact1(Vector3 position)
     {
@@ -290,6 +309,10 @@ public class SVFXManager : MonoBehaviour
     public void PlayKnockdownImpact(Vector3 position)
     {
         GameObject.Instantiate(KnockdownImpact, position, new Quaternion());
+    }
+    public void PlayJumpStart(Vector3 position)
+    {
+        GameObject.Instantiate(JumpStart, position, new Quaternion());
     }
     #endregion
 

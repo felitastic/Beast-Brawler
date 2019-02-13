@@ -1262,7 +1262,8 @@ AudioSource:
   m_GameObject: {fileID: 502682163}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243905504514189160, guid: 41f81008683d04c4c821cca2bd4f0ddb,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 679f112cad13f0644a84a64543658ce3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1467,7 +1468,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Match 1
+  m_Text: 
 --- !u!222 &504994331
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2284,7 +2285,8 @@ AudioSource:
   m_GameObject: {fileID: 864699443}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243905504514189160, guid: 41f81008683d04c4c821cca2bd4f0ddb,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 679f112cad13f0644a84a64543658ce3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -2911,9 +2913,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Match Over
-
-    Player 1 wins!'
+  m_Text: 
 --- !u!222 &1026621343
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3149,6 +3149,8 @@ MonoBehaviour:
   Hit4: {fileID: 1445850527514398, guid: 6e79cceaeed067e4687103b7f0edd6c7, type: 2}
   Hit6: {fileID: 1485167995646044, guid: 432f0651a6602114fa37564415fd720e, type: 2}
   Hit7: {fileID: 1890408146158546, guid: ad0123ac2038aea48a8f21ab465d649f, type: 2}
+  BlockHit1: {fileID: 0}
+  BlockHit2: {fileID: 0}
   Bang1: {fileID: 1274295356360724, guid: f90e30cf006e69d40a234babc62b7cb1, type: 2}
   Bang2: {fileID: 1857481695876840, guid: 76bb011b91d65ed43a043b85c8e14174, type: 2}
   Bang3: {fileID: 1008896998226100, guid: ddb2bc629222a914e9a8de62ea470ecd, type: 2}
@@ -3166,6 +3168,7 @@ MonoBehaviour:
   Start: {fileID: 1724289803074668, guid: eba417c9683271e4eb7408ead8fe3437, type: 2}
   Success: {fileID: 1373369455242754, guid: 708dd4c1e370c5740b5213ed37b5e580, type: 2}
   SteamSound: {fileID: 0}
+  JumpStart: {fileID: 0}
   HitMarker: {fileID: 1630331239624022, guid: f9c40b27cd0e5bc478d58a2da20631ba, type: 2}
   HitMarkerHeavy: {fileID: 1370493196586882, guid: a05c5cfe7f989104d816f63e9d4341f2,
     type: 2}
@@ -4742,7 +4745,8 @@ AudioSource:
   m_GameObject: {fileID: 1480331406}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243905504514189160, guid: 41f81008683d04c4c821cca2bd4f0ddb,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 679f112cad13f0644a84a64543658ce3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -5790,9 +5794,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Research completed
-
-    Player 1 lives!'
+  m_Text: 
 --- !u!222 &1951900046
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5977,7 +5979,8 @@ AudioSource:
   m_GameObject: {fileID: 1968614098}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243905504514189160, guid: 41f81008683d04c4c821cca2bd4f0ddb,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 679f112cad13f0644a84a64543658ce3, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1

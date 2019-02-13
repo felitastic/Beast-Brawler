@@ -34,15 +34,15 @@ AnimationClip:
       value: {fileID: 21300000, guid: cfe38b067e38519478d7f617f14dc530, type: 3}
     - time: 0.5416667
       value: {fileID: 21300000, guid: 3595e9fec5eb029429c4b733734e0502, type: 3}
-    - time: 0.75
+    - time: 0.625
       value: {fileID: 21300000, guid: 200f3d60f8fef8b4f824692d95b47fb9, type: 3}
-    - time: 0.8333333
+    - time: 0.7083333
       value: {fileID: 21300000, guid: ab9e5e97bfd6d6f41b740a67d8fb52b2, type: 3}
-    - time: 0.9166667
+    - time: 0.75
       value: {fileID: 21300000, guid: 7c97f8305ed6e2143b020ee3ff4d1b7a, type: 3}
-    - time: 1
+    - time: 0.7916667
       value: {fileID: 21300000, guid: dbd2e9b707009994099d24fbe1afbd9f, type: 3}
-    - time: 1.2916666
+    - time: 0.9166667
       value: {fileID: 21300000, guid: dbd2e9b707009994099d24fbe1afbd9f, type: 3}
     attribute: m_Sprite
     path: 
@@ -81,7 +81,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.3333333
+    m_StopTime: 0.9583334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -116,7 +116,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.2916666
+  - time: 0.9166667
     functionName: KnockDownFinished
     data: 
     objectReferenceParameter: {fileID: 0}

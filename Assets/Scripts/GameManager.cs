@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public float TimerStage2 = 30f;
 
     [Header("Enums")]
-    public eGameMode GameMode = eGameMode.Running;
+    public eGameMode GameMode = eGameMode.MatchStart;
     public eStage Stage;
 
     [Header("Menu Drag n Drop")]
@@ -730,13 +730,12 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        GameMode = eGameMode.Running;
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ToTitle()
     {
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadSceneAsync("Title");
     }
 
     public void NextMatch()

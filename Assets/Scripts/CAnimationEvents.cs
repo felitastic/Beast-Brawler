@@ -146,7 +146,7 @@ public class CAnimationEvents : MonoBehaviour
         else if (!player.facingRight)
              x = -2f;
 
-        SVFXManager.instance.InstantiateHurricane(x, 11f, player.gameObject);
+        SVFXManager.instance.InstantiateHurricane(x, 5f, player.gameObject);
     }
 
     public void HurricaneFinish()

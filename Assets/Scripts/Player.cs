@@ -212,6 +212,7 @@ public class Player : MonoBehaviour
                         if (vertical == -1f && grounded)
                         {
                             state = ePlayerState.JumpTakeOff;
+                            CVoice.PlayTakeOffSound(transform.position); //HACK jump sound
                             anim.SetBool("walkbackwards", false);
                             anim.SetBool("walkforwards", false);
                             anim.SetBool("startup", true);
@@ -619,9 +620,6 @@ public class Player : MonoBehaviour
     public void DealDmg(float dmg)
     {
         float offset = opponent.GetComponent<Player>().HitOffset;
-        //bool opponentFR = false;
-        //if (opponent.GetComponent<Player>().facingRight)
-        //    opponentFR = true;
 
         if (opponent.GetComponent<Player>().state == ePlayerState.Blocking)
         {
@@ -630,7 +628,6 @@ public class Player : MonoBehaviour
                 opponent.GetComponent<Player>().stun = eStun.blockbroken;
                 print(gameObject.name + " deals " + dmg + " to " + opponent.name + " by breaking their shield");
                 GameManager.instance.startSlowMo = true;
-                //TODO: pow effekte
                 SVFXManager.instance.PlayVFX_HitMarkerHeavy(offset, opponent.gameObject);
                 SVFXManager.instance.PlayVFX_Ouch(offset, opponent.gameObject);
                 //SVFXManager.instance.InstantiateBreakShield(offset, scale, opponent.gameObject);                
@@ -678,7 +675,7 @@ public class Player : MonoBehaviour
                 SVFXManager.instance.PlayVFX_ComicPow(offset, opponent.gameObject);
                 opponent.GetComponent<Player>().ApplyDamage(dmg);
                 SetHurtTimer(0.54f);
-                opponent.GetComponent<Player>().Knockdown(KBstrength, knockUp);
+                opponent.GetComponent<Player>().Knockback(KBstrength);
             }
             else if (attack == eAttacks.Light)
             {
@@ -730,7 +727,8 @@ public class Player : MonoBehaviour
 
         if (stun == eStun.blocking)
         {
-            CVoice.PlayVoiceSound();
+            //CVoice.PlayVoiceSound();
+            CVoice.PlayImpactSound();
             StartCoroutine(camShake.Shake(0.15f, 0.4f));
             hitPoints -= dmgreceived;
             GameManager.instance.UpdateHP();
@@ -837,7 +835,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
 
     public void Death()
     {
